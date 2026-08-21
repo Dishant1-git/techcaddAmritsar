@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
-import { Check, Phone } from "lucide-react";
+import { useId, useRef, useState, useSyncExternalStore } from "react";
+import { Check, Phone, RefreshCw } from "lucide-react";
 import type { Course } from "@/lib/courses";
 import { site } from "@/lib/content";
+import { cn } from "@/lib/utils";
 import { FadeUp, Stagger, WordsUp } from "@/components/ui/Motion";
 
 const ASSURANCES = [
@@ -12,18 +13,131 @@ const ASSURANCES = [
   "Placement support included",
 ];
 
+/* --------------------------------------------------------------- helpers */
+
+/**
+ * Indian mobile numbers: ten digits starting 6–9. Spaces, dashes and a +91 or
+ * leading 0 are all things people actually type, so strip them before judging.
+ */
+function normalisePhone(raw: string) {
+  let digits = raw.replace(/\D/g, "");
+  if (digits.length === 12 && digits.startsWith("91")) digits = digits.slice(2);
+  else if (digits.length === 11 && digits.startsWith("0")) digits = digits.slice(1);
+  return digits;
+}
+
+function phoneError(raw: string) {
+  const digits = normalisePhone(raw);
+  if (!digits) return "Enter your mobile number.";
+  if (digits.length !== 10) return "A mobile number is 10 digits.";
+  if (!/^[6-9]/.test(digits)) return "Indian mobile numbers start with 6, 7, 8 or 9.";
+  return "";
+}
+
+/** Answers may be typed as digits or as words, so both are accepted. */
+const NUMBER_WORDS = [
+  "zero", "one", "two", "three", "four", "five", "six", "seven", "eight",
+  "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen",
+  "sixteen", "seventeen", "eighteen",
+];
+
+function captchaMatches(answer: string, expected: number) {
+  const value = answer.trim().toLowerCase();
+  if (!value) return false;
+  if (/^\d+$/.test(value)) return Number(value) === expected;
+  return NUMBER_WORDS[expected] === value;
+}
+
+type Sum = { a: number; b: number };
+
+function randomSum(): Sum {
+  return {
+    a: 1 + Math.floor(Math.random() * 9),
+    b: 1 + Math.floor(Math.random() * 9),
+  };
+}
+
+/** Rendered on the server and during hydration; replaced on the next render. */
+const PRERENDER_SUM: Sum = { a: 3, b: 2 };
+
+/**
+ * `false` while the server renders and while React hydrates, `true` on every
+ * render after that. Course pages are prerendered at build time, so a random
+ * sum picked during render would be a hydration mismatch; gating on this
+ * gives the client a fresh question without a state update inside an effect.
+ */
+function useHydrated() {
+  return useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false,
+  );
+}
+
+/* ------------------------------------------------------------------ form */
+
+const FIELD =
+  "w-full rounded-2xl border border-white/15 bg-ink/50 px-4 py-3 text-base text-white transition-colors placeholder:text-white/35 focus:border-brand-400 focus:outline-none";
+const LABEL = "text-sm font-medium text-white/85";
+const ERROR = "text-xs text-rose-300";
+
 export default function CourseCta({ course }: { course: Course }) {
+  const id = useId();
+  const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
+  const [message, setMessage] = useState("");
+  const [answer, setAnswer] = useState("");
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const [sent, setSent] = useState(false);
 
+  /*
+   * The visitor's question is drawn on the first render after hydration, by
+   * adjusting state during render rather than in an effect: React discards
+   * the in-progress output and re-runs immediately, so the prerendered pair
+   * never reaches the screen.
+   */
+  const hydrated = useHydrated();
+  const [sum, setSum] = useState<Sum | null>(null);
+  if (hydrated && sum === null) setSum(randomSum());
+
+  const answerRef = useRef<HTMLInputElement>(null);
+  const question = sum ?? PRERENDER_SUM;
+
+  function newQuestion() {
+    setSum(randomSum());
+    setAnswer("");
+    setErrors((prev) => ({ ...prev, answer: "" }));
+    answerRef.current?.focus();
+  }
+
   /**
-   * No backend yet: the form acknowledges locally so the interaction is
-   * testable. Swap `onSubmit` for the real endpoint when it exists.
+   * No backend yet: the form validates and acknowledges locally so the
+   * interaction is testable. Swap the success branch for the real endpoint
+   * when it exists — the collected values are already in state.
    */
   function onSubmit(event: React.FormEvent) {
     event.preventDefault();
-    if (phone.trim().length < 6) return;
+
+    const next: Record<string, string> = {
+      name: name.trim().length < 2 ? "Enter your name." : "",
+      phone: phoneError(phone),
+      answer: captchaMatches(answer, question.a + question.b)
+        ? ""
+        : "That is not the right answer.",
+    };
+
+    setErrors(next);
+    if (Object.values(next).some(Boolean)) {
+      setSent(false);
+      return;
+    }
+
     setSent(true);
+    setName("");
+    setPhone("");
+    setMessage("");
+    setAnswer("");
+    setSum(randomSum());
   }
 
   return (
@@ -95,36 +209,151 @@ export default function CourseCta({ course }: { course: Course }) {
                 About the {course.title} course · {course.spec[0].value}
               </p>
 
-              <form onSubmit={onSubmit} className="mt-6 flex flex-col gap-3">
-                <label htmlFor="cta-phone" className="sr-only">
-                  Mobile number
-                </label>
-                <input
-                  id="cta-phone"
-                  name="phone"
-                  type="tel"
-                  inputMode="tel"
-                  autoComplete="tel"
-                  required
-                  value={phone}
-                  onChange={(event) => setPhone(event.target.value)}
-                  placeholder="98765 43210"
-                  className="h-13 rounded-full border border-white/15 bg-ink/50 px-5 text-base text-white placeholder:text-white/35 focus:border-brand-400 focus:outline-none"
-                />
+              <form onSubmit={onSubmit} noValidate className="mt-6 flex flex-col gap-5">
+                {/* ------------------------------------------------- name */}
+                <div className="flex flex-col gap-1.5">
+                  <label htmlFor={`${id}-name`} className={LABEL}>
+                    Your Name
+                  </label>
+                  <input
+                    id={`${id}-name`}
+                    name="name"
+                    type="text"
+                    autoComplete="name"
+                    value={name}
+                    onChange={(event) => setName(event.target.value)}
+                    placeholder="Enter your full name"
+                    aria-invalid={errors.name ? true : undefined}
+                    aria-describedby={errors.name ? `${id}-name-error` : undefined}
+                    className={cn(FIELD, errors.name && "border-rose-400/70")}
+                  />
+                  {errors.name && (
+                    <p id={`${id}-name-error`} className={ERROR}>
+                      {errors.name}
+                    </p>
+                  )}
+                </div>
+
+                {/* ------------------------------------------------ phone */}
+                <div className="flex flex-col gap-1.5">
+                  <label htmlFor={`${id}-phone`} className={LABEL}>
+                    Phone Number
+                  </label>
+                  <input
+                    id={`${id}-phone`}
+                    name="phone"
+                    type="tel"
+                    inputMode="numeric"
+                    autoComplete="tel"
+                    maxLength={18}
+                    value={phone}
+                    onChange={(event) => setPhone(event.target.value)}
+                    placeholder="10-digit mobile number"
+                    aria-invalid={errors.phone ? true : undefined}
+                    aria-describedby={errors.phone ? `${id}-phone-error` : undefined}
+                    className={cn(FIELD, errors.phone && "border-rose-400/70")}
+                  />
+                  {errors.phone && (
+                    <p id={`${id}-phone-error`} className={ERROR}>
+                      {errors.phone}
+                    </p>
+                  )}
+                </div>
+
+                {/* ----------------------------------------------- course */}
+                <div className="flex flex-col gap-1.5">
+                  <span className={LABEL}>Course or Service</span>
+                  {/*
+                    Not a picker: the reader is already on the course page, so
+                    the enquiry is tagged with it and the value rides along in
+                    a hidden input for whatever handles the submission.
+                  */}
+                  <div className="flex items-center justify-between gap-3 rounded-2xl border border-brand-400/40 bg-brand-600/25 px-4 py-3">
+                    <span className="font-display text-base font-semibold text-white">
+                      {course.title} Course
+                    </span>
+                    <Check
+                      className="size-4 shrink-0 text-brand-200"
+                      strokeWidth={3}
+                      aria-hidden="true"
+                    />
+                  </div>
+                  <input type="hidden" name="course" value={course.title} />
+                  <p className="text-xs leading-relaxed text-white/45">
+                    Taken from the page you are on — this enquiry reaches the{" "}
+                    {course.title} counsellor directly.
+                  </p>
+                </div>
+
+                {/* ---------------------------------------------- message */}
+                <div className="flex flex-col gap-1.5">
+                  <label htmlFor={`${id}-message`} className={LABEL}>
+                    Your Message
+                  </label>
+                  <textarea
+                    id={`${id}-message`}
+                    name="message"
+                    rows={4}
+                    value={message}
+                    onChange={(event) => setMessage(event.target.value)}
+                    placeholder="Ask about batch timings, fees or anything else"
+                    className={cn(FIELD, "resize-y")}
+                  />
+                </div>
+
+                {/* ---------------------------------------------- captcha */}
+                <div className="rounded-2xl border border-white/12 bg-ink/40 p-4">
+                  <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                    <label htmlFor={`${id}-answer`} className={LABEL}>
+                      What is {question.a} plus {question.b}?
+                    </label>
+                    <button
+                      type="button"
+                      onClick={newQuestion}
+                      className="inline-flex shrink-0 items-center gap-1.5 self-start rounded-lg border border-white/15 bg-white/[0.06] px-3 py-1.5 font-mono text-xs text-white/70 transition-colors hover:border-white/30 hover:text-white sm:self-auto"
+                    >
+                      <RefreshCw className="size-3" aria-hidden="true" />
+                      New question
+                    </button>
+                  </div>
+
+                  <input
+                    ref={answerRef}
+                    id={`${id}-answer`}
+                    name="captcha"
+                    type="text"
+                    inputMode="text"
+                    autoComplete="off"
+                    value={answer}
+                    onChange={(event) => setAnswer(event.target.value)}
+                    placeholder="Your answer"
+                    aria-invalid={errors.answer ? true : undefined}
+                    aria-describedby={`${id}-answer-hint`}
+                    className={cn(
+                      FIELD,
+                      "mt-2.5",
+                      errors.answer && "border-rose-400/70",
+                    )}
+                  />
+
+                  <p id={`${id}-answer-hint`} className="mt-2 text-xs text-white/45">
+                    A one-line sum, so we know you are a person. Digits or words
+                    both work.
+                  </p>
+                  {errors.answer && <p className={cn(ERROR, "mt-1")}>{errors.answer}</p>}
+                </div>
+
                 <button
                   type="submit"
-                  className="h-13 rounded-full bg-white px-6 text-base font-medium text-ink transition-all duration-300 hover:-translate-y-0.5 hover:bg-brand-50"
+                  className="h-13 rounded-full bg-gradient-to-r from-brand-500 to-brand-700 px-6 text-base font-semibold tracking-wide text-white uppercase shadow-lg shadow-brand-900/40 transition-all duration-300 hover:-translate-y-0.5 hover:from-brand-400 hover:to-brand-600"
                 >
-                  {sent ? "Request received" : "Request a call back"}
+                  Send message
                 </button>
               </form>
 
-              <p
-                role="status"
-                className="mt-3 min-h-5 text-xs text-brand-200"
-              >
+              <p role="status" className="mt-3 min-h-5 text-xs text-brand-200">
                 {sent
-                  ? "Thanks — the Amritsar desk will call you within one working day."
+                  ? `Thanks — the ${site.city} desk will call you within one working day.`
                   : ""}
               </p>
 
