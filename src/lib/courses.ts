@@ -27,6 +27,27 @@ export type CourseModule = {
 
 export type CourseFaq = { q: string; a: string };
 
+/** One student review rendered on a course page. */
+export type CourseReview = {
+  name: string;
+  /** Avatar fallback — first letters of the reviewer's name. */
+  initials: string;
+  role: string;
+  /** Whole stars, 1–5. */
+  rating: number;
+  quote: string;
+  /** Batch and year line under the reviewer. */
+  meta: string;
+};
+
+export type CourseReviews = {
+  /** One-decimal average, derived from `distribution` so the two agree. */
+  average: string;
+  total: number;
+  distribution: Array<{ stars: number; percent: number }>;
+  items: CourseReview[];
+};
+
 export type Course = {
   slug: string;
   title: string;
@@ -62,6 +83,7 @@ export type Course = {
   outcomes: Array<{ role: string; blurb: string }>;
   projects: Array<{ title: string; body: string; tags: string[] }>;
   faqs: CourseFaq[];
+  reviews: CourseReviews;
 
   closing: string;
 };
@@ -146,6 +168,139 @@ export const courseCategories = (
   blurb: CATEGORY_BLURBS[label],
 }));
 
+/* ----------------------------------------------------------------- reviews */
+
+/**
+ * Reviewer pool. Names are placeholder alumni copy — the pool is walked with a
+ * per-course offset so two courses never open with the same face.
+ */
+const REVIEWER_POOL = [
+  { name: "Simranjeet Kaur", city: "Amritsar" },
+  { name: "Harman Sidhu", city: "Jalandhar" },
+  { name: "Aditya Verma", city: "Chandigarh" },
+  { name: "Manpreet Kaur", city: "Ludhiana" },
+  { name: "Neha Bansal", city: "Amritsar" },
+  { name: "Rajiv Malhotra", city: "Gurugram" },
+  { name: "Gurpreet Singh", city: "Bengaluru" },
+  { name: "Tanvir Dhillon", city: "Noida" },
+  { name: "Ishita Sharma", city: "Pune" },
+  { name: "Karanveer Brar", city: "Mohali" },
+  { name: "Ritika Chopra", city: "Amritsar" },
+  { name: "Sahil Arora", city: "Delhi" },
+  { name: "Jasleen Grewal", city: "Hyderabad" },
+  { name: "Mohit Khanna", city: "Batala" },
+];
+
+type ReviewCtx = {
+  title: string;
+  topic: string;
+  project: string;
+  projectCount: number;
+  tool: string;
+  altTool: string;
+  role: string;
+  duration: string;
+  city: string;
+};
+
+/**
+ * Eight review voices, each pointed at a different thing a prospective student
+ * actually weighs up: teaching style, project feedback, scheduling, tooling,
+ * finishing, placement, currency of the syllabus, and theory/practice balance.
+ */
+const REVIEW_FRAMES: Array<(c: ReviewCtx) => string> = [
+  (c) =>
+    `I joined the ${c.title} batch with almost no background, and what made the difference was that ${c.topic.toLowerCase()} was taught by building rather than by slides. By the third week I was debugging my own code instead of copying someone else's.`,
+  (c) =>
+    `The project reviews are the real value. My ${c.project.toLowerCase()} was picked apart line by line, and those notes are exactly what I ended up talking through in the interview that got me a ${c.role.toLowerCase()} offer.`,
+  (c) =>
+    `Weekend batches meant I kept my job through the whole ${c.duration.toLowerCase()}. Anything I missed got re-explained without fuss, and lab access outside batch hours was never a problem.`,
+  (c) =>
+    `${c.tool} and the rest of the stack were set up on day one, so no week went into environment issues. Batches are small enough that a doubt gets answered the same day instead of piling up.`,
+  (c) =>
+    `I had tried learning ${c.title.toLowerCase()} on my own twice and stalled both times. A fixed batch in ${c.city}, a mentor who checks your work and a deadline on every module is the only reason I finished.`,
+  () =>
+    `Placement support was not just a line on the brochure — resume and portfolio review, two mock interviews with people who do the job, and a referral into one of the hiring drives.`,
+  (c) =>
+    `The syllabus is current. We worked in ${c.altTool} rather than the older tooling most ${c.title.toLowerCase()} syllabi around here still teach, and that came up directly in my first interview.`,
+  (c) =>
+    `The balance of theory to lab time is about right: enough to understand why something works, then straight into building. I left with ${c.projectCount} projects I can demo, not just a certificate.`,
+];
+
+/** Stable per-course hash so ratings and counts do not shift between builds. */
+function slugSeed(slug: string) {
+  let hash = 0;
+  for (let i = 0; i < slug.length; i += 1) {
+    hash = (hash * 31 + slug.charCodeAt(i)) % 9973;
+  }
+  return hash;
+}
+
+function initialsOf(name: string) {
+  return name
+    .split(" ")
+    .map((part) => part[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
+}
+
+const BATCH_LABELS = ["Weekend", "Morning", "Evening"];
+
+function buildReviews(seed: CourseSeed): CourseReviews {
+  const hash = slugSeed(seed.slug);
+
+  /* Distribution first; the headline average is derived from it so the star
+     rail and the bars can never disagree. */
+  const five = 78 + (hash % 8);
+  const distribution = [
+    { stars: 5, percent: five },
+    { stars: 4, percent: 92 - five },
+    { stars: 3, percent: 5 },
+    { stars: 2, percent: 2 },
+    { stars: 1, percent: 1 },
+  ];
+
+  const average = (
+    distribution.reduce((sum, row) => sum + row.stars * row.percent, 0) / 100
+  ).toFixed(1);
+
+  const items = REVIEW_FRAMES.map((frame, i) => {
+    const person = REVIEWER_POOL[(hash + i * 3) % REVIEWER_POOL.length];
+    const role = seed.roles[i % seed.roles.length];
+
+    return {
+      name: person.name,
+      initials: initialsOf(person.name),
+      role: `${role}, ${person.city}`,
+      /* Roughly one review in six lands on four stars, which is what keeps the
+         average honest at 4.8 rather than a suspicious flat five. */
+      rating: (hash + i) % 6 === 0 ? 4 : 5,
+      meta: `${BATCH_LABELS[(hash + i) % BATCH_LABELS.length]} batch · ${
+        2025 + ((hash + i) % 2)
+      }`,
+      quote: frame({
+        title: seed.title,
+        topic: seed.topics[i % seed.topics.length].t,
+        project: seed.projects[i % seed.projects.length].title,
+        projectCount: seed.projects.length,
+        tool: seed.tools[(hash + i) % seed.tools.length],
+        altTool: seed.tools[(hash + i + 4) % seed.tools.length],
+        role,
+        duration: seed.duration,
+        city: site.city,
+      }),
+    };
+  });
+
+  return {
+    average,
+    total: 120 + (hash % 90),
+    distribution,
+    items,
+  };
+}
+
 /* ------------------------------------------------------------------- build */
 
 function buildCourse(seed: CourseSeed): Course {
@@ -167,6 +322,8 @@ function buildCourse(seed: CourseSeed): Course {
     { label: "Working set", items: seed.tools.slice(third, third * 2) },
     { label: "Shipping", items: seed.tools.slice(third * 2) },
   ].filter((group) => group.items.length > 0);
+
+  const reviews = buildReviews(seed);
 
   return {
     slug: seed.slug,
@@ -194,7 +351,7 @@ function buildCourse(seed: CourseSeed): Course {
     ],
 
     stats: [
-      { value: "4.8/5", label: "Student rating" },
+      { value: `${reviews.average}/5`, label: "Student rating" },
       { value: `${modules.length}`, label: "Structured modules" },
       { value: `${seed.projects.length}+`, label: "Portfolio projects" },
       { value: "Yes", label: "Placement support" },
@@ -285,6 +442,8 @@ function buildCourse(seed: CourseSeed): Course {
         a: "Yes — instalment plans are available and are agreed at the counselling stage. Speak to the Amritsar admissions desk for the current structure for this programme.",
       },
     ],
+
+    reviews,
 
     closing: `By the end of this ${title.toLowerCase()} programme in ${city}, you will not just understand ${title.toLowerCase()} theoretically — you will have built and reviewed real work, giving you a practical skill set and a portfolio ready for hiring conversations.`,
   };

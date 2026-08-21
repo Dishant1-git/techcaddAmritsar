@@ -153,14 +153,22 @@ export default function CourseHero({ course }: { course: Course }) {
         aria-labelledby="course-hero-heading"
         className="relative isolate overflow-hidden bg-ink pt-32 pb-36 text-white lg:pt-40 lg:pb-44"
       >
-        {/* Background stack — decorative, mirrors the homepage hero. */}
+        {/*
+          Background stack — decorative. Unlike the homepage hero, which drifts
+          a single circuit layer, this one is built from counter-moving layers:
+          traces crawl up-left, the grid pans down-right, two aurora blooms
+          breathe on different periods, and a scan beam falls through it all.
+          Every animation is disabled under prefers-reduced-motion in
+          globals.css; the beam starts at opacity 0 so it stays hidden there.
+        */}
         <div aria-hidden="true" className="absolute inset-0 -z-10">
           <div className="absolute inset-0 bg-gradient-to-br from-brand-900/90 via-ink/85 to-brand-700/55" />
-          <div className="animate-trace circuit-texture absolute inset-0 opacity-40" />
-          <div className="dot-matrix absolute inset-0 opacity-[0.06]" />
-          <div className="grid-overlay absolute inset-0 opacity-35" />
-          <div className="absolute -top-[20%] -left-40 size-[40rem] rounded-full bg-brand-600/25 blur-[130px]" />
-          <div className="absolute -right-40 bottom-[-30%] size-[36rem] rounded-full bg-accent/45 blur-[130px]" />
+          <div className="animate-trace-slow circuit-texture absolute inset-0 opacity-[0.28]" />
+          <div className="dot-matrix absolute inset-0 opacity-[0.05]" />
+          <div className="animate-grid-pan grid-overlay absolute inset-0 opacity-30" />
+          <div className="animate-aurora-a absolute -top-[22%] -left-40 size-[42rem] rounded-full bg-brand-600/25 blur-[130px] will-change-transform" />
+          <div className="animate-aurora-b absolute -right-40 bottom-[-32%] size-[38rem] rounded-full bg-accent/45 blur-[130px] will-change-transform" />
+          <div className="animate-beam absolute inset-x-0 top-0 h-44 bg-gradient-to-b from-transparent via-brand-400/12 to-transparent opacity-0 will-change-transform" />
           <div className="tech-noise absolute inset-0 opacity-[0.03] mix-blend-overlay" />
           <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-ink to-transparent" />
         </div>

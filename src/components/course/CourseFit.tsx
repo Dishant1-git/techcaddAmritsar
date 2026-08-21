@@ -56,10 +56,10 @@ export default function CourseFit({ course }: { course: Course }) {
     >
       <div aria-hidden="true" className="absolute inset-0 -z-10">
         <div className="absolute inset-0 bg-gradient-to-b from-ink via-brand-900/45 to-ink" />
-        <div className="animate-trace circuit-texture absolute inset-0 opacity-25" />
-        <div className="grid-overlay absolute inset-0 opacity-30" />
-        <div className="absolute -top-40 left-1/4 size-[34rem] rounded-full bg-brand-600/20 blur-[130px]" />
-        <div className="absolute -right-32 bottom-0 size-[30rem] rounded-full bg-accent/35 blur-[130px]" />
+        <div className="animate-trace-slow circuit-texture absolute inset-0 opacity-25" />
+        <div className="animate-grid-pan grid-overlay absolute inset-0 opacity-30" />
+        <div className="animate-aurora-a absolute -top-40 left-1/4 size-[34rem] rounded-full bg-brand-600/20 blur-[130px] will-change-transform" />
+        <div className="animate-aurora-b absolute -right-32 bottom-0 size-[30rem] rounded-full bg-accent/35 blur-[130px] will-change-transform" />
       </div>
 
       <div className="container-page">

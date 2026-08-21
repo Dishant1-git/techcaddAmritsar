@@ -9,6 +9,7 @@ import CoursePhases from "@/components/course/CoursePhases";
 import ToolStack from "@/components/course/ToolStack";
 import CourseFit from "@/components/course/CourseFit";
 import CourseProjects from "@/components/course/CourseProjects";
+import CourseReviews from "@/components/course/CourseReviews";
 import CourseFaq from "@/components/course/CourseFaq";
 import RelatedCourses from "@/components/course/RelatedCourses";
 import CourseCta from "@/components/course/CourseCta";
@@ -56,6 +57,7 @@ export default async function CoursePage({ params }: CoursePageProps) {
       <ToolStack course={course} />
       <CourseFit course={course} />
       <CourseProjects course={course} />
+      <CourseReviews course={course} />
       <CourseFaq course={course} />
       <RelatedCourses courses={related} />
       <CourseCta course={course} />

@@ -34,9 +34,9 @@ export default function CourseCta({ course }: { course: Course }) {
     >
       <div aria-hidden="true" className="absolute inset-0 -z-10">
         <div className="absolute inset-0 bg-gradient-to-br from-brand-800 via-ink to-accent/60" />
-        <div className="grid-overlay absolute inset-0 opacity-30" />
+        <div className="animate-grid-pan grid-overlay absolute inset-0 opacity-30" />
         <div className="dot-matrix absolute inset-0 opacity-[0.05]" />
-        <div className="absolute -top-24 left-1/3 size-[32rem] rounded-full bg-brand-500/25 blur-[130px]" />
+        <div className="animate-aurora-b absolute -top-24 left-1/3 size-[32rem] rounded-full bg-brand-500/25 blur-[130px] will-change-transform" />
       </div>
 
       <div className="container-page">
