@@ -13,9 +13,6 @@ const LOREM_SHORT =
 const LOREM_MED =
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.";
 
-const LOREM_LONG =
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat duis aute irure.";
-
 /* ------------------------------------------------------------------ site */
 
 export const site = {
@@ -39,6 +36,11 @@ export type NavItem = {
   href: string;
   children?: NavChild[];
   sparkle?: boolean;
+  /**
+   * Desktop-only: render the named full-width mega menu instead of the narrow
+   * dropdown. `children` is still used by the mobile drawer.
+   */
+  mega?: MegaKey;
 };
 
 export const navItems: NavItem[] = [
@@ -48,6 +50,7 @@ export const navItems: NavItem[] = [
     label: "AI",
     href: "/courses/artificial-intelligence",
     sparkle: true,
+    mega: "ai",
     children: [
       { label: "Generative AI", href: "/courses/generative-ai" },
       { label: "Artificial Intelligence (AI)", href: "/courses/artificial-intelligence" },
@@ -62,6 +65,7 @@ export const navItems: NavItem[] = [
   {
     label: "Courses",
     href: "/courses",
+    mega: "courses",
     children: [
       { label: "Programming", href: "/courses#programming" },
       { label: "AI & Data", href: "/courses#ai-data" },
@@ -70,34 +74,370 @@ export const navItems: NavItem[] = [
       { label: "IT Courses", href: "/courses/it-courses" },
     ],
   },
-  { label: "Internship & Training", href: "/internship-training" },
-  { label: "After 12th", href: "/after-12th-courses" },
+  {
+    label: "Internship & Training",
+    href: "/internship-training",
+    mega: "training",
+    children: [
+      { label: "45 Days Training", href: "/internship-training/45-days" },
+      { label: "6 Weeks Training", href: "/internship-training/6-weeks" },
+      { label: "4 Months Training", href: "/internship-training/4-months" },
+      { label: "6 Months Training", href: "/internship-training/6-months" },
+      { label: "Industrial Training", href: "/internship-training/industrial-training" },
+      { label: "Internship Program", href: "/internship-training/internship-program" },
+    ],
+  },
+  {
+    label: "After 12th",
+    href: "/after-12th-courses",
+    mega: "after12",
+    children: [
+      { label: "6 Month Certificates", href: "/after-12th-courses#six-month" },
+      { label: "1 Year Certificates", href: "/after-12th-courses#one-year" },
+      { label: "Graphics", href: "/after-12th-courses#graphics" },
+      { label: "Civil / Mechanical", href: "/after-12th-courses#civil-mechanical" },
+    ],
+  },
   {
     label: "Resources",
     href: "/blogs",
+    mega: "resources",
     children: [
       { label: "Blogs", href: "/blogs" },
-      { label: "Placement Support", href: "/#why-us" },
-      { label: "Student Reviews", href: "/#testimonials" },
-      { label: "FAQs", href: "/#faq" },
+      { label: "Gallery", href: "/gallery" },
+      { label: "FAQ", href: "/#faq" },
+      { label: "Reviews", href: "/#testimonials" },
+      { label: "College Partnerships", href: "/college-partnerships" },
     ],
   },
   { label: "Contact Us", href: "/contact" },
 ];
+
+/* ---------------------------------------------------------- mega menu data */
+
+/** Menus rendered by the shared numbered-column panel. */
+export type ColumnMegaKey = "courses" | "training" | "after12";
+/** Every mega menu, including the bespoke AI and Resources panels. */
+export type MegaKey = ColumnMegaKey | "ai" | "resources";
+
+export type MegaColumn = {
+  /** Rendered as the 01, 02, … index above the column title. */
+  index: string;
+  title: string;
+  href: string;
+  blurb: string;
+  links: NavChild[];
+};
+
+export type MegaMenu = {
+  columns: MegaColumn[];
+  quote: { text: string; author: string };
+  cta: { label: string; href: string };
+};
+
+const PROGRAMMING_QUOTE = {
+  text: "Everybody should learn to program a computer, because it teaches you how to think.",
+  author: "Steve Jobs",
+};
+
+const coursesMenu: MegaMenu = {
+  columns: [
+    {
+      index: "01",
+      title: "Programming",
+      href: "/courses#programming",
+      blurb: "Core languages and full-stack engineering",
+      links: [
+        { label: "Python", href: "/courses/python" },
+        { label: "Java", href: "/courses/java" },
+        { label: "C & C++", href: "/courses/c-cpp" },
+        { label: "Kotlin", href: "/courses/kotlin" },
+        { label: "Web Designing", href: "/courses/web-designing" },
+        { label: "Web Development", href: "/courses/web-development" },
+        { label: "MERN Stack", href: "/courses/mern-stack" },
+        { label: "MEAN Stack", href: "/courses/mean-stack" },
+        { label: "PHP Full Stack", href: "/courses/php-full-stack" },
+      ],
+    },
+    {
+      index: "02",
+      title: "AI & Data",
+      href: "/courses#ai-data",
+      blurb: "Models, analytics and decision intelligence",
+      links: [
+        { label: "Artificial Intelligence", href: "/courses/artificial-intelligence" },
+        { label: "Machine Learning", href: "/courses/machine-learning" },
+        { label: "Deep Learning", href: "/courses/deep-learning" },
+        { label: "Data Science", href: "/courses/data-science" },
+        { label: "Data Analytics", href: "/courses/data-analytics" },
+        { label: "Power BI", href: "/courses/power-bi" },
+        { label: "Tableau", href: "/courses/tableau" },
+      ],
+    },
+    {
+      index: "03",
+      title: "Digital Marketing",
+      href: "/courses#digital-marketing",
+      blurb: "Growth, performance and commerce",
+      links: [
+        { label: "Digital Marketing", href: "/courses/digital-marketing" },
+        { label: "Social Media Marketing", href: "/courses/social-media-marketing" },
+        { label: "Google Ads", href: "/courses/google-ads" },
+        { label: "SEO", href: "/courses/seo" },
+        { label: "WordPress", href: "/courses/wordpress" },
+        { label: "Shopify", href: "/courses/shopify" },
+      ],
+    },
+    {
+      index: "04",
+      title: "Cyber & Cloud",
+      href: "/courses#cyber-cloud",
+      blurb: "Secure, resilient infrastructure",
+      links: [
+        { label: "Cybersecurity", href: "/courses/cybersecurity" },
+        { label: "Ethical Hacking", href: "/courses/ethical-hacking" },
+        { label: "Cloud Computing", href: "/courses/cloud-computing" },
+        { label: "Linux", href: "/courses/linux" },
+      ],
+    },
+  ],
+  quote: PROGRAMMING_QUOTE,
+  cta: { label: "Browse all courses", href: "/courses" },
+};
+
+const trainingMenu: MegaMenu = {
+  columns: [
+    {
+      index: "01",
+      title: "Short Term",
+      href: "/internship-training#short-term",
+      blurb: "Summer, winter and university-mandated batches",
+      links: [
+        { label: "45 Days Training", href: "/internship-training/45-days", badge: "Trending" },
+        { label: "6 Weeks Training", href: "/internship-training/6-weeks", badge: "Trending" },
+      ],
+    },
+    {
+      index: "02",
+      title: "Long Term",
+      href: "/internship-training#long-term",
+      blurb: "Deeper tracks that finish with a live project",
+      links: [
+        { label: "4 Months Training", href: "/internship-training/4-months" },
+        { label: "6 Months Training", href: "/internship-training/6-months" },
+      ],
+    },
+    {
+      index: "03",
+      title: "Programmes",
+      href: "/internship-training#programmes",
+      blurb: "Industry placement and internship letters",
+      links: [
+        {
+          label: "Industrial Training",
+          href: "/internship-training/industrial-training",
+          badge: "Trending",
+        },
+        {
+          label: "Internship Program",
+          href: "/internship-training/internship-program",
+        },
+      ],
+    },
+  ],
+  quote: PROGRAMMING_QUOTE,
+  cta: { label: "See all training formats", href: "/internship-training" },
+};
+
+const after12Menu: MegaMenu = {
+  columns: [
+    {
+      index: "01",
+      title: "6 Month Certificates",
+      href: "/after-12th-courses#six-month",
+      blurb: "One skill, job-ready in half a year",
+      links: [
+        {
+          label: "Digital Marketing & Communication",
+          href: "/after-12th-courses/digital-marketing-communication",
+        },
+        { label: "Python Programming", href: "/after-12th-courses/python-programming" },
+        {
+          label: "Machine Learning & AI",
+          href: "/after-12th-courses/machine-learning-ai",
+          badge: "Trending",
+        },
+        { label: "Cybersecurity", href: "/after-12th-courses/cybersecurity" },
+        { label: "Tally ERP with GST", href: "/after-12th-courses/tally-erp-gst" },
+        {
+          label: "Computer Basics & MS Excel",
+          href: "/after-12th-courses/computer-basics-excel",
+        },
+      ],
+    },
+    {
+      index: "02",
+      title: "1 Year Certificates",
+      href: "/after-12th-courses#one-year",
+      blurb: "Full programmes with an internship track",
+      links: [
+        {
+          label: "Generative AI",
+          href: "/after-12th-courses/generative-ai",
+          badge: "Trending",
+        },
+        {
+          label: "Cloud Computing & DevOps",
+          href: "/after-12th-courses/cloud-computing-devops",
+        },
+        { label: "AI & Data Science", href: "/after-12th-courses/ai-data-science" },
+        {
+          label: "Machine Learning & Deep Learning",
+          href: "/after-12th-courses/machine-learning-deep-learning",
+        },
+        {
+          label: "Cybersecurity & Ethical Hacking",
+          href: "/after-12th-courses/cybersecurity-ethical-hacking",
+        },
+      ],
+    },
+    {
+      index: "03",
+      title: "Graphics",
+      href: "/after-12th-courses#graphics",
+      blurb: "Design, video and motion for screen and print",
+      links: [
+        { label: "Graphic Designing", href: "/after-12th-courses/graphic-designing" },
+        { label: "Video Editing", href: "/after-12th-courses/video-editing" },
+        { label: "2D / 3D Animation", href: "/after-12th-courses/animation" },
+        {
+          label: "UI/UX Design with Figma",
+          href: "/after-12th-courses/ui-ux-figma",
+          badge: "Trending",
+        },
+      ],
+    },
+    {
+      index: "04",
+      title: "Civil / Mechanical",
+      href: "/after-12th-courses#civil-mechanical",
+      blurb: "Design and drafting for engineering streams",
+      links: [
+        { label: "AutoCAD", href: "/after-12th-courses/autocad" },
+        { label: "SolidWorks", href: "/after-12th-courses/solidworks" },
+        { label: "3ds Max", href: "/after-12th-courses/3ds-max" },
+        { label: "Revit", href: "/after-12th-courses/revit" },
+      ],
+    },
+  ],
+  quote: PROGRAMMING_QUOTE,
+  cta: { label: "Browse After 12th courses", href: "/after-12th-courses" },
+};
+
+export const megaMenus: Record<ColumnMegaKey, MegaMenu> = {
+  courses: coursesMenu,
+  training: trainingMenu,
+  after12: after12Menu,
+};
+
+/**
+ * The AI menu gets its own panel: two icon-led link groups, a featured course
+ * card and a gradient promo rail, rather than the numbered columns above.
+ */
+export const aiMenu = {
+  title: "Learn AI Skills.",
+  body: "Build projects with machine learning, data science, automation, and generative AI.",
+  groups: [
+    {
+      label: "AI Fundamentals",
+      icon: "sparkles" as const,
+      links: [
+        { label: "Generative AI", href: "/courses/generative-ai" },
+        { label: "Artificial Intelligence (AI)", href: "/courses/artificial-intelligence" },
+        { label: "Prompt Engineering", href: "/courses/prompt-engineering" },
+        { label: "ChatGPT & AI Tools", href: "/courses/chatgpt-ai-tools", badge: "Hot" },
+      ] as NavChild[],
+    },
+    {
+      label: "AI Development",
+      icon: "bolt" as const,
+      links: [
+        { label: "Agentic AI", href: "/courses/agentic-ai", badge: "Hot" },
+        { label: "AI-Powered Marketing", href: "/courses/ai-powered-marketing", badge: "Hot" },
+        { label: "RAG (Retrieval-Augmented Generation)", href: "/courses/rag-development" },
+        { label: "Machine Learning", href: "/courses/machine-learning" },
+      ] as NavChild[],
+    },
+  ],
+  featured: {
+    eyebrow: "Featured AI Course",
+    title: `Artificial Intelligence Training in ${site.city}`,
+    href: "/courses/artificial-intelligence",
+  },
+  promo: {
+    body: "Start with AI fundamentals, then move into real projects and career-ready tools.",
+    cta: { label: "Explore AI", href: "/courses/artificial-intelligence" },
+  },
+};
+
+/**
+ * Resources menu: a category rail beside three featured cards.
+ *
+ * `image` is an optional path under /public — cards fall back to a tinted
+ * gradient tile until real photography lands.
+ */
+export const resourcesMenu = {
+  categoriesLabel: "Categories",
+  featuredLabel: "Featured",
+  categories: [
+    { label: "Blogs", href: "/blogs" },
+    { label: "Gallery", href: "/gallery" },
+    { label: "FAQ", href: "/#faq" },
+    { label: "Reviews", href: "/#testimonials" },
+    { label: "College Partnerships", href: "/college-partnerships" },
+  ] as NavChild[],
+  featured: [
+    {
+      title: "Blogs",
+      href: "/blogs",
+      chip: "Articles",
+      meta: "Latest",
+      tone: "from-brand-700 via-brand-500 to-brand-400",
+      image: undefined as string | undefined,
+    },
+    {
+      title: "FAQ",
+      href: "/#faq",
+      chip: "Answers",
+      meta: "Admissions",
+      tone: "from-accent via-brand-700 to-brand-500",
+      image: undefined as string | undefined,
+    },
+    {
+      title: "Gallery",
+      href: "/gallery",
+      chip: "Campus",
+      meta: "Photos",
+      tone: "from-brand-900 via-brand-600 to-brand-400",
+      image: undefined as string | undefined,
+    },
+  ],
+};
 
 /* -------------------------------------------------------------------- hero */
 
 export const hero = {
   eyebrow: `TechCadd ${site.city}`,
   eyebrowMeta: site.tagline,
-  /** Rendered line-by-line; `accent` words render in brand blue. */
+  /**
+   * Two-line display headline. The `muted` line renders in a dimmed white so
+   * the pair reads as a statement and its echo.
+   */
   headingLines: [
-    { text: "Build The Skills That Turn", accent: [] },
-    { text: "You Into A", accent: [] },
-    { text: "Job-Ready Engineer", accent: ["Job-Ready", "Engineer"] },
-    { text: "In AI & Software Engineering", accent: [], code: true },
-  ] as Array<{ text: string; accent: string[]; code?: boolean }>,
-  body: LOREM_LONG,
+    { text: "Build job-ready skills.", muted: false },
+    { text: "Launch a tech career.", muted: true },
+  ] as Array<{ text: string; muted: boolean }>,
+  body: LOREM_MED,
   primaryCta: { label: "Start your career", href: "/contact" },
   secondaryCta: { label: "Explore courses", href: "/courses" },
   stats: [

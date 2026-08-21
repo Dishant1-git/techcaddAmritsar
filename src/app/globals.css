@@ -9,6 +9,8 @@
   --color-brand-500: #3b82f6;
   --color-brand-600: #2563eb;
   --color-brand-700: #1d4ed8;
+  --color-brand-800: #1e40af;
+  --color-brand-900: #172554;
 
   /* Ink — dark sections and heading text */
   --color-ink: #0f172a;
@@ -29,6 +31,18 @@
   --animate-marquee-reverse: marquee-reverse var(--marquee-duration, 60s) linear
     infinite;
   --animate-twinkle: twinkle var(--twinkle-duration, 2.2s) ease-in-out infinite;
+  /* Slow drift of the circuit tile; the distance matches its 160px tile so
+     the loop is seamless. */
+  --animate-trace: trace 40s linear infinite;
+}
+
+@keyframes trace {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 160px 160px;
+  }
 }
 
 @keyframes marquee {
@@ -159,6 +173,30 @@
       linear-gradient(to bottom, rgb(255 255 255 / 0.045) 1px, transparent 1px);
     background-size: 64px 64px;
   }
+
+  /*
+   * Tech texture for dark hero backgrounds: an etched circuit-board trace
+   * pattern (paths + solder nodes) drawn as an inline SVG tile. Purely
+   * decorative — always render it inside an aria-hidden layer.
+   */
+  .circuit-texture {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160' fill='none'%3E%3Cg stroke='%23ffffff' stroke-opacity='0.16' stroke-width='1'%3E%3Cpath d='M0 40h40V0'/%3E%3Cpath d='M40 40h50v50h70'/%3E%3Cpath d='M0 120h60v40'/%3E%3Cpath d='M120 0v60h40'/%3E%3Cpath d='M100 160v-30h60'/%3E%3Cpath d='M60 120v40'/%3E%3Cpath d='M90 90v40'/%3E%3C/g%3E%3Cg fill='%2360a5fa' fill-opacity='0.34'%3E%3Ccircle cx='40' cy='40' r='2.6'/%3E%3Ccircle cx='90' cy='90' r='2.6'/%3E%3Ccircle cx='120' cy='60' r='2.6'/%3E%3Ccircle cx='60' cy='120' r='2.6'/%3E%3Ccircle cx='100' cy='130' r='2.6'/%3E%3C/g%3E%3C/svg%3E");
+    background-size: 160px 160px;
+  }
+
+  /* Fine dot matrix — reads as a PCB solder grid behind the circuit traces. */
+  .dot-matrix {
+    background-image: radial-gradient(
+      rgb(255 255 255 / 0.28) 1px,
+      transparent 1px
+    );
+    background-size: 22px 22px;
+  }
+
+  /* Film-grain noise so the large gradient washes don't band on wide screens. */
+  .tech-noise {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -175,6 +213,7 @@
 
   .animate-marquee,
   .animate-marquee-reverse,
+  .animate-trace,
   .animate-twinkle {
     animation: none !important;
   }

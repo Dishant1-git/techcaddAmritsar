@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
-type Variant = "primary" | "ghost" | "outline" | "light";
+type Variant = "primary" | "ghost" | "outline" | "light" | "gradient";
 type Size = "sm" | "md" | "lg";
 
 const base =
@@ -16,6 +16,9 @@ const variants: Record<Variant, string> = {
     "bg-transparent text-ink ring-1 ring-inset ring-line hover:ring-brand-600 hover:text-brand-600 hover:-translate-y-0.5",
   light:
     "bg-white text-ink hover:bg-brand-50 hover:text-brand-700 hover:-translate-y-0.5",
+  /* Matches the glowing AI pill in the header. */
+  gradient:
+    "bg-gradient-to-br from-brand-500 to-brand-600 text-white ring-1 ring-inset ring-white/25 shadow-[0_10px_26px_-8px_rgb(37_99_235/1)] hover:from-brand-400 hover:to-brand-600 hover:-translate-y-0.5",
 };
 
 const sizes: Record<Size, string> = {
