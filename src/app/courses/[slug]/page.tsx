@@ -14,6 +14,7 @@ import CourseFaq from "@/components/course/CourseFaq";
 import RelatedCourses from "@/components/course/RelatedCourses";
 import CourseCta from "@/components/course/CourseCta";
 import StickyCourseBar from "@/components/course/StickyCourseBar";
+import ScrollToHero from "@/components/course/ScrollToHero";
 
 type CoursePageProps = { params: Promise<{ slug: string }> };
 
@@ -50,6 +51,7 @@ export default async function CoursePage({ params }: CoursePageProps) {
 
   return (
     <>
+      <ScrollToHero />
       <CourseHero course={course} />
       <CourseOverview course={course} />
       <ModuleExplorer course={course} />
