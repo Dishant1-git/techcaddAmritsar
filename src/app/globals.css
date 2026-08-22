@@ -18,17 +18,19 @@
   --color-ink-mute: #334155;
 
   /*
-   * Gold — the contrast accent against the brand blue. Used for heading accent
-   * words, eyebrows and the primary call to action. On dark grounds use
-   * 300/400; on white use 600, which clears contrast at heading sizes.
+   * Gold — the contrast accent against the brand blue. A true yellow ramp with
+   * no orange in it: 300 is the headline yellow, and the darker steps stay
+   * yellow rather than turning amber. Used for heading accent words, eyebrows
+   * and the primary call to action. On dark grounds use 300; on white use 600
+   * for large text and 700 for small, where contrast is tighter.
    */
-  --color-gold-100: #fef3c7;
-  --color-gold-200: #fde68a;
+  --color-gold-100: #fef9c3;
+  --color-gold-200: #fef08a;
   --color-gold-300: #fcd34d;
-  --color-gold-400: #fbbf24;
-  --color-gold-500: #f59e0b;
-  --color-gold-600: #d97706;
-  --color-gold-700: #b45309;
+  --color-gold-400: #facc15;
+  --color-gold-500: #eab308;
+  --color-gold-600: #ca8a04;
+  --color-gold-700: #a16207;
 
   /* Neutrals */
   --color-line: #e2e8f0;

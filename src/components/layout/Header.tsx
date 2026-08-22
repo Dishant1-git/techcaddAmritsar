@@ -3,12 +3,19 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ChevronDown, Menu, Sparkles } from "lucide-react";
-import { megaMenus, navItems, type ColumnMegaKey, type MegaKey } from "@/lib/content";
+import {
+  megaMenus,
+  navItems,
+  railMenus,
+  type ColumnMegaKey,
+  type MegaKey,
+  type RailMegaKey,
+} from "@/lib/content";
 import { cn } from "@/lib/utils";
 import Button from "@/components/ui/Button";
 import AiMega from "./AiMega";
 import MegaMenu from "./MegaMenu";
-import ResourcesMega from "./ResourcesMega";
+import RailMega from "./RailMega";
 import Logo from "./Logo";
 import MobileNav from "./MobileNav";
 
@@ -51,11 +58,12 @@ export default function Header() {
             className={cn(
               "mx-auto flex items-center justify-between gap-4 border transition-all duration-500",
               scrolled
-                ? "h-17 max-w-6xl rounded-full border-white/10 bg-ink/80 pr-2 pl-5 shadow-[0_20px_60px_-24px_rgb(0_0_0/0.85)] backdrop-blur-xl"
+                ? "h-17 max-w-6xl rounded-full border-line bg-white/90 pr-2 pl-5 shadow-[0_20px_60px_-28px_rgb(15_23_42/0.6)] backdrop-blur-xl"
                 : "h-20 max-w-full rounded-none border-transparent bg-transparent px-0",
             )}
           >
-            <Logo inverted className="shrink-0" />
+            {/* Navy wordmark on the white pill, white over the dark hero. */}
+            <Logo inverted={!scrolled} className="shrink-0" />
 
             <nav
               aria-label="Main"
@@ -80,8 +88,12 @@ export default function Header() {
                          instead of a plain text link. */
                       item.sparkle
                         ? "rounded-full bg-gradient-to-br from-brand-500 to-brand-600 px-4 py-1.5 font-medium text-white shadow-[0_10px_26px_-8px_rgb(37_99_235/1)] ring-1 ring-white/25 ring-inset hover:from-brand-400 hover:to-brand-600"
-                        : "text-white/75 hover:text-white",
-                      !item.sparkle && openMega === item.mega && "text-white",
+                        : scrolled
+                          ? "text-ink-mute hover:text-ink"
+                          : "text-white/75 hover:text-white",
+                      !item.sparkle &&
+                        openMega === item.mega &&
+                        (scrolled ? "text-ink" : "text-white"),
                     )}
                   >
                     {item.label}
@@ -104,7 +116,8 @@ export default function Header() {
                       <span
                         aria-hidden="true"
                         className={cn(
-                          "absolute -bottom-1 left-0 h-px w-0 bg-white transition-all duration-300 group-hover:w-full",
+                          "absolute -bottom-1 left-0 h-px w-0 transition-all duration-300 group-hover:w-full",
+                          scrolled ? "bg-ink" : "bg-white",
                           openMega === item.mega && "w-full",
                         )}
                       />
@@ -149,7 +162,12 @@ export default function Header() {
                 onClick={() => setMenuOpen(true)}
                 aria-label="Open menu"
                 aria-expanded={menuOpen}
-                className="grid size-10 shrink-0 place-items-center rounded-full text-white ring-1 ring-white/25 ring-inset transition-colors duration-300 hover:bg-white/10 xl:hidden"
+                className={cn(
+                  "grid size-10 shrink-0 place-items-center rounded-full ring-1 ring-inset transition-colors duration-300 xl:hidden",
+                  scrolled
+                    ? "text-ink ring-line hover:bg-brand-50"
+                    : "text-white ring-white/25 hover:bg-white/10",
+                )}
               >
                 <Menu className="size-5" />
               </button>
@@ -172,11 +190,15 @@ export default function Header() {
             onNavigate={() => setOpenMega(null)}
           />
 
-          <ResourcesMega
-            id={megaId("resources")}
-            open={openMega === "resources"}
-            onNavigate={() => setOpenMega(null)}
-          />
+          {(Object.keys(railMenus) as RailMegaKey[]).map((key) => (
+            <RailMega
+              key={key}
+              menuKey={key}
+              id={megaId(key)}
+              open={openMega === key}
+              onNavigate={() => setOpenMega(null)}
+            />
+          ))}
         </div>
       </header>
 

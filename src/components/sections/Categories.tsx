@@ -116,7 +116,7 @@ export default function Categories() {
                 </div>
 
                 <div className="relative flex items-center gap-3">
-                  <span className="grid size-12 place-items-center rounded-full bg-white/10 text-white ring-1 ring-white/20 ring-inset transition-all duration-300 group-hover:bg-gold-400 group-hover:text-ink group-hover:ring-gold-300">
+                  <span className="grid size-12 place-items-center rounded-full bg-white/10 text-white ring-1 ring-white/20 ring-inset transition-all duration-300 group-hover:bg-gold-300 group-hover:text-ink group-hover:ring-gold-200">
                     <ArrowRight className="size-5" aria-hidden="true" />
                   </span>
                   <span className="text-xs font-semibold tracking-[0.14em] text-white/45 uppercase">

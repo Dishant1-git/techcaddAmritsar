@@ -73,7 +73,7 @@ export default function Hero() {
           <div className="flex flex-wrap items-center justify-center gap-3">
             <Link
               href={hero.primaryCta.href}
-              className="group inline-flex h-13 items-center justify-center gap-2 rounded-full bg-gold-400 px-8 text-base font-semibold whitespace-nowrap text-ink shadow-[0_14px_36px_-10px_rgb(251_191_36/0.75)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-gold-300"
+              className="group inline-flex h-13 items-center justify-center gap-2 rounded-full bg-gold-300 px-8 text-base font-semibold whitespace-nowrap text-ink shadow-[0_14px_36px_-10px_rgb(252_211_77/0.75)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-gold-200"
             >
               {hero.primaryCta.label}
               <ArrowRight

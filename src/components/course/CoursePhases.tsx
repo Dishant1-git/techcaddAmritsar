@@ -67,7 +67,7 @@ export default function CoursePhases({ course }: { course: Course }) {
             as="h2"
             text="Three stages, in the order"
             accent="a working practitioner learns them"
-            accentClassName="text-gold-600"
+            accentClassName="text-gold-500"
             className="mt-4 text-3xl leading-[1.14] font-semibold text-ink sm:text-4xl"
           />
           <span id="phases-heading" className="sr-only">

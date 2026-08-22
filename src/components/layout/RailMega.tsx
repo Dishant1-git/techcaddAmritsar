@@ -2,23 +2,29 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { resourcesMenu } from "@/lib/content";
+import { ArrowRight } from "lucide-react";
+import { railMenus, type RailMegaKey } from "@/lib/content";
 import { cn } from "@/lib/utils";
 
 /**
- * Resources mega panel: a category rail on the left, three featured cards on
- * the right. Shares the open/close mechanics of the other panels — it stays
- * mounted while closed so the transition runs both ways.
+ * Rail mega panel: a category rail on the left, three featured cards on the
+ * right. Drives the Resources and About menus. Shares the open/close mechanics
+ * of the other panels — it stays mounted while closed so the transition runs
+ * both ways.
  */
-export default function ResourcesMega({
+export default function RailMega({
+  menuKey,
   open,
   onNavigate,
   id,
 }: {
+  menuKey: RailMegaKey;
   open: boolean;
   onNavigate: () => void;
   id: string;
 }) {
+  const menu = railMenus[menuKey];
+
   return (
     <div
       id={id}
@@ -34,11 +40,11 @@ export default function ResourcesMega({
         {/* ------------------------------------------------- category rail */}
         <div className="border-r border-line px-7 py-8">
           <span className="text-[0.65rem] font-semibold tracking-[0.18em] text-muted uppercase">
-            {resourcesMenu.categoriesLabel}
+            {menu.categoriesLabel}
           </span>
 
           <ul className="mt-6 flex flex-col gap-1">
-            {resourcesMenu.categories.map((category) => (
+            {menu.categories.map((category) => (
               <li key={category.label}>
                 <Link
                   href={category.href}
@@ -50,16 +56,30 @@ export default function ResourcesMega({
               </li>
             ))}
           </ul>
+
+          {menu.cta && (
+            <Link
+              href={menu.cta.href}
+              onClick={onNavigate}
+              className="group mt-6 inline-flex items-center gap-2 px-3 text-sm font-medium text-brand-600 transition-colors hover:text-brand-700"
+            >
+              {menu.cta.label}
+              <ArrowRight
+                className="size-4 transition-transform duration-300 group-hover:translate-x-1"
+                aria-hidden="true"
+              />
+            </Link>
+          )}
         </div>
 
         {/* ---------------------------------------------- featured cards */}
         <div className="px-8 py-8">
           <span className="text-[0.65rem] font-semibold tracking-[0.18em] text-muted uppercase">
-            {resourcesMenu.featuredLabel}
+            {menu.featuredLabel}
           </span>
 
           <div className="mt-6 grid grid-cols-3 gap-6">
-            {resourcesMenu.featured.map((card) => (
+            {menu.featured.map((card) => (
               <Link
                 key={card.title}
                 href={card.href}

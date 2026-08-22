@@ -45,7 +45,16 @@ export type NavItem = {
 
 export const navItems: NavItem[] = [
   { label: "Home", href: "/" },
-  { label: "About Us", href: "/about" },
+  {
+    label: "About Us",
+    href: "/about",
+    mega: "about",
+    children: [
+      { label: "About techcadd", href: "/about" },
+      { label: "Mission and Vision", href: "/about#mission" },
+      { label: "Our Founder", href: "/about#founder" },
+    ],
+  },
   {
     label: "AI",
     href: "/courses/artificial-intelligence",
@@ -120,7 +129,7 @@ export const navItems: NavItem[] = [
 /** Menus rendered by the shared numbered-column panel. */
 export type ColumnMegaKey = "courses" | "training" | "after12";
 /** Every mega menu, including the bespoke AI and Resources panels. */
-export type MegaKey = ColumnMegaKey | "ai" | "resources";
+export type MegaKey = ColumnMegaKey | "ai" | RailMegaKey;
 
 export type MegaColumn = {
   /** Rendered as the 01, 02, … index above the column title. */
@@ -399,12 +408,30 @@ export const aiMenu = {
 };
 
 /**
- * Resources menu: a category rail beside three featured cards.
+ * Menus drawn as a category rail beside three featured cards.
  *
  * `image` is an optional path under /public — cards fall back to a tinted
- * gradient tile until real photography lands.
+ * gradient tile until real photography lands. `cta` is optional; when set it
+ * renders as a link under the rail.
  */
-export const resourcesMenu = {
+export type RailMegaKey = "resources" | "about";
+
+export type RailMenu = {
+  categoriesLabel: string;
+  featuredLabel: string;
+  categories: NavChild[];
+  cta?: { label: string; href: string };
+  featured: Array<{
+    title: string;
+    href: string;
+    chip: string;
+    meta: string;
+    tone: string;
+    image?: string;
+  }>;
+};
+
+const resourcesMenu: RailMenu = {
   categoriesLabel: "Categories",
   featuredLabel: "Featured",
   categories: [
@@ -413,7 +440,7 @@ export const resourcesMenu = {
     { label: "FAQ", href: "/#faq" },
     { label: "Reviews", href: "/#testimonials" },
     { label: "College Partnerships", href: "/college-partnerships" },
-  ] as NavChild[],
+  ],
   featured: [
     {
       title: "Blogs",
@@ -421,7 +448,7 @@ export const resourcesMenu = {
       chip: "Articles",
       meta: "Latest",
       tone: "from-brand-700 via-brand-500 to-brand-400",
-      image: undefined as string | undefined,
+      image: "/images/seminars/seminar.png",
     },
     {
       title: "FAQ",
@@ -429,7 +456,7 @@ export const resourcesMenu = {
       chip: "Answers",
       meta: "Admissions",
       tone: "from-accent via-brand-700 to-brand-500",
-      image: undefined as string | undefined,
+      image: "/images/seminars/session.png",
     },
     {
       title: "Gallery",
@@ -437,9 +464,53 @@ export const resourcesMenu = {
       chip: "Campus",
       meta: "Photos",
       tone: "from-brand-900 via-brand-600 to-brand-400",
-      image: undefined as string | undefined,
+      image: "/images/seminars/group-photo.png",
     },
   ],
+};
+
+const aboutMenu: RailMenu = {
+  categoriesLabel: "About",
+  featuredLabel: "Featured",
+  categories: [
+    { label: "About techcadd", href: "/about" },
+    { label: "Mission and Vision", href: "/about#mission" },
+    { label: "Our Founder", href: "/about#founder" },
+  ],
+  cta: { label: "Talk to a counsellor", href: "/contact" },
+  featured: [
+    {
+      title: "About techcadd",
+      href: "/about",
+      chip: "Story",
+      /* Matches the "training students since 2007" line in the footer. */
+      meta: "Since 2007",
+      tone: "from-brand-700 via-brand-500 to-brand-400",
+      image: "/images/seminars/chitkara.png",
+    },
+    {
+      title: "Mission and Vision",
+      href: "/about#mission",
+      chip: "Purpose",
+      meta: "Our Direction",
+      tone: "from-accent via-brand-700 to-brand-500",
+      image: "/images/seminars/seminar.png",
+    },
+    {
+      title: "Our Founder",
+      href: "/about#founder",
+      chip: "Profile",
+      /* TODO: replace with the founder's name. */
+      meta: "Leadership",
+      tone: "from-brand-900 via-brand-600 to-brand-400",
+      image: "/images/founder/founder.jpeg",
+    },
+  ],
+};
+
+export const railMenus: Record<RailMegaKey, RailMenu> = {
+  resources: resourcesMenu,
+  about: aboutMenu,
 };
 
 /* -------------------------------------------------------------------- hero */
@@ -822,7 +893,16 @@ export const footer = {
     {
       title: "Company",
       links: [
-        { label: "About Us", href: "/about" },
+        {
+    label: "About Us",
+    href: "/about",
+    mega: "about",
+    children: [
+      { label: "About techcadd", href: "/about" },
+      { label: "Mission and Vision", href: "/about#mission" },
+      { label: "Our Founder", href: "/about#founder" },
+    ],
+  },
         { label: "AI", href: "/courses/artificial-intelligence" },
         { label: "Resources", href: "/blogs" },
         { label: "Contact Us", href: "/contact" },

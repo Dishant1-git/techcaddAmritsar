@@ -29,7 +29,7 @@ export default function ToolStack({ course }: { course: Course }) {
               as="h2"
               text="The working stack for"
               accent={course.title}
-              accentClassName="text-gold-600"
+              accentClassName="text-gold-500"
               className="mt-4 text-3xl leading-[1.14] font-semibold text-ink sm:text-4xl"
             />
             <span id="tools-heading" className="sr-only">
