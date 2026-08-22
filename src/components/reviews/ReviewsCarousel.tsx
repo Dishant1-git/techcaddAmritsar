@@ -37,9 +37,19 @@ const SORTS = [
 
 type SortKey = (typeof SORTS)[number]["key"];
 
-/** Track icons, resolved once — never inside a component body. */
-const TRACK_ICON = new Map(
-  tracks.map((track) => [track.slug, aboutIcon(track.icon)]),
+/**
+ * Track icons, resolved once at module scope — and held as rendered elements
+ * rather than component types, so nothing picks a component mid-render.
+ */
+const StarIcon = aboutIcon("star");
+
+const FALLBACK_ICON = <StarIcon className="size-3" aria-hidden="true" />;
+
+const TRACK_ICON = new Map<string, React.ReactNode>(
+  tracks.map((track) => {
+    const Icon = aboutIcon(track.icon);
+    return [track.slug, <Icon key={track.slug} className="size-3" aria-hidden="true" />];
+  }),
 );
 
 /** Repeat a short list until it is long enough to fill a marquee row. */
@@ -52,7 +62,6 @@ function fill(items: ReviewEntry[]) {
 
 /** One review, as a card in a scrolling row. */
 function ReviewCard({ review }: { review: ReviewEntry }) {
-  const Icon = TRACK_ICON.get(review.track) ?? aboutIcon("star");
 
   return (
     <article className="flex h-[19rem] w-[19rem] flex-col rounded-3xl border border-line bg-white p-6 transition-colors duration-300 hover:border-brand-200 sm:w-[22rem]">
@@ -85,7 +94,7 @@ function ReviewCard({ review }: { review: ReviewEntry }) {
       </blockquote>
 
       <span className="mt-4 inline-flex w-fit items-center gap-1.5 rounded-full bg-brand-50 px-2.5 py-1 text-[0.6rem] font-semibold tracking-[0.14em] text-brand-700 uppercase">
-        <Icon className="size-3" aria-hidden="true" />
+        {TRACK_ICON.get(review.track) ?? FALLBACK_ICON}
         {review.course}
       </span>
 
