@@ -16,19 +16,12 @@ type MarqueeProps<T> = {
   /** Seconds for one full pass. */
   duration?: number;
   reverse?: boolean;
-<<<<<<< Updated upstream
   /** Hold the row still while the pointer is over it. */
   pauseOnHover?: boolean;
   /**
    * Fraction of full speed the row eases down to while the pointer is over it,
    * e.g. `0.2` for a fifth of the speed. Omit to keep the default behaviour,
    * which is governed by `pauseOnHover`.
-=======
-  /**
-   * Fraction of full speed the row eases down to while the pointer is over it,
-   * e.g. `0.2` for a fifth of the speed. Omit to keep the default behaviour,
-   * which is a hard pause on hover.
->>>>>>> Stashed changes
    */
   hoverSlowFactor?: number;
   className?: string;
@@ -141,12 +134,8 @@ function SlowingMarquee<T>({
 /**
  * Seamless horizontal scroller. The track holds the items twice — the clone is
  * `aria-hidden` — and translates by exactly -50%, so the loop has no seam.
-<<<<<<< Updated upstream
  * Pauses on hover unless `pauseOnHover` is off; disabled entirely under
  * prefers-reduced-motion (globals.css).
-=======
- * Pauses on hover; disabled entirely under prefers-reduced-motion (globals.css).
->>>>>>> Stashed changes
  *
  * Pass `hoverSlowFactor` to slow the row on hover instead of stopping it.
  */
@@ -155,10 +144,7 @@ export default function Marquee<T>({
   renderItem,
   duration = 60,
   reverse = false,
-<<<<<<< Updated upstream
   pauseOnHover = true,
-=======
->>>>>>> Stashed changes
   hoverSlowFactor,
   className,
 }: MarqueeProps<T>) {

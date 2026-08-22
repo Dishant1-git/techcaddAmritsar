@@ -172,7 +172,6 @@ const CATEGORY_BLURBS: Record<CourseCategory, string> = {
 };
 
 /**
-<<<<<<< Updated upstream
  * Hero artwork, keyed by slug. Files are transparent 3D renders under
  * /public/images/courses, named for the slug they belong to. A course without
  * an entry simply renders the syllabus deck on its own — add the PNG and a
@@ -188,8 +187,6 @@ const COURSE_IMAGES: Record<string, string> = {
 };
 
 /**
-=======
->>>>>>> Stashed changes
  * Categories the /courses index renders. The three after-12th-only categories
  * are deliberately absent — no `courseSeeds` entry carries them, so listing
  * them here would draw empty sections.
