@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import {
   motion,
@@ -11,25 +12,31 @@ import {
 import { ArrowRight, ChevronRight, Clock, MonitorPlay, Signal } from "lucide-react";
 import type { Course } from "@/lib/courses";
 import { site } from "@/lib/content";
-import { cn } from "@/lib/utils";
 import { EASE, FadeUp, Stagger, WordsUp } from "@/components/ui/Motion";
 
-/**
- * The syllabus deck: the first three modules as physical, stacked cards that
- * fan apart on load and tilt with the pointer.
- *
- * This is the page's signature element — a course is a sequence of modules, so
- * the hero shows the actual sequence rather than a generic illustration.
- */
-function SyllabusDeck({ course }: { course: Course }) {
-  const reduce = useReducedMotion();
-  const cards = course.modules.slice(0, 3);
+/* -------------------------------------------------------------------- hero */
 
+/**
+ * The course's own 3D render, floated on an ambient bloom and tilted towards
+ * the pointer. The render, its glow and its shadow sit on separate depths, so
+ * the parallax between them reads as real dimension rather than a flat rotate.
+ *
+ * Courses without artwork render no right-hand column at all, so the copy
+ * simply widens. All pointer motion is inert under prefers-reduced-motion.
+ */
+function CourseArt({ src }: { src: string }) {
+  const reduce = useReducedMotion();
+
+  /* Pointer position within the frame, as -0.5 … 0.5 on each axis. */
   const pointerX = useMotionValue(0);
   const pointerY = useMotionValue(0);
-  const spring = { stiffness: 110, damping: 20, mass: 0.6 };
-  const rotateX = useSpring(useTransform(pointerY, [-0.5, 0.5], [7, -7]), spring);
-  const rotateY = useSpring(useTransform(pointerX, [-0.5, 0.5], [-9, 9]), spring);
+  const spring = { stiffness: 110, damping: 18, mass: 0.6 };
+
+  const rotateX = useSpring(useTransform(pointerY, [-0.5, 0.5], [12, -12]), spring);
+  const rotateY = useSpring(useTransform(pointerX, [-0.5, 0.5], [-14, 14]), spring);
+  /* The glow lags behind the render, opposite the tilt. */
+  const glowX = useSpring(useTransform(pointerX, [-0.5, 0.5], [26, -26]), spring);
+  const glowY = useSpring(useTransform(pointerY, [-0.5, 0.5], [20, -20]), spring);
 
   function onPointerMove(event: React.PointerEvent<HTMLDivElement>) {
     if (reduce) return;
@@ -45,100 +52,38 @@ function SyllabusDeck({ course }: { course: Course }) {
 
   return (
     <div
+      aria-hidden="true"
       onPointerMove={onPointerMove}
       onPointerLeave={onPointerLeave}
-      className="relative mx-auto h-[26rem] w-full max-w-md sm:h-[30rem] lg:h-[34rem] lg:max-w-none"
-      style={{ perspective: 1400 }}
-      aria-hidden="true"
+      style={{ perspective: 1200 }}
+      className="relative mx-auto aspect-square w-full max-w-md lg:max-w-none"
     >
       <motion.div
-        className="relative size-full"
+        initial={reduce ? false : { opacity: 0, scale: 0.92, y: 24 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ duration: 1, delay: 0.15, ease: EASE }}
         style={reduce ? undefined : { rotateX, rotateY, transformStyle: "preserve-3d" }}
+        className="relative grid size-full place-items-center"
       >
-        {cards.map((module, i) => {
-          /* Front card is index 0; the others sit behind and above it. */
-          const depth = cards.length - 1 - i;
-          return (
-            <motion.article
-              key={module.code}
-              initial={reduce ? false : { opacity: 0, y: 40, rotate: 0, scale: 0.94 }}
-              animate={{
-                opacity: 1,
-                y: depth * -26,
-                rotate: depth === 0 ? 0 : depth === 1 ? -3.5 : -7,
-                scale: 1 - depth * 0.045,
-              }}
-              transition={{ duration: 0.9, delay: 0.25 + i * 0.12, ease: EASE }}
-              style={{
-                zIndex: 10 - depth,
-                translateZ: depth * -40,
-              }}
-              className={cn(
-                "absolute inset-x-0 top-8 origin-bottom rounded-3xl border border-white/12 p-6 backdrop-blur-xl",
-                depth === 0
-                  ? "bg-ink/85 shadow-[0_40px_90px_-40px_rgb(0_0_0/0.9)]"
-                  : "bg-ink/60",
-              )}
-            >
-              <div className="flex items-center justify-between">
-                <span className="font-display text-[0.65rem] font-semibold tracking-[0.24em] text-brand-400 uppercase">
-                  Module {module.code}
-                </span>
-                <span className="text-[0.65rem] tracking-[0.16em] text-white/35 uppercase">
-                  {course.category}
-                </span>
-              </div>
-
-              <h3 className="font-display mt-3 text-lg leading-snug font-semibold text-white sm:text-xl">
-                {module.title}
-              </h3>
-
-              <ul className="mt-5 space-y-2.5">
-                {module.skills.slice(0, 3).map((skill) => (
-                  <li
-                    key={skill}
-                    className="flex items-center gap-2.5 text-sm text-white/60"
-                  >
-                    <span className="size-1.5 shrink-0 rounded-full bg-brand-400" />
-                    {skill}
-                  </li>
-                ))}
-              </ul>
-
-              {depth === 0 && (
-                <>
-                  <div className="mt-5 flex flex-wrap gap-1.5">
-                    {module.tools.slice(0, 4).map((tool) => (
-                      <span
-                        key={tool}
-                        className="rounded-md bg-white/8 px-2 py-1 text-[0.7rem] text-white/55 ring-1 ring-white/10 ring-inset"
-                      >
-                        {tool}
-                      </span>
-                    ))}
-                  </div>
-                  <div className="mt-5 rounded-2xl border border-brand-500/25 bg-gradient-to-br from-brand-600/20 to-accent/25 p-4">
-                    <span className="text-[0.6rem] font-semibold tracking-[0.2em] text-brand-200 uppercase">
-                      You finish with
-                    </span>
-                    <p className="mt-1.5 text-sm leading-relaxed text-white/70">
-                      {module.deliverable}
-                    </p>
-                  </div>
-                </>
-              )}
-            </motion.article>
-          );
-        })}
+        <motion.span
+          style={reduce ? undefined : { x: glowX, y: glowY }}
+          className="absolute inset-10 rounded-full bg-brand-500/25 blur-[90px]"
+        />
+        <Image
+          src={src}
+          alt=""
+          width={640}
+          height={640}
+          priority
+          sizes="(min-width: 1024px) 460px, 90vw"
+          // Lifted off the tilt plane so it parallaxes against the glow.
+          style={reduce ? undefined : { transform: "translateZ(60px)" }}
+          className="relative size-full object-contain drop-shadow-[0_36px_60px_rgb(0_0_0/0.55)]"
+        />
       </motion.div>
-
-      {/* Ambient glow anchored behind the deck. */}
-      <div className="absolute -inset-8 -z-10 rounded-full bg-brand-500/20 blur-[90px]" />
     </div>
   );
 }
-
-/* -------------------------------------------------------------------- hero */
 
 export default function CourseHero({ course }: { course: Course }) {
   const meta = [
@@ -176,7 +121,10 @@ export default function CourseHero({ course }: { course: Course }) {
         <div className="container-page">
           <div className="grid items-center gap-14 lg:grid-cols-12 lg:gap-10">
             {/* ------------------------------------------------------ copy */}
-            <Stagger className="lg:col-span-7" gap={0.09}>
+            <Stagger
+              className={course.hero.image ? "lg:col-span-7" : "lg:col-span-12"}
+              gap={0.09}
+            >
               <FadeUp>
                 <nav aria-label="Breadcrumb">
                   <ol className="flex flex-wrap items-center gap-1 text-xs text-white/40">
@@ -264,10 +212,12 @@ export default function CourseHero({ course }: { course: Course }) {
               </FadeUp>
             </Stagger>
 
-            {/* ------------------------------------------------------ deck */}
-            <div className="lg:col-span-5">
-              <SyllabusDeck course={course} />
-            </div>
+            {/* --------------------------------------------------- artwork */}
+            {course.hero.image && (
+              <div className="lg:col-span-5">
+                <CourseArt src={course.hero.image} />
+              </div>
+            )}
           </div>
         </div>
       </section>

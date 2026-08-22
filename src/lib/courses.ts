@@ -63,6 +63,8 @@ export type Course = {
     accent: string;
     tagline: string;
     chips: string[];
+    /** Transparent hero render; absent for courses without artwork yet. */
+    image?: string;
   };
 
   /** The "at a glance" spec table beside the overview. */
@@ -158,6 +160,21 @@ const CATEGORY_BLURBS: Record<CourseCategory, string> = {
     "Search, social, paid media and analytics, run as one measurable system.",
   "Cyber & Cloud":
     "Secure, resilient infrastructure and the operational discipline to keep it running.",
+};
+
+/**
+ * Hero artwork, keyed by slug. Files are transparent 3D renders under
+ * /public/images/courses, named for the slug they belong to. A course without
+ * an entry simply renders the syllabus deck on its own — add the PNG and a
+ * line here to give it artwork.
+ */
+const COURSE_IMAGES: Record<string, string> = {
+  "artificial-intelligence": "/images/courses/artificial-intelligence.png",
+  "data-analytics": "/images/courses/data-analytics.png",
+  "google-ads": "/images/courses/google-ads.png",
+  "power-bi": "/images/courses/power-bi.png",
+  shopify: "/images/courses/shopify.png",
+  "social-media-marketing": "/images/courses/social-media-marketing.png",
 };
 
 export const courseCategories = (
@@ -339,6 +356,7 @@ function buildCourse(seed: CourseSeed): Course {
       accent: city,
       tagline: seed.tagline,
       chips: [seed.duration, "Classroom & online", seed.level.split(" to ")[0]],
+      image: COURSE_IMAGES[seed.slug],
     },
 
     spec: [

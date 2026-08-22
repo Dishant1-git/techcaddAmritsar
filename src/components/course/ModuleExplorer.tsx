@@ -62,7 +62,7 @@ export default function ModuleExplorer({ course }: { course: Course }) {
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <FadeUp standalone>
-              <span className="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.18em] text-brand-600 uppercase">
+              <span className="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.18em] text-gold-500 uppercase">
                 <span className="h-px w-6 bg-brand-600/40" aria-hidden="true" />
                 Module by module
               </span>
@@ -71,7 +71,7 @@ export default function ModuleExplorer({ course }: { course: Course }) {
               as="h2"
               text="Open any module and see"
               accent="exactly what happens inside it"
-              accentClassName="text-brand-600"
+              accentClassName="text-gold-500"
               className="mt-4 max-w-2xl text-3xl leading-[1.14] font-semibold text-ink sm:text-4xl"
             />
             <span id="curriculum-heading" className="sr-only">
@@ -185,7 +185,7 @@ export default function ModuleExplorer({ course }: { course: Course }) {
                   className="rounded-3xl border border-line bg-white p-7 shadow-[0_30px_70px_-45px_rgb(15_23_42/0.4)] lg:p-9"
                 >
                   <div className="flex items-center justify-between gap-4">
-                    <span className="font-display text-[0.65rem] font-semibold tracking-[0.24em] text-brand-600 uppercase">
+                    <span className="text-[0.65rem] font-semibold tracking-[0.24em] text-gold-500 uppercase">
                       Module {current.code} of{" "}
                       {String(modules.length).padStart(2, "0")}
                     </span>

@@ -15,7 +15,7 @@ export default function CourseNotFound() {
       </div>
 
       <div className="container-page max-w-3xl">
-        <span className="text-[0.65rem] font-semibold tracking-[0.24em] text-brand-400 uppercase">
+        <span className="text-[0.65rem] font-semibold tracking-[0.24em] text-gold-300 uppercase">
           404 — course not found
         </span>
         <h1 className="font-display mt-4 text-4xl leading-tight font-semibold tracking-tight sm:text-5xl">

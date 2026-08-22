@@ -133,7 +133,7 @@ export function WordsUp({
   text,
   accent,
   className,
-  accentClassName = "text-brand-400",
+  accentClassName = "text-gold-300",
   as = "h2",
   delay = 0,
 }: {

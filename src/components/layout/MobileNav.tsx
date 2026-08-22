@@ -89,7 +89,7 @@ export default function MobileNav({
         )}
       >
         <div className="flex h-20 items-center justify-between border-b border-white/10 px-6">
-          <span className="font-display text-sm font-semibold uppercase tracking-[0.24em] text-white/60">
+          <span className="text-sm font-semibold uppercase tracking-[0.24em] text-white/60">
             Menu
           </span>
           <button

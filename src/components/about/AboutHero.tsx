@@ -125,7 +125,7 @@ export default function AboutHero() {
 
                 <div className="rounded-3xl border border-white/12 bg-ink/60 p-6 shadow-[0_40px_90px_-40px_rgb(0_0_0/0.9)] backdrop-blur-xl sm:p-7">
                   <div className="flex items-center justify-between gap-4">
-                    <span className="font-display text-[0.65rem] font-semibold tracking-[0.24em] text-brand-400 uppercase">
+                    <span className="font-display text-[0.65rem] font-semibold tracking-[0.24em] text-gold-300 uppercase">
                       Inside the institute
                     </span>
                     <span className="inline-flex items-center gap-1.5 text-[0.65rem] tracking-[0.14em] text-white/40 uppercase">
@@ -156,7 +156,7 @@ export default function AboutHero() {
                   </div>
 
                   <div className="mt-6 rounded-2xl border border-brand-500/25 bg-gradient-to-br from-brand-600/20 to-accent/25 p-4">
-                    <span className="text-[0.6rem] font-semibold tracking-[0.2em] text-brand-200 uppercase">
+                    <span className="text-[0.6rem] font-semibold tracking-[0.2em] text-gold-300 uppercase">
                       What that adds up to
                     </span>
                     <p className="mt-1.5 text-sm leading-relaxed text-white/70">

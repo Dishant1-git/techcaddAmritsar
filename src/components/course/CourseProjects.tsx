@@ -22,7 +22,7 @@ export default function CourseProjects({ course }: { course: Course }) {
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-2xl">
             <FadeUp standalone>
-              <span className="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.18em] text-brand-600 uppercase">
+              <span className="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.18em] text-gold-500 uppercase">
                 <span className="h-px w-6 bg-brand-600/40" aria-hidden="true" />
                 What you build
               </span>
@@ -31,7 +31,7 @@ export default function CourseProjects({ course }: { course: Course }) {
               as="h2"
               text="Projects that answer"
               accent="the interview question for you"
-              accentClassName="text-brand-600"
+              accentClassName="text-gold-500"
               className="mt-4 text-3xl leading-[1.14] font-semibold text-ink sm:text-4xl"
             />
             <span id="projects-heading" className="sr-only">

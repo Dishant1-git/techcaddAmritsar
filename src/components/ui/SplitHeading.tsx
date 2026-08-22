@@ -19,7 +19,7 @@ export default function SplitHeading({
   accent = [],
   as: Tag = "h2",
   className,
-  accentClassName = "text-brand-600",
+  accentClassName = "text-gold-500",
   id,
 }: SplitHeadingProps) {
   const words = text.split(" ");

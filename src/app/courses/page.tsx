@@ -53,7 +53,7 @@ export default function CoursesIndexPage() {
           </p>
 
           <div className="mt-10">
-            <p className="text-[0.65rem] font-semibold tracking-[0.24em] text-brand-400 uppercase">
+            <p className="text-[0.65rem] font-semibold tracking-[0.24em] text-gold-300 uppercase">
               Most enrolled this intake
             </p>
             <ul className="mt-4 flex flex-wrap gap-2.5">

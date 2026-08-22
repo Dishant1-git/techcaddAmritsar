@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { courseSlugs, getCourse, relatedCourses } from "@/lib/courses";
+import { isAiCourse } from "@/lib/ai-course";
 import { site } from "@/lib/content";
+import AiCoursePage from "@/components/course/ai/AiCoursePage";
 import CourseHero from "@/components/course/CourseHero";
 import CourseOverview from "@/components/course/CourseOverview";
 import ModuleExplorer from "@/components/course/ModuleExplorer";
@@ -48,6 +50,12 @@ export default async function CoursePage({ params }: CoursePageProps) {
   if (!course) notFound();
 
   const related = relatedCourses(course.slug);
+
+  /* Courses that hang off the AI mega menu get their own, longer page shape.
+     Everything else keeps the standard catalogue layout below. */
+  if (isAiCourse(course.slug)) {
+    return <AiCoursePage course={course} related={related} />;
+  }
 
   return (
     <>

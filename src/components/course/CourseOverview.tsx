@@ -22,7 +22,7 @@ export default function CourseOverview({ course }: { course: Course }) {
           <div className="lg:col-span-5">
             <div className="lg:sticky lg:top-28">
               <FadeUp standalone>
-                <span className="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.18em] text-brand-600 uppercase">
+                <span className="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.18em] text-gold-500 uppercase">
                   <span className="h-px w-6 bg-brand-600/40" aria-hidden="true" />
                   Programme facts
                 </span>
@@ -70,7 +70,7 @@ export default function CourseOverview({ course }: { course: Course }) {
               as="h2"
               text={course.overview.heading}
               className="max-w-xl text-3xl leading-[1.14] font-semibold text-ink sm:text-4xl"
-              accentClassName="text-brand-600"
+              accentClassName="text-gold-500"
             />
             <span id="overview-heading" className="sr-only">
               {course.overview.heading}

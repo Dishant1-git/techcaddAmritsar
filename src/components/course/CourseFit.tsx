@@ -66,7 +66,7 @@ export default function CourseFit({ course }: { course: Course }) {
         {/* ------------------------------------------------------ audience */}
         <div className="max-w-2xl">
           <FadeUp standalone>
-            <span className="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.18em] text-brand-400 uppercase">
+            <span className="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.18em] text-gold-300 uppercase">
               <span className="h-px w-6 bg-brand-400/60" aria-hidden="true" />
               Eligibility
             </span>
@@ -119,7 +119,7 @@ export default function CourseFit({ course }: { course: Course }) {
           <div className="lg:col-span-5">
             <div className="lg:sticky lg:top-28">
               <FadeUp standalone>
-                <span className="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.18em] text-brand-400 uppercase">
+                <span className="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.18em] text-gold-300 uppercase">
                   <span className="h-px w-6 bg-brand-400/60" aria-hidden="true" />
                   Where it leads
                 </span>
