@@ -70,7 +70,7 @@ export default function CourseOverview({ course }: { course: Course }) {
               as="h2"
               text={course.overview.heading}
               className="max-w-xl text-3xl leading-[1.14] font-semibold text-ink sm:text-4xl"
-              accentClassName="text-gold-600"
+              accentClassName="text-brand-600"
             />
             <span id="overview-heading" className="sr-only">
               {course.overview.heading}

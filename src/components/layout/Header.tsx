@@ -3,12 +3,19 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ChevronDown, Menu, Sparkles } from "lucide-react";
-import { megaMenus, navItems, type ColumnMegaKey, type MegaKey } from "@/lib/content";
+import {
+  aboutMenu,
+  megaMenus,
+  navItems,
+  resourcesMenu,
+  type ColumnMegaKey,
+  type MegaKey,
+} from "@/lib/content";
 import { cn } from "@/lib/utils";
 import Button from "@/components/ui/Button";
 import AiMega from "./AiMega";
 import MegaMenu from "./MegaMenu";
-import ResourcesMega from "./ResourcesMega";
+import RailMega from "./RailMega";
 import Logo from "./Logo";
 import MobileNav from "./MobileNav";
 
@@ -172,7 +179,15 @@ export default function Header() {
             onNavigate={() => setOpenMega(null)}
           />
 
-          <ResourcesMega
+          <RailMega
+            menu={aboutMenu}
+            id={megaId("about")}
+            open={openMega === "about"}
+            onNavigate={() => setOpenMega(null)}
+          />
+
+          <RailMega
+            menu={resourcesMenu}
             id={megaId("resources")}
             open={openMega === "resources"}
             onNavigate={() => setOpenMega(null)}

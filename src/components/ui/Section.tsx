@@ -33,14 +33,14 @@ export function Eyebrow({
     <span
       className={cn(
         "inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em]",
-        dark ? "text-gold-400" : "text-gold-600",
+        dark ? "text-brand-400" : "text-brand-600",
         className,
       )}
     >
       <span
         className={cn(
           "h-px w-6",
-          dark ? "bg-gold-400/60" : "bg-gold-600/40",
+          dark ? "bg-brand-400/60" : "bg-brand-600/40",
         )}
         aria-hidden="true"
       />
@@ -108,7 +108,7 @@ export default function Section({
                     "text-3xl leading-[1.12] sm:text-4xl lg:text-5xl",
                     dark ? "text-white" : "text-ink",
                   )}
-                  accentClassName={dark ? "text-gold-300" : "text-gold-600"}
+                  accentClassName={dark ? "text-brand-400" : "text-brand-600"}
                 />
               )}
               {body && (

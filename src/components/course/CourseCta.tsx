@@ -166,7 +166,7 @@ export default function CourseCta({ course }: { course: Course }) {
               as="h2"
               text={`Start the ${course.title} programme`}
               accent="this intake."
-              accentClassName="text-gold-300"
+              accentClassName="text-brand-300"
               className="mt-4 max-w-2xl text-3xl leading-[1.12] font-semibold sm:text-4xl lg:text-5xl"
             />
             <span id="cta-heading" className="sr-only">

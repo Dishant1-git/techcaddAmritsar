@@ -45,7 +45,16 @@ export type NavItem = {
 
 export const navItems: NavItem[] = [
   { label: "Home", href: "/" },
-  { label: "About Us", href: "/about" },
+  {
+    label: "About Us",
+    href: "/about",
+    mega: "about",
+    children: [
+      { label: "About Techcadd", href: "/about" },
+      { label: "Mission and Vision", href: "/about/mission-vision" },
+      { label: "Our Founder", href: "/about#founder" },
+    ],
+  },
   {
     label: "AI",
     href: "/courses/artificial-intelligence",
@@ -107,8 +116,8 @@ export const navItems: NavItem[] = [
     children: [
       { label: "Blogs", href: "/blogs" },
       { label: "Gallery", href: "/gallery" },
-      { label: "FAQ", href: "/#faq" },
-      { label: "Reviews", href: "/#testimonials" },
+      { label: "FAQ", href: "/faq" },
+      { label: "Reviews", href: "/reviews" },
       { label: "College Partnerships", href: "/college-partnerships" },
     ],
   },
@@ -120,7 +129,7 @@ export const navItems: NavItem[] = [
 /** Menus rendered by the shared numbered-column panel. */
 export type ColumnMegaKey = "courses" | "training" | "after12";
 /** Every mega menu, including the bespoke AI and Resources panels. */
-export type MegaKey = ColumnMegaKey | "ai" | "resources";
+export type MegaKey = ColumnMegaKey | "ai" | "about" | "resources";
 
 export type MegaColumn = {
   /** Rendered as the 01, 02, … index above the column title. */
@@ -399,21 +408,39 @@ export const aiMenu = {
 };
 
 /**
- * Resources menu: a category rail beside three featured cards.
+ * Rail menus: a category rail beside three featured cards. Both the Resources
+ * and About Us panels share this shape and are rendered by `RailMega`.
  *
  * `image` is an optional path under /public — cards fall back to a tinted
  * gradient tile until real photography lands.
  */
-export const resourcesMenu = {
+export type RailMenu = {
+  categoriesLabel: string;
+  featuredLabel: string;
+  categories: NavChild[];
+  featured: Array<{
+    title: string;
+    href: string;
+    /** Small pill chip, e.g. "Story". */
+    chip: string;
+    /** Muted caption beside the chip, e.g. "Since 2016". */
+    meta: string;
+    /** Tailwind gradient stops for the placeholder tile. */
+    tone: string;
+    image?: string;
+  }>;
+};
+
+export const resourcesMenu: RailMenu = {
   categoriesLabel: "Categories",
   featuredLabel: "Featured",
   categories: [
     { label: "Blogs", href: "/blogs" },
     { label: "Gallery", href: "/gallery" },
-    { label: "FAQ", href: "/#faq" },
-    { label: "Reviews", href: "/#testimonials" },
+    { label: "FAQ", href: "/faq" },
+    { label: "Reviews", href: "/reviews" },
     { label: "College Partnerships", href: "/college-partnerships" },
-  ] as NavChild[],
+  ],
   featured: [
     {
       title: "Blogs",
@@ -421,15 +448,13 @@ export const resourcesMenu = {
       chip: "Articles",
       meta: "Latest",
       tone: "from-brand-700 via-brand-500 to-brand-400",
-      image: undefined as string | undefined,
     },
     {
       title: "FAQ",
-      href: "/#faq",
+      href: "/faq",
       chip: "Answers",
       meta: "Admissions",
       tone: "from-accent via-brand-700 to-brand-500",
-      image: undefined as string | undefined,
     },
     {
       title: "Gallery",
@@ -437,7 +462,40 @@ export const resourcesMenu = {
       chip: "Campus",
       meta: "Photos",
       tone: "from-brand-900 via-brand-600 to-brand-400",
-      image: undefined as string | undefined,
+    },
+  ],
+};
+
+/** About Us menu: the institute story, its direction and the founder. */
+export const aboutMenu: RailMenu = {
+  categoriesLabel: "Categories",
+  featuredLabel: "Featured",
+  categories: [
+    { label: "About Techcadd", href: "/about" },
+    { label: "Mission and Vision", href: "/about/mission-vision" },
+    { label: "Our Founder", href: "/about#founder" },
+  ],
+  featured: [
+    {
+      title: "About Techcadd",
+      href: "/about",
+      chip: "Story",
+      meta: "Since 2016",
+      tone: "from-brand-500 via-brand-600 to-brand-700",
+    },
+    {
+      title: "Mission and Vision",
+      href: "/about/mission-vision",
+      chip: "Purpose",
+      meta: "Our direction",
+      tone: "from-violet-400 via-violet-500 to-brand-600",
+    },
+    {
+      title: "Our Founder",
+      href: "/about#founder",
+      chip: "Profile",
+      meta: "Gourav Gupta",
+      tone: "from-cyan-400 via-sky-500 to-brand-600",
     },
   ],
 };
@@ -463,6 +521,36 @@ export const hero = {
     { title: "Done For You", detail: "Live projects, end to end" },
     { title: "The Best Placements", detail: "500+ active hiring partners" },
   ],
+  panel: {
+    title: "Learn AI Skills.",
+    body: LOREM_SHORT,
+    groups: [
+      {
+        label: "AI Fundamentals",
+        items: [
+          { label: "Generative AI", badge: null },
+          { label: "Artificial Intelligence (AI)", badge: null },
+          { label: "Prompt Engineering", badge: null },
+          { label: "ChatGPT & AI Tools", badge: "Hot" },
+        ],
+      },
+      {
+        label: "AI Development",
+        items: [
+          { label: "Agentic AI", badge: "Hot" },
+          { label: "AI-Powered Marketing", badge: "Hot" },
+          { label: "RAG Development", badge: null },
+          { label: "AI-Powered Courses", badge: null },
+        ],
+      },
+    ],
+    featured: {
+      eyebrow: "Featured AI Course",
+      title: `Artificial Intelligence Training in ${site.city}`,
+      body: LOREM_SHORT,
+      cta: { label: "Explore AI", href: "/courses/artificial-intelligence" },
+    },
+  },
 };
 
 /* ------------------------------------------------------------------- about */
@@ -536,73 +624,66 @@ export const categories = {
   accent: ["careers", "technology"],
   /** First entry is the reset filter; the rest match an item's `group`. */
   filters: ["All categories", "IT Courses", "AI & Data", "Design", "Marketing"],
-  /**
-   * Tiles on the homepage. `image` is a transparent 3D render under
-   * /public/images/categories; `tone` is the card's gradient wash over the
-   * dark background.
-   */
   items: [
-    {
-      title: "IT Courses",
-      tagline: "Foundations & Fluency",
-      group: "IT Courses",
-      body: LOREM_SHORT,
-      href: "/courses/it-courses",
-      count: "18 programmes",
-      image: "/images/categories/python.png",
-      tone: "from-brand-600/30",
-    },
-    {
-      title: "AI & Data",
-      tagline: "Models & Insight",
-      group: "AI & Data",
-      body: LOREM_SHORT,
-      href: "/courses#ai-data",
-      count: "12 programmes",
-      image: "/images/categories/ai.png",
-      tone: "from-violet-500/30",
-    },
-    {
-      title: "Design & CAD",
-      tagline: "Precision & Craft",
-      group: "Design",
-      body: LOREM_SHORT,
-      href: "/courses#design",
-      count: "9 programmes",
-      image: "/images/categories/cad.png",
-      tone: "from-sky-500/30",
-    },
-    {
-      title: "Digital Marketing",
-      tagline: "Growth & Reach",
-      group: "Marketing",
-      body: LOREM_SHORT,
-      href: "/courses#digital-marketing",
-      count: "6 programmes",
-      image: "/images/categories/digital-marketing.png",
-      tone: "from-fuchsia-500/25",
-    },
-    {
-      title: "Cyber & Cloud",
-      tagline: "Secure & Scalable",
-      group: "IT Courses",
-      body: LOREM_SHORT,
-      href: "/courses#cyber-cloud",
-      count: "8 programmes",
-      image: "/images/categories/cloud.png",
-      tone: "from-emerald-500/25",
-    },
-    {
-      title: "Programming",
-      tagline: "Logic & Build",
-      group: "IT Courses",
-      body: LOREM_SHORT,
-      href: "/courses#programming",
-      count: "14 programmes",
-      image: "/images/categories/programming.png",
-      tone: "from-brand-400/30",
-    },
+    { title: "IT Courses", group: "IT Courses", body: LOREM_SHORT, href: "/courses/it-courses", count: "18 programmes" },
+    { title: "AI & Data", group: "AI & Data", body: LOREM_SHORT, href: "/courses#ai-data", count: "12 programmes" },
+    { title: "Design & CAD", group: "Design", body: LOREM_SHORT, href: "/courses#design", count: "9 programmes" },
+    { title: "Digital Marketing", group: "Marketing", body: LOREM_SHORT, href: "/courses#digital-marketing", count: "6 programmes" },
+    { title: "Cyber & Cloud", group: "IT Courses", body: LOREM_SHORT, href: "/courses#cyber-cloud", count: "8 programmes" },
+    { title: "Programming", group: "IT Courses", body: LOREM_SHORT, href: "/courses#programming", count: "14 programmes" },
   ],
+};
+
+/* --------------------------------------------------------- featured course */
+
+export const featured = {
+  eyebrow: "Featured Courses",
+  heading: "Courses that get you hired",
+  accent: ["hired"],
+  body: LOREM_SHORT,
+  cta: { label: "Browse all courses", href: "/courses" },
+  cybersecurity: {
+    title: "Cybersecurity & Ethical Hacking",
+    body: LOREM_SHORT,
+    href: "/courses/cybersecurity",
+    bullets: ["Live pentest labs", "CEH-aligned syllabus", "Lorem ipsum dolor sit"],
+  },
+  dataScience: {
+    title: "Data Science & Analytics",
+    body: LOREM_SHORT,
+    href: "/courses/data-science",
+    liveLabel: "Live",
+    delta: "+38%",
+    /** Bar heights as percentages, one per year label. */
+    bars: [38, 52, 46, 68, 82, 100],
+    years: ["2020", "2021", "2022", "2023", "2024", "2025"],
+  },
+  aiml: {
+    title: "AI & Machine Learning",
+    badge: "AI",
+    body: LOREM_MED,
+    href: "/courses/machine-learning",
+  },
+  fullStack: {
+    title: "Full-Stack Development",
+    body: LOREM_MED,
+    href: "/courses/mern-stack",
+    stat: { value: "92%", label: "placement rate, 2025 batches" },
+    rows: [
+      { name: "React & Next.js", role: "Frontend", delta: "+42%" },
+      { name: "Node & Express", role: "Backend", delta: "+31%" },
+      { name: "MongoDB & SQL", role: "Database", delta: "+27%" },
+    ],
+  },
+  digitalMarketing: {
+    title: "Digital Marketing",
+    body: LOREM_SHORT,
+    href: "/courses/digital-marketing",
+    alerts: [
+      { label: "New batch alert", detail: "Digital Marketing starts Monday" },
+      { label: "Placement drive", detail: "14 companies hiring this month" },
+    ],
+  },
 };
 
 /* ------------------------------------------------------------------ why us */
@@ -781,24 +862,6 @@ export const finalCta = {
 /* ------------------------------------------------------------------ footer */
 
 export const footer = {
-  /** Drawn as the giant shimmering watermark across the footer's foot. */
-  watermark: "techcadd",
-  blurb: `Your Skill & Technology Partner. Training students since 2007 with live projects, industry trainers and placement support.`,
-  /* TODO: swap in the real Amritsar branch address before launch. */
-  address: `Lawrence Road, ${site.city}, Punjab 143001`,
-  hours: "Mon – Sat, 9 AM – 7 PM",
-  /* TODO: confirm both strings with marketing — the rating in particular must
-     match the live Google listing before this ships. */
-  status: [
-    { label: "Admissions Open", dot: true },
-    { label: "Rated on Google", dot: false },
-  ],
-  legal: [
-    { label: "Privacy Policy", href: "/privacy-policy" },
-    { label: "Terms & Conditions", href: "/terms" },
-    { label: "Cookie Policy", href: "/cookie-policy" },
-    { label: "Refund Policy", href: "/refund-policy" },
-  ],
   columns: [
     {
       title: "Courses",
@@ -807,16 +870,6 @@ export const footer = {
         { label: "AI & Data", href: "/courses#ai-data" },
         { label: "Digital Marketing", href: "/courses#digital-marketing" },
         { label: "Cyber & Cloud", href: "/courses#cyber-cloud" },
-      ],
-    },
-    {
-      title: "Training",
-      links: [
-        { label: "Internship & Training", href: "/internship-training" },
-        { label: "After 12th Courses", href: "/after-12th-courses" },
-        { label: "Industrial Training", href: "/internship-training/industrial-training" },
-        { label: "6 Months Training", href: "/internship-training/6-months" },
-        { label: "45 Days Training", href: "/internship-training/45-days" },
       ],
     },
     {
@@ -832,8 +885,8 @@ export const footer = {
       title: "Support",
       links: [
         { label: "Placement Support", href: "/#why-us" },
-        { label: "Student Reviews", href: "/#testimonials" },
-        { label: "FAQs", href: "/#faq" },
+        { label: "Student Reviews", href: "/reviews" },
+        { label: "FAQs", href: "/faq" },
         { label: "Enquire Now", href: "/contact" },
       ],
     },

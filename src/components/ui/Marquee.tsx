@@ -8,19 +8,23 @@ type MarqueeProps<T> = {
   /** Seconds for one full pass. */
   duration?: number;
   reverse?: boolean;
+  /** Hold the row still while the pointer is over it. */
+  pauseOnHover?: boolean;
   className?: string;
 };
 
 /**
  * Seamless horizontal scroller. The track holds the items twice — the clone is
  * `aria-hidden` — and translates by exactly -50%, so the loop has no seam.
- * Pauses on hover; disabled entirely under prefers-reduced-motion (globals.css).
+ * Pauses on hover unless `pauseOnHover` is off; disabled entirely under
+ * prefers-reduced-motion (globals.css).
  */
 export default function Marquee<T>({
   items,
   renderItem,
   duration = 60,
   reverse = false,
+  pauseOnHover = true,
   className,
 }: MarqueeProps<T>) {
   return (
@@ -36,7 +40,8 @@ export default function Marquee<T>({
     >
       <div
         className={cn(
-          "flex w-max gap-5 group-hover:[animation-play-state:paused]",
+          "flex w-max gap-5",
+          pauseOnHover && "group-hover:[animation-play-state:paused]",
           reverse ? "animate-marquee-reverse" : "animate-marquee",
         )}
         style={

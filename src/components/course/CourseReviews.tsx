@@ -109,7 +109,7 @@ export default function CourseReviews({ course }: { course: Course }) {
               as="h2"
               text="What the last few batches"
               accent="actually said"
-              accentClassName="text-gold-600"
+              accentClassName="text-brand-600"
               className="mt-4 text-3xl leading-[1.14] font-semibold text-ink sm:text-4xl"
             />
             <span id="reviews-heading" className="sr-only">
