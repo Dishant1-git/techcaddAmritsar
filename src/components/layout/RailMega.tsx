@@ -2,26 +2,29 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import type { RailMenu } from "@/lib/content";
+import { ArrowRight } from "lucide-react";
+import { railMenus, type RailMegaKey } from "@/lib/content";
 import { cn } from "@/lib/utils";
 
 /**
  * Rail mega panel: a category rail on the left, three featured cards on the
- * right. Drives both the Resources and About Us menus — pass the matching
- * `RailMenu`. Shares the open/close mechanics of the other panels: it stays
- * mounted while closed so the transition runs both ways.
+ * right. Drives the Resources and About menus. Shares the open/close mechanics
+ * of the other panels — it stays mounted while closed so the transition runs
+ * both ways.
  */
 export default function RailMega({
-  menu,
+  menuKey,
   open,
   onNavigate,
   id,
 }: {
-  menu: RailMenu;
+  menuKey: RailMegaKey;
   open: boolean;
   onNavigate: () => void;
   id: string;
 }) {
+  const menu = railMenus[menuKey];
+
   return (
     <div
       id={id}
@@ -53,6 +56,20 @@ export default function RailMega({
               </li>
             ))}
           </ul>
+
+          {menu.cta && (
+            <Link
+              href={menu.cta.href}
+              onClick={onNavigate}
+              className="group mt-6 inline-flex items-center gap-2 px-3 text-sm font-medium text-brand-600 transition-colors hover:text-brand-700"
+            >
+              {menu.cta.label}
+              <ArrowRight
+                className="size-4 transition-transform duration-300 group-hover:translate-x-1"
+                aria-hidden="true"
+              />
+            </Link>
+          )}
         </div>
 
         {/* ---------------------------------------------- featured cards */}

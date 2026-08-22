@@ -129,7 +129,7 @@ export const navItems: NavItem[] = [
 /** Menus rendered by the shared numbered-column panel. */
 export type ColumnMegaKey = "courses" | "training" | "after12";
 /** Every mega menu, including the bespoke AI and Resources panels. */
-export type MegaKey = ColumnMegaKey | "ai" | "about" | "resources";
+export type MegaKey = ColumnMegaKey | "ai" | RailMegaKey;
 
 export type MegaColumn = {
   /** Rendered as the 01, 02, … index above the column title. */
@@ -412,18 +412,22 @@ export const aiMenu = {
  * and About Us panels share this shape and are rendered by `RailMega`.
  *
  * `image` is an optional path under /public — cards fall back to a tinted
- * gradient tile until real photography lands.
+ * gradient tile until real photography lands. `cta` is optional; when set it
+ * renders as a link under the rail.
  */
+export type RailMegaKey = "resources" | "about";
+
 export type RailMenu = {
   categoriesLabel: string;
   featuredLabel: string;
   categories: NavChild[];
+  cta?: { label: string; href: string };
   featured: Array<{
     title: string;
     href: string;
     /** Small pill chip, e.g. "Story". */
     chip: string;
-    /** Muted caption beside the chip, e.g. "Since 2016". */
+    /** Muted caption beside the chip, e.g. "Since 2007". */
     meta: string;
     /** Tailwind gradient stops for the placeholder tile. */
     tone: string;
@@ -431,7 +435,7 @@ export type RailMenu = {
   }>;
 };
 
-export const resourcesMenu: RailMenu = {
+const resourcesMenu: RailMenu = {
   categoriesLabel: "Categories",
   featuredLabel: "Featured",
   categories: [
@@ -448,6 +452,7 @@ export const resourcesMenu: RailMenu = {
       chip: "Articles",
       meta: "Latest",
       tone: "from-brand-700 via-brand-500 to-brand-400",
+      image: "/images/seminars/seminar.png",
     },
     {
       title: "FAQ",
@@ -455,6 +460,7 @@ export const resourcesMenu: RailMenu = {
       chip: "Answers",
       meta: "Admissions",
       tone: "from-accent via-brand-700 to-brand-500",
+      image: "/images/seminars/session.png",
     },
     {
       title: "Gallery",
@@ -462,42 +468,52 @@ export const resourcesMenu: RailMenu = {
       chip: "Campus",
       meta: "Photos",
       tone: "from-brand-900 via-brand-600 to-brand-400",
+      image: "/images/seminars/group-photo.png",
     },
   ],
 };
 
-/** About Us menu: the institute story, its direction and the founder. */
-export const aboutMenu: RailMenu = {
-  categoriesLabel: "Categories",
+const aboutMenu: RailMenu = {
+  categoriesLabel: "About",
   featuredLabel: "Featured",
   categories: [
     { label: "About Techcadd", href: "/about" },
     { label: "Mission and Vision", href: "/about/mission-vision" },
     { label: "Our Founder", href: "/about#founder" },
   ],
+  cta: { label: "Talk to a counsellor", href: "/contact" },
   featured: [
     {
       title: "About Techcadd",
       href: "/about",
       chip: "Story",
-      meta: "Since 2016",
-      tone: "from-brand-500 via-brand-600 to-brand-700",
+      /* Matches the "training students since 2007" line in the footer. */
+      meta: "Since 2007",
+      tone: "from-brand-700 via-brand-500 to-brand-400",
+      image: "/images/seminars/chitkara.png",
     },
     {
       title: "Mission and Vision",
       href: "/about/mission-vision",
       chip: "Purpose",
-      meta: "Our direction",
-      tone: "from-violet-400 via-violet-500 to-brand-600",
+      meta: "Our Direction",
+      tone: "from-accent via-brand-700 to-brand-500",
+      image: "/images/seminars/seminar.png",
     },
     {
       title: "Our Founder",
       href: "/about#founder",
       chip: "Profile",
       meta: "Gourav Gupta",
-      tone: "from-cyan-400 via-sky-500 to-brand-600",
+      tone: "from-brand-900 via-brand-600 to-brand-400",
+      image: "/images/founder/founder.jpeg",
     },
   ],
+};
+
+export const railMenus: Record<RailMegaKey, RailMenu> = {
+  resources: resourcesMenu,
+  about: aboutMenu,
 };
 
 /* -------------------------------------------------------------------- hero */
