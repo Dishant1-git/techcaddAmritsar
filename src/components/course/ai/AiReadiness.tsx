@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { motion, useReducedMotion } from "framer-motion";
 import {
   ArrowRight,
   Braces,
@@ -12,125 +11,51 @@ import {
   Workflow,
 } from "lucide-react";
 import type { AiCourseView } from "@/lib/ai-course";
-import { EASE, FadeUp, Stagger } from "@/components/ui/Motion";
+import { FadeUp, Stagger } from "@/components/ui/Motion";
 import AiBackdrop from "./AiBackdrop";
+import AiIconTile from "./AiIconTile";
 import AiHead from "./AiHead";
+import AiLogoMark from "./AiLogoMark";
 
-const NODES = [
-  { Icon: Database, label: "Data" },
-  { Icon: Braces, label: "Code" },
-  { Icon: LineChart, label: "Models" },
-  { Icon: Network, label: "Serving" },
-  { Icon: Workflow, label: "Pipelines" },
-  { Icon: Cpu, label: "Compute" },
+/** The six disciplines the programme covers end to end. */
+const DISCIPLINES = [
+  { Icon: Database, label: "Data", meta: "Clean, label, split" },
+  { Icon: Braces, label: "Code", meta: "Python, notebooks, Git" },
+  { Icon: LineChart, label: "Models", meta: "Train and evaluate" },
+  { Icon: Network, label: "Serving", meta: "APIs and inference" },
+  { Icon: Workflow, label: "Pipelines", meta: "Reproducible runs" },
+  { Icon: Cpu, label: "Compute", meta: "GPUs and cost" },
 ];
 
 /**
- * A constellation of the six disciplines the programme covers, wired back to a
- * glowing core.
+ * The discipline board: the logo mark above a grid of animated capability
+ * tiles.
  *
- * Built for the dark panel specifically: the spokes are a gradient stroke that
- * fades toward the rim, and each plate carries its own glow rather than a
- * border — on ink, a hairline border disappears while a glow reads as depth.
- * Node positions are computed from the list length so the spokes and plates
- * can never drift out of agreement.
+ * Replaces the radial diagram this section used to carry — a grid states the
+ * same six disciplines without implying a hub-and-spoke relationship that the
+ * curriculum does not actually have.
  */
-function AiConstellation() {
-  const reduce = useReducedMotion();
-  const radius = 38;
-
-  const nodes = NODES.map((node, i) => {
-    const angle = (i / NODES.length) * Math.PI * 2 - Math.PI / 2;
-    return {
-      ...node,
-      x: 50 + Math.cos(angle) * radius,
-      y: 50 + Math.sin(angle) * radius,
-    };
-  });
-
+function AiDisciplineBoard() {
   return (
-    <div
-      aria-hidden="true"
-      className="relative mx-auto aspect-square w-full max-w-md"
-    >
-      {/* Everything measures against this one inset box, so a plate always
-          lands on the end of its own spoke. */}
-      <div className="absolute inset-12">
-        <svg viewBox="0 0 100 100" className="absolute inset-0 size-full">
-          <defs>
-            <radialGradient id="ai-spoke" cx="50%" cy="50%" r="50%">
-              <stop
-                offset="0%"
-                stopColor="rgb(147 197 253)"
-                stopOpacity="0.9"
-              />
-              <stop
-                offset="100%"
-                stopColor="rgb(96 165 250)"
-                stopOpacity="0.1"
-              />
-            </radialGradient>
-          </defs>
-
-          <circle
-            cx="50"
-            cy="50"
-            r={radius}
-            fill="none"
-            stroke="rgb(255 255 255 / 0.14)"
-            strokeWidth="0.3"
-            strokeDasharray="1.5 2.5"
-          />
-          {nodes.map((node) => (
-            <line
-              key={node.label}
-              x1="50"
-              y1="50"
-              x2={node.x}
-              y2={node.y}
-              stroke="url(#ai-spoke)"
-              strokeWidth="0.55"
-            />
-          ))}
-        </svg>
-
-        {nodes.map((node, i) => {
-          const { Icon } = node;
-          return (
-            <motion.span
-              key={node.label}
-              style={{ left: `${node.x}%`, top: `${node.y}%` }}
-              initial={reduce ? false : { opacity: 0, scale: 0.7 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.55, ease: EASE, delay: 0.1 + i * 0.08 }}
-              className="absolute flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-1.5"
-            >
-              <span className="grid size-12 place-items-center rounded-2xl bg-white/[0.06] text-brand-300 shadow-[0_0_28px_-6px_rgb(96_165_250/0.75)] ring-1 ring-white/12 ring-inset backdrop-blur-md">
-                <Icon className="size-5" strokeWidth={1.8} />
-              </span>
-              <span className="text-[0.6rem] font-medium tracking-wide text-white/45">
-                {node.label}
-              </span>
-            </motion.span>
-          );
-        })}
-
-        {/* Core. */}
-        <motion.span
-          initial={reduce ? false : { opacity: 0, scale: 0.85 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7, ease: EASE }}
-          className="absolute top-1/2 left-1/2 grid size-28 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-ink/80 shadow-[0_0_70px_-8px_rgb(96_165_250/0.8)] ring-1 ring-brand-300/30 ring-inset backdrop-blur-xl"
-        >
-          <span className="font-display bg-gradient-to-br from-white via-brand-100 to-brand-400 bg-clip-text text-3xl font-bold tracking-tight text-transparent">
-            AI
-          </span>
-        </motion.span>
+    <div aria-hidden="true" className="relative mx-auto w-full max-w-md">
+      <div className="mb-3 aspect-[16/7]">
+        <AiLogoMark caption="end to end" />
       </div>
 
-      <span className="absolute inset-[28%] -z-10 rounded-full bg-brand-500/20 blur-[80px]" />
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+        {DISCIPLINES.map((item, i) => (
+          <AiIconTile
+            key={item.label}
+            Icon={item.Icon}
+            label={item.label}
+            meta={item.meta}
+            index={i}
+            dark
+          />
+        ))}
+      </div>
+
+      <div className="absolute inset-10 -z-10 rounded-full bg-brand-500/20 blur-[80px]" />
     </div>
   );
 }
@@ -149,7 +74,7 @@ export default function AiReadiness({ view }: { view: AiCourseView }) {
       <div className="container-page">
         <div className="grid items-center gap-14 lg:grid-cols-12 lg:gap-16">
           <FadeUp standalone className="lg:col-span-5">
-            <AiConstellation />
+            <AiDisciplineBoard />
           </FadeUp>
 
           <div className="lg:col-span-7">

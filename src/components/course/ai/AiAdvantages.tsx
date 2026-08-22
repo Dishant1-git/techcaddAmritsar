@@ -20,11 +20,11 @@ export default function AiAdvantages({ view }: { view: AiCourseView }) {
     <section
       id="ai-advantages"
       aria-labelledby="ai-advantages-heading"
-      className="relative overflow-hidden border-y border-line bg-white py-20 lg:py-28"
+      className="relative isolate overflow-hidden border-y border-line bg-white py-20 lg:py-28"
     >
       <div
         aria-hidden="true"
-        className="absolute -top-40 left-1/2 size-[36rem] -translate-x-1/2 rounded-full bg-brand-50 blur-[130px]"
+        className="absolute -z-10 -top-40 left-1/2 size-[36rem] -translate-x-1/2 rounded-full bg-brand-50 blur-[130px]"
       />
 
       {/* ------------------------------------------------------- statement */}

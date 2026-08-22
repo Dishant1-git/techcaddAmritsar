@@ -19,11 +19,11 @@ export default function AiAudience({ view }: { view: AiCourseView }) {
     <section
       id="ai-audience"
       aria-labelledby="ai-audience-heading"
-      className="relative overflow-hidden bg-brand-50/40 py-20 lg:py-28"
+      className="relative isolate overflow-hidden bg-brand-50/40 py-20 lg:py-28"
     >
       <div
         aria-hidden="true"
-        className="absolute -top-40 -left-40 size-[32rem] rounded-full bg-brand-100/50 blur-[130px]"
+        className="absolute -z-10 -top-40 -left-40 size-[32rem] rounded-full bg-brand-100/50 blur-[130px]"
       />
 
       <div className="container-page">

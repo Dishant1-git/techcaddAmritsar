@@ -20,11 +20,11 @@ export default function AiCareers({ view }: { view: AiCourseView }) {
     <section
       id="ai-careers"
       aria-labelledby="ai-careers-heading"
-      className="relative overflow-hidden bg-brand-50/40 py-20 lg:py-28"
+      className="relative isolate overflow-hidden bg-brand-50/40 py-20 lg:py-28"
     >
       <div
         aria-hidden="true"
-        className="absolute -top-40 -right-40 size-[34rem] rounded-full bg-brand-100/50 blur-[130px]"
+        className="absolute -z-10 -top-40 -right-40 size-[34rem] rounded-full bg-brand-100/50 blur-[130px]"
       />
 
       <div className="container-page">
@@ -43,7 +43,7 @@ export default function AiCareers({ view }: { view: AiCourseView }) {
           <FadeUp standalone className="lg:col-span-6">
             {/* The one dark card on a light panel — it is the headline number,
                 and the contrast is what makes it read as the headline. */}
-            <div className="relative overflow-hidden rounded-3xl bg-ink p-7 text-white shadow-[0_35px_80px_-45px_rgb(15_23_42/0.8)]">
+            <div className="relative isolate overflow-hidden rounded-3xl bg-ink p-7 text-white shadow-[0_35px_80px_-45px_rgb(15_23_42/0.8)]">
               <span
                 aria-hidden="true"
                 className="circuit-texture absolute inset-0 opacity-20"
