@@ -29,6 +29,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       // The inline script below adds `js` to this element's class list before
       // React hydrates, which would otherwise be flagged as a mismatch.
       suppressHydrationWarning
+      // globals.css sets `scroll-behavior: smooth` on this element. Next needs
+      // to be told so it can suppress the smooth scroll during route
+      // transitions — without this it warns, and a navigation animates the
+      // whole page instead of landing at the top instantly.
+      data-scroll-behavior="smooth"
       className={`${inter.variable} ${sora.variable} h-full antialiased`}
     >
       <head>
