@@ -30,7 +30,8 @@ export default function RailMega({
       id={id}
       aria-hidden={!open}
       className={cn(
-        "absolute inset-x-0 top-full hidden pt-3 transition-all duration-300 xl:block",
+        /* Matches the header pill's max-w-6xl so the panel lines up with it. */
+        "absolute inset-x-0 top-full mx-auto hidden max-w-6xl pt-3 transition-all duration-300 xl:block",
         open
           ? "visible translate-y-0 opacity-100"
           : "pointer-events-none invisible -translate-y-2 opacity-0",
@@ -38,18 +39,20 @@ export default function RailMega({
     >
       <div className="grid grid-cols-[minmax(0,0.26fr)_minmax(0,1fr)] overflow-hidden rounded-3xl border border-line bg-gradient-to-br from-white via-white to-brand-50 shadow-[0_40px_90px_-30px_rgb(15_23_42/0.45)]">
         {/* ------------------------------------------------- category rail */}
-        <div className="border-r border-line px-7 py-8">
+        <div className="border-r border-line px-6 py-6">
           <span className="text-[0.65rem] font-semibold tracking-[0.18em] text-muted uppercase">
             {menu.categoriesLabel}
           </span>
 
-          <ul className="mt-6 flex flex-col gap-1">
+          <ul className="mt-4 flex flex-col gap-0.5">
             {menu.categories.map((category) => (
               <li key={category.label}>
                 <Link
                   href={category.href}
                   onClick={onNavigate}
-                  className="font-display block rounded-xl px-3 py-2.5 text-lg font-medium text-ink transition-colors duration-200 hover:bg-brand-50 hover:text-brand-700"
+                  /* Same weight and size as the column links in MegaMenu, so
+                     every dropdown's navigation reads identically. */
+                  className="block rounded-lg px-2.5 py-1 text-[0.85rem] leading-snug text-ink-mute transition-colors duration-200 hover:bg-brand-50 hover:text-brand-700"
                 >
                   {category.label}
                 </Link>
@@ -61,7 +64,7 @@ export default function RailMega({
             <Link
               href={menu.cta.href}
               onClick={onNavigate}
-              className="group mt-6 inline-flex items-center gap-2 px-3 text-sm font-medium text-brand-600 transition-colors hover:text-brand-700"
+              className="group mt-5 inline-flex items-center gap-2 px-3 text-sm font-medium text-brand-600 transition-colors hover:text-brand-700"
             >
               {menu.cta.label}
               <ArrowRight
@@ -73,18 +76,18 @@ export default function RailMega({
         </div>
 
         {/* ---------------------------------------------- featured cards */}
-        <div className="px-8 py-8">
+        <div className="px-7 py-6">
           <span className="text-[0.65rem] font-semibold tracking-[0.18em] text-muted uppercase">
             {menu.featuredLabel}
           </span>
 
-          <div className="mt-6 grid grid-cols-3 gap-6">
+          <div className="mt-4 grid grid-cols-3 gap-5">
             {menu.featured.map((card) => (
               <Link
                 key={card.title}
                 href={card.href}
                 onClick={onNavigate}
-                className="group flex flex-col gap-3"
+                className="group flex flex-col gap-2.5"
               >
                 <div className="relative aspect-16/10 overflow-hidden rounded-2xl shadow-sm ring-1 ring-line transition-all duration-300 group-hover:-translate-y-0.5 group-hover:shadow-lg">
                   {card.image ? (
@@ -116,11 +119,11 @@ export default function RailMega({
                 </div>
 
                 <div>
-                  <h3 className="font-display text-lg font-semibold text-ink transition-colors duration-200 group-hover:text-brand-700">
+                  <h3 className="font-display text-base font-semibold text-ink transition-colors duration-200 group-hover:text-brand-700">
                     {card.title}
                   </h3>
 
-                  <div className="mt-2 flex items-center gap-2.5">
+                  <div className="mt-1.5 flex items-center gap-2.5">
                     <span className="rounded-md bg-brand-100 px-2 py-1 text-[0.6rem] font-bold tracking-[0.1em] text-brand-700 uppercase">
                       {card.chip}
                     </span>

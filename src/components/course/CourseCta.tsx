@@ -310,7 +310,7 @@ export default function CourseCta({ course }: { course: Course }) {
                     <button
                       type="button"
                       onClick={newQuestion}
-                      className="inline-flex shrink-0 items-center gap-1.5 self-start rounded-lg border border-white/15 bg-white/[0.06] px-3 py-1.5 font-mono text-xs text-white/70 transition-colors hover:border-white/30 hover:text-white sm:self-auto"
+                      className="inline-flex shrink-0 items-center gap-1.5 self-start rounded-lg border border-white/15 bg-white/[0.06] px-3 py-1.5 text-xs text-white/70 transition-colors hover:border-white/30 hover:text-white sm:self-auto"
                     >
                       <RefreshCw className="size-3" aria-hidden="true" />
                       New question

@@ -26,7 +26,8 @@ export default function AiMega({
       id={id}
       aria-hidden={!open}
       className={cn(
-        "absolute inset-x-0 top-full hidden pt-3 transition-all duration-300 xl:block",
+        /* Matches the header pill's max-w-6xl so the panel lines up with it. */
+        "absolute inset-x-0 top-full mx-auto hidden max-w-6xl pt-3 transition-all duration-300 xl:block",
         open
           ? "visible translate-y-0 opacity-100"
           : "pointer-events-none invisible -translate-y-2 opacity-0",
@@ -39,17 +40,17 @@ export default function AiMega({
           className="h-1 bg-gradient-to-r from-brand-600 via-brand-400 to-violet-500"
         />
 
-        <div className="grid grid-cols-4 gap-7 p-8">
+        <div className="grid grid-cols-4 gap-6 p-7">
           {/* ------------------------------------------- link groups (half) */}
           <div className="col-span-2">
-            <h2 className="font-display text-2xl font-semibold tracking-tight text-ink">
+            <h2 className="font-display text-xl font-semibold tracking-tight text-ink">
               {aiMenu.title}
             </h2>
-            <p className="mt-2 max-w-md text-sm leading-relaxed text-muted">
+            <p className="mt-1.5 max-w-md text-[0.8rem] leading-snug text-muted">
               {aiMenu.body}
             </p>
 
-            <div className="mt-7 grid grid-cols-2 gap-6">
+            <div className="mt-5 grid grid-cols-2 gap-5">
               {aiMenu.groups.map((group) => {
                 const Icon = GROUP_ICON[group.icon];
                 return (
@@ -63,13 +64,13 @@ export default function AiMega({
                       </h3>
                     </div>
 
-                    <ul className="mt-4 flex flex-col gap-0.5 border-t border-line pt-3">
+                    <ul className="mt-3 flex flex-col border-t border-line pt-2">
                       {group.links.map((link) => (
                         <li key={link.label}>
                           <Link
                             href={link.href}
                             onClick={onNavigate}
-                            className="flex flex-wrap items-center gap-x-2 gap-y-1 rounded-lg px-2.5 py-1.5 text-sm leading-snug text-ink-mute transition-colors duration-200 hover:bg-brand-50 hover:text-brand-700"
+                            className="flex flex-wrap items-center gap-x-2 gap-y-0.5 rounded-lg px-2.5 py-1 text-[0.85rem] leading-snug text-ink-mute transition-colors duration-200 hover:bg-brand-50 hover:text-brand-700"
                           >
                             <span>{link.label}</span>
                             {link.badge && (
@@ -95,7 +96,7 @@ export default function AiMega({
           >
             {/* Artwork stands in for photography: a glowing AI plate on a
                 circuit-textured gradient. */}
-            <div className="relative grid h-40 place-items-center overflow-hidden bg-gradient-to-br from-brand-900 via-brand-700 to-brand-500">
+            <div className="relative grid h-32 place-items-center overflow-hidden bg-gradient-to-br from-brand-900 via-brand-700 to-brand-500">
               <div
                 aria-hidden="true"
                 className="circuit-texture absolute inset-0 opacity-50"
@@ -109,7 +110,7 @@ export default function AiMega({
               </span>
             </div>
 
-            <div className="flex flex-1 flex-col gap-2.5 p-4">
+            <div className="flex flex-1 flex-col gap-2 p-3.5">
               <span className="w-fit rounded-md bg-gradient-to-br from-brand-500 to-brand-600 px-2 py-1 text-[0.6rem] font-bold tracking-[0.1em] text-white uppercase">
                 {aiMenu.featured.eyebrow}
               </span>
@@ -120,15 +121,15 @@ export default function AiMega({
           </Link>
 
           {/* --------------------------------------------------- promo rail */}
-          <div className="flex flex-col justify-between gap-6 rounded-2xl bg-gradient-to-br from-brand-600 to-brand-400 p-6 text-white shadow-[0_20px_50px_-24px_rgb(37_99_235/0.9)]">
-            <p className="font-display text-lg leading-snug font-semibold text-balance">
+          <div className="flex flex-col justify-between gap-5 rounded-2xl bg-gradient-to-br from-brand-600 to-brand-400 p-5 text-white shadow-[0_20px_50px_-24px_rgb(37_99_235/0.9)]">
+            <p className="font-display text-base leading-snug font-semibold text-balance">
               {aiMenu.promo.body}
             </p>
 
             <Link
               href={aiMenu.promo.cta.href}
               onClick={onNavigate}
-              className="group inline-flex w-fit items-center gap-2 rounded-full bg-white/15 px-5 py-2.5 text-sm font-medium ring-1 ring-white/30 ring-inset backdrop-blur-sm transition-colors duration-300 hover:bg-white/25"
+              className="group inline-flex w-fit items-center gap-2 rounded-full bg-white/15 px-4 py-2 text-sm font-medium ring-1 ring-white/30 ring-inset backdrop-blur-sm transition-colors duration-300 hover:bg-white/25"
             >
               {aiMenu.promo.cta.label}
               <ArrowRight

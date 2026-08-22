@@ -47,6 +47,7 @@ export default function Technologies() {
           </Link>
         </Reveal>
 
+<<<<<<< Updated upstream
         <Reveal delay={120} className="mt-12">
           <TabGroup
             dark
@@ -75,6 +76,54 @@ export default function Technologies() {
           <span className="text-sm text-white/50">
             {technologies.footnote.label}
           </span>
+=======
+        {/* --------------------------------------- category rail + tiles */}
+        <Reveal delay={120} className="mt-14">
+          <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-5 backdrop-blur-sm lg:p-7">
+            <TabGroup
+              dark
+              orientation="vertical"
+              labels={technologies.tabs.map((tab) => tab.label)}
+              listClassName="lg:w-56 xl:w-64"
+              renderLabel={(label, index, selected) => (
+                <span className="flex items-center justify-between gap-3">
+                  {label}
+                  <span
+                    className={cn(
+                      "hidden rounded-full px-2 py-0.5 text-[0.65rem] tabular-nums transition-colors duration-300 lg:inline-block",
+                      selected
+                        ? "bg-ink/10 text-ink/70"
+                        : "bg-white/10 text-white/50",
+                    )}
+                  >
+                    {technologies.tabs[index].items.length}
+                  </span>
+                </span>
+              )}
+              renderPanel={(index) => (
+                <ul className="grid min-h-64 grid-cols-2 gap-3 sm:grid-cols-3">
+                  {technologies.tabs[index].items.map((item) => (
+                    <li key={item}>
+                      <span className="group/tile relative flex h-full items-center gap-3 overflow-hidden rounded-xl border border-white/10 bg-white/[0.04] px-3.5 py-3 transition-all duration-300 hover:-translate-y-0.5 hover:border-brand-400/50 hover:bg-white/[0.09]">
+                        {/* Glow that blooms from the badge on hover. */}
+                        <span
+                          aria-hidden="true"
+                          className="absolute -left-6 size-20 rounded-full bg-brand-500/30 opacity-0 blur-2xl transition-opacity duration-500 group-hover/tile:opacity-100"
+                        />
+                        <span className="relative grid size-9 shrink-0 place-items-center rounded-lg bg-gradient-to-br from-white/20 to-white/[0.04] text-xs font-semibold text-brand-200 ring-1 ring-white/10 ring-inset transition-colors duration-300 group-hover/tile:text-white">
+                          {monogram(item)}
+                        </span>
+                        <span className="relative truncate text-sm text-white/75 transition-colors duration-300 group-hover/tile:text-white">
+                          {item}
+                        </span>
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            />
+          </div>
+>>>>>>> Stashed changes
         </Reveal>
       </div>
     </section>

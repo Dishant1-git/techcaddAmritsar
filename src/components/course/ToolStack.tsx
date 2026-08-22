@@ -53,7 +53,7 @@ export default function ToolStack({ course }: { course: Course }) {
               {course.toolGroups.map((group) => (
                 <FadeUp key={group.label}>
                   <div className="flex items-center gap-4">
-                    <span className="font-display text-[0.65rem] font-semibold tracking-[0.24em] text-muted uppercase">
+                    <span className="text-[0.65rem] font-semibold tracking-[0.24em] text-muted uppercase">
                       {group.label}
                     </span>
                     <span

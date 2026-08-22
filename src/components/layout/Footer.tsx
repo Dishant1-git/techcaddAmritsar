@@ -41,7 +41,11 @@ export default function Footer() {
 
           {footer.columns.map((column) => (
             <nav key={column.title} aria-label={column.title}>
+<<<<<<< Updated upstream
               <h2 className="font-display text-sm font-semibold uppercase tracking-[0.16em] text-white">
+=======
+              <h2 className="text-xs font-semibold tracking-[0.18em] text-muted uppercase">
+>>>>>>> Stashed changes
                 {column.title}
               </h2>
               <ul className="mt-5 flex flex-col gap-3">

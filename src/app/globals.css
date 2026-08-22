@@ -160,11 +160,37 @@
     scroll-padding-top: 6rem;
   }
 
+  /*
+   * Two families, no more: Sora carries every heading (via `font-display`,
+   * applied by SplitHeading/WordsUp and the heading utilities), Inter carries
+   * body copy, UI and small-caps labels. Nothing else — no monospace — so the
+   * page reads as one typographic system.
+   */
   body {
     background-color: #ffffff;
     color: var(--color-ink);
     font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Proportional lining figures + real kerning: the difference between
+       "a webfont" and typeset text. */
+    font-feature-settings:
+      "kern" 1,
+      "liga" 1,
+      "calt" 1;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Headings sit tighter and never break mid-word. */
+  :is(h1, h2, h3, h4, h5, h6) {
+    font-family: var(--font-display), var(--font-sans), ui-sans-serif, sans-serif;
+    letter-spacing: -0.015em;
+    text-wrap: pretty;
+  }
+
+  /* Figures in tables, stats and counters stay column-aligned. */
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
   }
 
   ::selection {

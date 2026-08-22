@@ -40,7 +40,8 @@ export default function MegaMenu({
       id={id}
       aria-hidden={!open}
       className={cn(
-        "absolute inset-x-0 top-full hidden pt-3 transition-all duration-300 xl:block",
+        /* Matches the header pill's max-w-6xl so the panel lines up with it. */
+        "absolute inset-x-0 top-full mx-auto hidden max-w-6xl pt-3 transition-all duration-300 xl:block",
         open
           ? "visible translate-y-0 opacity-100"
           : "pointer-events-none invisible -translate-y-2 opacity-0",
@@ -49,31 +50,33 @@ export default function MegaMenu({
       <div className="overflow-hidden rounded-3xl border border-line bg-white shadow-[0_40px_90px_-30px_rgb(15_23_42/0.45)]">
         <div
           className={cn(
-            "grid gap-8 px-8 pt-8 pb-9",
+            "grid gap-6 px-7 pt-6 pb-7",
             COLUMN_CLASS[menu.columns.length] ?? "grid-cols-4",
           )}
         >
           {menu.columns.map((column) => (
             <div key={column.title}>
-              <span className="font-mono text-xs text-muted/70">{column.index}</span>
+              <span className="text-[0.65rem] tabular-nums text-muted/70">{column.index}</span>
 
               <Link
                 href={column.href}
                 onClick={onNavigate}
-                className="font-display mt-1 block text-xl font-semibold tracking-tight text-ink transition-colors duration-200 hover:text-brand-600"
+                className="font-display mt-0.5 block text-lg font-semibold tracking-tight text-ink transition-colors duration-200 hover:text-brand-600"
               >
                 {column.title}
               </Link>
 
-              <p className="mt-1.5 text-sm text-muted">{column.blurb}</p>
+              <p className="mt-1 text-[0.8rem] leading-snug text-muted">
+                {column.blurb}
+              </p>
 
-              <ul className="mt-4 flex flex-col gap-0.5 border-t border-line pt-3">
+              <ul className="mt-3 flex flex-col border-t border-line pt-2">
                 {column.links.map((link) => (
                   <li key={link.label}>
                     <Link
                       href={link.href}
                       onClick={onNavigate}
-                      className="flex flex-wrap items-center gap-x-2 gap-y-1 rounded-lg px-2.5 py-1.5 text-sm leading-snug text-ink-mute transition-colors duration-200 hover:bg-brand-50 hover:text-brand-700"
+                      className="flex flex-wrap items-center gap-x-2 gap-y-0.5 rounded-lg px-2.5 py-1 text-[0.85rem] leading-snug text-ink-mute transition-colors duration-200 hover:bg-brand-50 hover:text-brand-700"
                     >
                       <span>{link.label}</span>
                       {link.badge && (
@@ -89,7 +92,7 @@ export default function MegaMenu({
           ))}
         </div>
 
-        <div className="flex items-center justify-between gap-6 border-t border-line bg-brand-50/50 px-8 py-4">
+        <div className="flex items-center justify-between gap-6 border-t border-line bg-brand-50/50 px-7 py-3">
           <p className="flex items-start gap-2.5 text-sm text-ink-mute">
             <Quote
               className="mt-0.5 size-4 shrink-0 fill-brand-200 text-brand-200"

@@ -185,7 +185,7 @@ export default function ModuleExplorer({ course }: { course: Course }) {
                   className="rounded-3xl border border-line bg-white p-7 shadow-[0_30px_70px_-45px_rgb(15_23_42/0.4)] lg:p-9"
                 >
                   <div className="flex items-center justify-between gap-4">
-                    <span className="font-display text-[0.65rem] font-semibold tracking-[0.24em] text-brand-600 uppercase">
+                    <span className="text-[0.65rem] font-semibold tracking-[0.24em] text-brand-600 uppercase">
                       Module {current.code} of{" "}
                       {String(modules.length).padStart(2, "0")}
                     </span>

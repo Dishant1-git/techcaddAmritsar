@@ -99,7 +99,7 @@ export default function CoursePhases({ course }: { course: Course }) {
 
                 <div className="grid gap-6 lg:grid-cols-12 lg:gap-10">
                   <div className="lg:col-span-5">
-                    <span className="font-display text-[0.65rem] font-semibold tracking-[0.24em] text-brand-600 uppercase">
+                    <span className="text-[0.65rem] font-semibold tracking-[0.24em] text-brand-600 uppercase">
                       {phase.label}
                     </span>
                     <h3 className="font-display mt-2 text-2xl font-semibold text-ink">
