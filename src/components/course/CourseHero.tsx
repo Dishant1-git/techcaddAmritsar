@@ -85,7 +85,26 @@ function CourseArt({ src }: { src: string }) {
   );
 }
 
-export default function CourseHero({ course }: { course: Course }) {
+/* -------------------------------------------------------------------- hero */
+
+/**
+ * The breadcrumb parent. Defaults to the /courses catalogue; the after-12th
+ * pages pass their own hub so the trail matches the section a visitor is in.
+ */
+export type CourseBreadcrumb = { label: string; href: string };
+
+const DEFAULT_BREADCRUMB: CourseBreadcrumb = {
+  label: "Courses",
+  href: "/courses",
+};
+
+export default function CourseHero({
+  course,
+  breadcrumb = DEFAULT_BREADCRUMB,
+}: {
+  course: Course;
+  breadcrumb?: CourseBreadcrumb;
+}) {
   const meta = [
     { icon: Clock, label: course.spec[0].value },
     { icon: Signal, label: course.spec[1].value },
@@ -136,10 +155,10 @@ export default function CourseHero({ course }: { course: Course }) {
                     <ChevronRight className="size-3" aria-hidden="true" />
                     <li>
                       <Link
-                        href="/courses"
+                        href={breadcrumb.href}
                         className="transition-colors hover:text-white"
                       >
-                        Courses
+                        {breadcrumb.label}
                       </Link>
                     </li>
                     <ChevronRight className="size-3" aria-hidden="true" />

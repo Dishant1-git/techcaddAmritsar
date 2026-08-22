@@ -149,6 +149,9 @@ const CATEGORY_SLUGS: Record<CourseCategory, string> = {
   "AI & Data": "ai-data",
   "Digital Marketing": "digital-marketing",
   "Cyber & Cloud": "cyber-cloud",
+  "Graphics & Media": "graphics-media",
+  "Design & Drafting": "design-drafting",
+  "Business & Office": "business-office",
 };
 
 const CATEGORY_BLURBS: Record<CourseCategory, string> = {
@@ -160,9 +163,16 @@ const CATEGORY_BLURBS: Record<CourseCategory, string> = {
     "Search, social, paid media and analytics, run as one measurable system.",
   "Cyber & Cloud":
     "Secure, resilient infrastructure and the operational discipline to keep it running.",
+  "Graphics & Media":
+    "Design, video and motion craft, judged on the portfolio it produces.",
+  "Design & Drafting":
+    "CAD and BIM for civil and mechanical work, taught to drawing-office standard.",
+  "Business & Office":
+    "Accounting, spreadsheets and the office software every commercial role assumes you already know.",
 };
 
 /**
+<<<<<<< Updated upstream
  * Hero artwork, keyed by slug. Files are transparent 3D renders under
  * /public/images/courses, named for the slug they belong to. A course without
  * an entry simply renders the syllabus deck on its own — add the PNG and a
@@ -177,9 +187,21 @@ const COURSE_IMAGES: Record<string, string> = {
   "social-media-marketing": "/images/courses/social-media-marketing.png",
 };
 
-export const courseCategories = (
-  Object.keys(CATEGORY_SLUGS) as CourseCategory[]
-).map((label) => ({
+/**
+=======
+>>>>>>> Stashed changes
+ * Categories the /courses index renders. The three after-12th-only categories
+ * are deliberately absent — no `courseSeeds` entry carries them, so listing
+ * them here would draw empty sections.
+ */
+const CATALOG_CATEGORIES: CourseCategory[] = [
+  "Programming",
+  "AI & Data",
+  "Digital Marketing",
+  "Cyber & Cloud",
+];
+
+export const courseCategories = CATALOG_CATEGORIES.map((label) => ({
   label,
   slug: CATEGORY_SLUGS[label],
   blurb: CATEGORY_BLURBS[label],
@@ -320,7 +342,12 @@ function buildReviews(seed: CourseSeed): CourseReviews {
 
 /* ------------------------------------------------------------------- build */
 
-function buildCourse(seed: CourseSeed): Course {
+/**
+ * Exported so sibling registries — currently `after-12th-courses.ts` — can
+ * build the same page model from their own seeds and then override only the
+ * fields whose framing differs.
+ */
+export function buildCourse(seed: CourseSeed): Course {
   const { title, city } = { title: seed.title, city: site.city };
 
   const modules: CourseModule[] = seed.topics.map((topic, i) => ({

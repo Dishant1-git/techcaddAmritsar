@@ -68,6 +68,9 @@ function ReviewCard(review: CourseReview) {
   );
 }
 
+/** Fraction of full speed a hovered row eases down to under "slow". */
+const HOVER_SLOW_FACTOR = 0.2;
+
 /**
  * Student reviews for a single course.
  *
@@ -78,11 +81,22 @@ function ReviewCard(review: CourseReview) {
  * The cards ride two counter-scrolling marquees rather than sitting in a grid —
  * deliberately slower than the homepage testimonial rows, because these are
  * longer, course-specific quotes people are meant to read rather than skim.
- * Hovering pauses the row; reduced motion stops both (globals.css).
+ * Reduced motion stops both rows (globals.css).
+ *
+ * `hoverBehavior` decides what a pointer over a row does: "pause" stops it dead
+ * (the /courses default), "slow" eases it down to a crawl and keeps it moving,
+ * which is what the after-12th pages use.
  */
-export default function CourseReviews({ course }: { course: Course }) {
+export default function CourseReviews({
+  course,
+  hoverBehavior = "pause",
+}: {
+  course: Course;
+  hoverBehavior?: "pause" | "slow";
+}) {
   const { reviews } = course;
   const reduce = useReducedMotion();
+  const slowFactor = hoverBehavior === "slow" ? HOVER_SLOW_FACTOR : undefined;
 
   const half = Math.ceil(reviews.items.length / 2);
   const rowOne = reviews.items.slice(0, half);
@@ -123,8 +137,10 @@ export default function CourseReviews({ course }: { course: Course }) {
             >
               Collected from students who completed the{" "}
               {course.title.toLowerCase()} programme at the {site.city} campus,
-              across morning, evening and weekend batches. Hover a card to stop
-              the row and read it.
+              across morning, evening and weekend batches.{" "}
+              {hoverBehavior === "slow"
+                ? "Hover a card to slow the row right down and read it."
+                : "Hover a card to stop the row and read it."}
             </FadeUp>
           </div>
 
@@ -179,12 +195,14 @@ export default function CourseReviews({ course }: { course: Course }) {
         <Marquee
           items={rowOne}
           duration={110}
+          hoverSlowFactor={slowFactor}
           renderItem={(review) => <ReviewCard {...review} />}
         />
         <Marquee
           items={rowTwo}
           duration={130}
           reverse
+          hoverSlowFactor={slowFactor}
           renderItem={(review) => <ReviewCard {...review} />}
         />
       </div>

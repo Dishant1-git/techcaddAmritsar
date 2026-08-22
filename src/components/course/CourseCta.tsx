@@ -81,7 +81,17 @@ const FIELD =
 const LABEL = "text-sm font-medium text-white/85";
 const ERROR = "text-xs text-rose-300";
 
-export default function CourseCta({ course }: { course: Course }) {
+export default function CourseCta({
+  course,
+  /**
+   * The free-text message box. Dropped on the after-12th pages, where the
+   * enquiry is a call-back request and the counsellor asks the questions.
+   */
+  showMessage = true,
+}: {
+  course: Course;
+  showMessage?: boolean;
+}) {
   const id = useId();
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -286,20 +296,22 @@ export default function CourseCta({ course }: { course: Course }) {
                 </div>
 
                 {/* ---------------------------------------------- message */}
-                <div className="flex flex-col gap-1.5">
-                  <label htmlFor={`${id}-message`} className={LABEL}>
-                    Your Message
-                  </label>
-                  <textarea
-                    id={`${id}-message`}
-                    name="message"
-                    rows={4}
-                    value={message}
-                    onChange={(event) => setMessage(event.target.value)}
-                    placeholder="Ask about batch timings, fees or anything else"
-                    className={cn(FIELD, "resize-y")}
-                  />
-                </div>
+                {showMessage && (
+                  <div className="flex flex-col gap-1.5">
+                    <label htmlFor={`${id}-message`} className={LABEL}>
+                      Your Message
+                    </label>
+                    <textarea
+                      id={`${id}-message`}
+                      name="message"
+                      rows={4}
+                      value={message}
+                      onChange={(event) => setMessage(event.target.value)}
+                      placeholder="Ask about batch timings, fees or anything else"
+                      className={cn(FIELD, "resize-y")}
+                    />
+                  </div>
+                )}
 
                 {/* ---------------------------------------------- captcha */}
                 <div className="rounded-2xl border border-white/12 bg-ink/40 p-4">
@@ -347,7 +359,7 @@ export default function CourseCta({ course }: { course: Course }) {
                   type="submit"
                   className="h-13 rounded-full bg-gradient-to-r from-brand-500 to-brand-700 px-6 text-base font-semibold tracking-wide text-white uppercase shadow-lg shadow-brand-900/40 transition-all duration-300 hover:-translate-y-0.5 hover:from-brand-400 hover:to-brand-600"
                 >
-                  Send message
+                  {showMessage ? "Send message" : "Request a call back"}
                 </button>
               </form>
 

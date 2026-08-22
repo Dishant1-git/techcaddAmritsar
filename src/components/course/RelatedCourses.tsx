@@ -7,8 +7,13 @@ import { FadeUp, Stagger } from "@/components/ui/Motion";
 
 export default function RelatedCourses({
   courses,
+  /** Route the cards link into — the after-12th pages pass their own hub. */
+  basePath = "/courses",
+  allLabel = "Browse all courses",
 }: {
   courses: CourseSummary[];
+  basePath?: string;
+  allLabel?: string;
 }) {
   if (courses.length === 0) return null;
 
@@ -26,10 +31,10 @@ export default function RelatedCourses({
             Keep exploring
           </h2>
           <Link
-            href="/courses"
+            href={basePath}
             className="group inline-flex items-center gap-1.5 text-sm font-medium text-brand-600 transition-colors hover:text-brand-700"
           >
-            Browse all courses
+            {allLabel}
             <ArrowUpRight
               className="size-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
               aria-hidden="true"
@@ -41,7 +46,7 @@ export default function RelatedCourses({
           {courses.map((course) => (
             <FadeUp as="li" key={course.slug}>
               <Link
-                href={`/courses/${course.slug}`}
+                href={`${basePath}/${course.slug}`}
                 className="group flex h-full flex-col rounded-2xl border border-line bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:border-brand-200 hover:shadow-[0_24px_50px_-34px_rgb(37_99_235/0.5)]"
               >
                 <span className="text-[0.65rem] font-semibold tracking-[0.2em] text-brand-600 uppercase">
