@@ -1,23 +1,30 @@
 "use client";
 
 import Link from "next/link";
-import { motion, useReducedMotion } from "framer-motion";
 import {
   ArrowRight,
   BadgeCheck,
+  Bot,
   Briefcase,
   ChevronRight,
   Clock,
+  Cpu,
+  Database,
+  LineChart,
   MonitorPlay,
+  Network,
   Rocket,
   Signal,
   UserRound,
+  Workflow,
 } from "lucide-react";
 import type { Course } from "@/lib/courses";
 import type { AiCourseView, AiIcon } from "@/lib/ai-course";
 import { site } from "@/lib/content";
-import { EASE, FadeUp, Stagger, WordsUp } from "@/components/ui/Motion";
+import { FadeUp, Stagger, WordsUp } from "@/components/ui/Motion";
 import AiBackdrop from "./AiBackdrop";
+import AiIconTile from "./AiIconTile";
+import AiLogoMark from "./AiLogoMark";
 
 const CHIP_ICON: Record<AiIcon, typeof Rocket> = {
   live: Rocket,
@@ -26,82 +33,62 @@ const CHIP_ICON: Record<AiIcon, typeof Rocket> = {
   placement: Briefcase,
 };
 
+/** The five capability tiles that sit around the logo mark. */
+const SHOWCASE_TILES = [
+  { Icon: Database, label: "Data" },
+  { Icon: LineChart, label: "Models" },
+  { Icon: Bot, label: "Agents" },
+  { Icon: Network, label: "Serving" },
+  { Icon: Workflow, label: "Pipelines" },
+  { Icon: Cpu, label: "Compute" },
+];
+
 /**
- * The AI core: a labelled centre plate ringed by two counter-rotating orbits
- * carrying the course's own tool names.
+ * The hero showcase: the animated logo mark set into a bento of capability
+ * tiles.
  *
- * Purely decorative, so it is aria-hidden — the tools it shows are listed
- * accessibly further down the page in the tool mesh section.
+ * Deliberately not a radial diagram — the tiles read as a product surface
+ * rather than a chart, and each names a real part of the syllabus. The block
+ * is aria-hidden because every label in it is stated as real text elsewhere on
+ * the page.
  */
-function AiCore({ course }: { course: Course }) {
-  const reduce = useReducedMotion();
-  const inner = course.tools.slice(0, 4);
-  const outer = course.tools.slice(4, 10);
-
-  function ring(
-    items: string[],
-    radius: number,
-    duration: number,
-    reverse: boolean,
-  ) {
-    return (
-      <motion.div
-        className="absolute inset-0"
-        animate={reduce ? undefined : { rotate: reverse ? -360 : 360 }}
-        transition={{ duration, ease: "linear", repeat: Infinity }}
-      >
-        {items.map((tool, i) => {
-          const angle = (i / items.length) * Math.PI * 2 - Math.PI / 2;
-          return (
-            <motion.span
-              key={tool}
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-              style={{
-                marginLeft: `${Math.cos(angle) * radius}%`,
-                marginTop: `${Math.sin(angle) * radius}%`,
-              }}
-              /* Counter-rotate so the labels stay upright as the ring turns. */
-              animate={reduce ? undefined : { rotate: reverse ? 360 : -360 }}
-              transition={{ duration, ease: "linear", repeat: Infinity }}
-            >
-              <span className="block rounded-lg border border-white/12 bg-ink/70 px-2.5 py-1.5 text-[0.65rem] font-medium whitespace-nowrap text-white/65 backdrop-blur-md">
-                {tool}
-              </span>
-            </motion.span>
-          );
-        })}
-      </motion.div>
-    );
-  }
-
+function AiShowcase({ course }: { course: Course }) {
   return (
     <div
       aria-hidden="true"
-      className="relative mx-auto aspect-square w-full max-w-md lg:max-w-lg"
+      className="relative mx-auto w-full max-w-md lg:max-w-lg"
     >
-      {/* Orbit guides. */}
-      <span className="absolute inset-[22%] rounded-full border border-white/8" />
-      <span className="absolute inset-[6%] rounded-full border border-white/[0.06]" />
+      <div className="grid grid-cols-3 gap-3">
+        {/* The mark anchors the top-left two thirds of the bento. */}
+        <div className="col-span-2 aspect-[4/3]">
+          <AiLogoMark caption={course.category} />
+        </div>
 
-      {ring(inner, 28, 34, false)}
-      {ring(outer, 46, 52, true)}
+        <div className="flex flex-col gap-3">
+          {SHOWCASE_TILES.slice(0, 2).map((tile, i) => (
+            <AiIconTile
+              key={tile.label}
+              Icon={tile.Icon}
+              label={tile.label}
+              index={i}
+              dark
+              className="flex-1"
+            />
+          ))}
+        </div>
 
-      {/* Centre plate. */}
-      <motion.div
-        initial={reduce ? false : { scale: 0.85, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 0.9, ease: EASE, delay: 0.2 }}
-        className="absolute top-1/2 left-1/2 grid size-32 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-3xl border border-brand-300/35 bg-ink/70 shadow-[0_0_60px_-8px_rgb(96_165_250/0.65)] backdrop-blur-xl sm:size-36"
-      >
-        <span className="font-display bg-gradient-to-br from-white via-brand-100 to-brand-400 bg-clip-text text-5xl font-bold tracking-tight text-transparent">
-          AI
-        </span>
-        <span className="mt-1 text-[0.6rem] font-semibold tracking-[0.22em] text-brand-300/80 uppercase">
-          {course.category}
-        </span>
-      </motion.div>
+        {SHOWCASE_TILES.slice(2).map((tile, i) => (
+          <AiIconTile
+            key={tile.label}
+            Icon={tile.Icon}
+            label={tile.label}
+            index={i + 2}
+            dark
+          />
+        ))}
+      </div>
 
-      <div className="absolute inset-[18%] -z-10 rounded-full bg-brand-500/20 blur-[80px]" />
+      <div className="absolute inset-8 -z-10 rounded-full bg-brand-500/20 blur-[80px]" />
     </div>
   );
 }
@@ -249,9 +236,9 @@ export default function AiHero({
             </FadeUp>
           </Stagger>
 
-          {/* --------------------------------------------------------- core */}
+          {/* ----------------------------------------------------- showcase */}
           <div className="lg:col-span-5">
-            <AiCore course={course} />
+            <AiShowcase course={course} />
           </div>
         </div>
 

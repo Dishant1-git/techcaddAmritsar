@@ -27,8 +27,8 @@ function CertificatePlate({ view }: { view: AiCourseView }) {
       style={{ perspective: 1200 }}
       className="relative"
     >
-      <div className="relative overflow-hidden rounded-2xl border border-white/15 bg-gradient-to-br from-white to-brand-50 p-2 shadow-[0_50px_100px_-40px_rgb(0_0_0/0.85)]">
-        <div className="relative overflow-hidden rounded-xl border-2 border-brand-200 bg-white px-6 py-8 sm:px-10 sm:py-11">
+      <div className="relative isolate overflow-hidden rounded-2xl border border-white/15 bg-gradient-to-br from-white to-brand-50 p-2 shadow-[0_50px_100px_-40px_rgb(0_0_0/0.85)]">
+        <div className="relative isolate overflow-hidden rounded-xl border-2 border-brand-200 bg-white px-6 py-8 sm:px-10 sm:py-11">
           <span className="dot-matrix absolute inset-0 opacity-[0.05]" />
 
           <div className="relative text-center">

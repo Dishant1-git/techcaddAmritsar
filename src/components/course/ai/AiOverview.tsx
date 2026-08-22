@@ -118,11 +118,11 @@ export default function AiOverview({
     <section
       id="ai-overview"
       aria-labelledby="ai-overview-heading"
-      className="relative overflow-hidden border-y border-line bg-white py-20 lg:py-28"
+      className="relative isolate overflow-hidden border-y border-line bg-white py-20 lg:py-28"
     >
       <div
         aria-hidden="true"
-        className="absolute -top-40 -right-40 size-[34rem] rounded-full bg-brand-100/45 blur-[130px]"
+        className="absolute -z-10 -top-40 -right-40 size-[34rem] rounded-full bg-brand-100/45 blur-[130px]"
       />
 
       <div className="container-page">

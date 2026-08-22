@@ -16,11 +16,11 @@ export default function AiVerify({ view }: { view: AiCourseView }) {
     <section
       id="ai-verify"
       aria-labelledby="ai-verify-heading"
-      className="relative overflow-hidden border-y border-line bg-white py-20 lg:py-28"
+      className="relative isolate overflow-hidden border-y border-line bg-white py-20 lg:py-28"
     >
       <div
         aria-hidden="true"
-        className="absolute -right-40 -bottom-40 size-[34rem] rounded-full bg-brand-100/45 blur-[130px]"
+        className="absolute -z-10 -right-40 -bottom-40 size-[34rem] rounded-full bg-brand-100/45 blur-[130px]"
       />
 
       <div className="container-page">
