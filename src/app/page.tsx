@@ -2,7 +2,6 @@ import Hero from "@/components/sections/Hero";
 import About from "@/components/sections/About";
 import HowItWorks from "@/components/sections/HowItWorks";
 import Categories from "@/components/sections/Categories";
-import FeaturedCourses from "@/components/sections/FeaturedCourses";
 import WhyUs from "@/components/sections/WhyUs";
 import Testimonials from "@/components/sections/Testimonials";
 import Modules from "@/components/sections/Modules";
@@ -18,7 +17,6 @@ export default function Home() {
       <About />
       <HowItWorks />
       <Categories />
-      <FeaturedCourses />
       <WhyUs />
       <Testimonials />
       <Modules />

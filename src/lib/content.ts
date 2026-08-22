@@ -463,36 +463,6 @@ export const hero = {
     { title: "Done For You", detail: "Live projects, end to end" },
     { title: "The Best Placements", detail: "500+ active hiring partners" },
   ],
-  panel: {
-    title: "Learn AI Skills.",
-    body: LOREM_SHORT,
-    groups: [
-      {
-        label: "AI Fundamentals",
-        items: [
-          { label: "Generative AI", badge: null },
-          { label: "Artificial Intelligence (AI)", badge: null },
-          { label: "Prompt Engineering", badge: null },
-          { label: "ChatGPT & AI Tools", badge: "Hot" },
-        ],
-      },
-      {
-        label: "AI Development",
-        items: [
-          { label: "Agentic AI", badge: "Hot" },
-          { label: "AI-Powered Marketing", badge: "Hot" },
-          { label: "RAG Development", badge: null },
-          { label: "AI-Powered Courses", badge: null },
-        ],
-      },
-    ],
-    featured: {
-      eyebrow: "Featured AI Course",
-      title: `Artificial Intelligence Training in ${site.city}`,
-      body: LOREM_SHORT,
-      cta: { label: "Explore AI", href: "/courses/artificial-intelligence" },
-    },
-  },
 };
 
 /* ------------------------------------------------------------------- about */
@@ -566,66 +536,72 @@ export const categories = {
   accent: ["careers", "technology"],
   /** First entry is the reset filter; the rest match an item's `group`. */
   filters: ["All categories", "IT Courses", "AI & Data", "Design", "Marketing"],
+  /**
+   * Tiles on the homepage. `icon` keys into CATEGORY_ICON in the Categories
+   * section; `tone` is the card's gradient wash over the dark background.
+   */
   items: [
-    { title: "IT Courses", group: "IT Courses", body: LOREM_SHORT, href: "/courses/it-courses", count: "18 programmes" },
-    { title: "AI & Data", group: "AI & Data", body: LOREM_SHORT, href: "/courses#ai-data", count: "12 programmes" },
-    { title: "Design & CAD", group: "Design", body: LOREM_SHORT, href: "/courses#design", count: "9 programmes" },
-    { title: "Digital Marketing", group: "Marketing", body: LOREM_SHORT, href: "/courses#digital-marketing", count: "6 programmes" },
-    { title: "Cyber & Cloud", group: "IT Courses", body: LOREM_SHORT, href: "/courses#cyber-cloud", count: "8 programmes" },
-    { title: "Programming", group: "IT Courses", body: LOREM_SHORT, href: "/courses#programming", count: "14 programmes" },
+    {
+      title: "IT Courses",
+      tagline: "Foundations & Fluency",
+      group: "IT Courses",
+      body: LOREM_SHORT,
+      href: "/courses/it-courses",
+      count: "18 programmes",
+      icon: "laptop" as const,
+      tone: "from-brand-600/30",
+    },
+    {
+      title: "AI & Data",
+      tagline: "Models & Insight",
+      group: "AI & Data",
+      body: LOREM_SHORT,
+      href: "/courses#ai-data",
+      count: "12 programmes",
+      icon: "brain" as const,
+      tone: "from-violet-500/30",
+    },
+    {
+      title: "Design & CAD",
+      tagline: "Precision & Craft",
+      group: "Design",
+      body: LOREM_SHORT,
+      href: "/courses#design",
+      count: "9 programmes",
+      icon: "pen" as const,
+      tone: "from-sky-500/30",
+    },
+    {
+      title: "Digital Marketing",
+      tagline: "Growth & Reach",
+      group: "Marketing",
+      body: LOREM_SHORT,
+      href: "/courses#digital-marketing",
+      count: "6 programmes",
+      icon: "megaphone" as const,
+      tone: "from-fuchsia-500/25",
+    },
+    {
+      title: "Cyber & Cloud",
+      tagline: "Secure & Scalable",
+      group: "IT Courses",
+      body: LOREM_SHORT,
+      href: "/courses#cyber-cloud",
+      count: "8 programmes",
+      icon: "shield" as const,
+      tone: "from-emerald-500/25",
+    },
+    {
+      title: "Programming",
+      tagline: "Logic & Build",
+      group: "IT Courses",
+      body: LOREM_SHORT,
+      href: "/courses#programming",
+      count: "14 programmes",
+      icon: "code" as const,
+      tone: "from-brand-400/30",
+    },
   ],
-};
-
-/* --------------------------------------------------------- featured course */
-
-export const featured = {
-  eyebrow: "Featured Courses",
-  heading: "Courses that get you hired",
-  accent: ["hired"],
-  body: LOREM_SHORT,
-  cta: { label: "Browse all courses", href: "/courses" },
-  cybersecurity: {
-    title: "Cybersecurity & Ethical Hacking",
-    body: LOREM_SHORT,
-    href: "/courses/cybersecurity",
-    bullets: ["Live pentest labs", "CEH-aligned syllabus", "Lorem ipsum dolor sit"],
-  },
-  dataScience: {
-    title: "Data Science & Analytics",
-    body: LOREM_SHORT,
-    href: "/courses/data-science",
-    liveLabel: "Live",
-    delta: "+38%",
-    /** Bar heights as percentages, one per year label. */
-    bars: [38, 52, 46, 68, 82, 100],
-    years: ["2020", "2021", "2022", "2023", "2024", "2025"],
-  },
-  aiml: {
-    title: "AI & Machine Learning",
-    badge: "AI",
-    body: LOREM_MED,
-    href: "/courses/machine-learning",
-  },
-  fullStack: {
-    title: "Full-Stack Development",
-    body: LOREM_MED,
-    href: "/courses/mern-stack",
-    stat: { value: "92%", label: "placement rate, 2025 batches" },
-    rows: [
-      { name: "React & Next.js", role: "Frontend", delta: "+42%" },
-      { name: "Node & Express", role: "Backend", delta: "+31%" },
-      { name: "MongoDB & SQL", role: "Database", delta: "+27%" },
-    ],
-  },
-  digitalMarketing: {
-    title: "Digital Marketing",
-    body: LOREM_SHORT,
-    href: "/courses/digital-marketing",
-    alerts: [
-      { label: "New batch alert", detail: "Digital Marketing starts Monday" },
-      { label: "Placement drive", detail: "14 companies hiring this month" },
-    ],
-  },
 };
 
 /* ------------------------------------------------------------------ why us */
