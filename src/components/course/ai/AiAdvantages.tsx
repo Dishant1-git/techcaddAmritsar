@@ -34,7 +34,7 @@ export default function AiAdvantages({ view }: { view: AiCourseView }) {
             as="h2"
             text="Learn it. Build it."
             accent="Make it yours."
-            accentClassName="text-brand-600"
+            accentClassName="text-gold-500"
             className="max-w-3xl text-3xl leading-[1.1] font-semibold text-ink sm:text-5xl lg:text-[3.25rem]"
           />
           <p className="max-w-2xl text-base leading-relaxed text-muted">

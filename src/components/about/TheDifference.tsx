@@ -28,7 +28,7 @@ export default function TheDifference() {
             text={theDifference.heading}
             accent={theDifference.accent}
             className="text-3xl leading-[1.12] text-white sm:text-4xl lg:text-5xl"
-            accentClassName="text-brand-400"
+            accentClassName="text-gold-300"
           />
           <p className="max-w-2xl text-base leading-relaxed text-white/60">
             {theDifference.body}

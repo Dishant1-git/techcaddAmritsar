@@ -96,7 +96,7 @@ export default function FaqHero() {
           <Reveal delay={200} className="lg:col-span-5 lg:mt-6">
             <div className="rounded-3xl border border-white/12 bg-white/[0.04] p-6 backdrop-blur-sm sm:p-7">
               <div className="flex items-baseline justify-between gap-4">
-                <span className="font-display text-[0.65rem] font-semibold tracking-[0.24em] text-brand-400 uppercase">
+                <span className="font-display text-[0.65rem] font-semibold tracking-[0.24em] text-gold-300 uppercase">
                   Jump to a topic
                 </span>
                 <span className="text-[0.65rem] tracking-[0.14em] text-white/40 uppercase">

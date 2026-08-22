@@ -61,7 +61,7 @@ export default function ShareStory() {
 
               {/* --------------------------------------- what makes it useful */}
               <div className="rounded-2xl border border-line bg-white p-7 shadow-[0_24px_60px_-40px_rgb(15_23_42/0.5)] sm:p-8">
-                <span className="font-display text-[0.65rem] font-semibold tracking-[0.24em] text-brand-600 uppercase">
+                <span className="font-display text-[0.65rem] font-semibold tracking-[0.24em] text-gold-500 uppercase">
                   What makes a review useful
                 </span>
 

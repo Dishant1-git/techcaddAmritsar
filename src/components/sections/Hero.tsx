@@ -1,4 +1,4 @@
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { hero } from "@/lib/content";
 import { cn } from "@/lib/utils";
@@ -73,7 +73,7 @@ export default function Hero() {
           <div className="flex flex-wrap items-center justify-center gap-3">
             <Link
               href={hero.primaryCta.href}
-              className="group inline-flex h-13 items-center justify-center gap-2 rounded-full bg-white px-8 text-base font-medium whitespace-nowrap text-ink shadow-lg shadow-black/20 transition-all duration-300 hover:-translate-y-0.5 hover:bg-brand-50"
+              className="group inline-flex h-13 items-center justify-center gap-2 rounded-full bg-gold-300 px-8 text-base font-semibold whitespace-nowrap text-ink shadow-[0_14px_36px_-10px_rgb(252_211_77/0.75)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-gold-200"
             >
               {hero.primaryCta.label}
               <ArrowRight
@@ -99,71 +99,6 @@ export default function Hero() {
               </div>
             ))}
           </dl>
-        </Reveal>
-
-        {/* ------------------------------------------- AI course preview card */}
-        <Reveal delay={150} className="mx-auto mt-16 w-full max-w-4xl">
-          <div className="rounded-3xl border border-white/12 bg-white/[0.05] p-6 backdrop-blur-sm lg:p-7">
-            <div className="flex items-center gap-2">
-              <Sparkles
-                className="animate-twinkle size-4 fill-brand-400 text-brand-400"
-                aria-hidden="true"
-              />
-              <h2 className="font-display text-xl font-semibold">
-                {hero.panel.title}
-              </h2>
-            </div>
-            <p className="mt-2 text-sm leading-relaxed text-white/55">
-              {hero.panel.body}
-            </p>
-
-            <div className="mt-6 grid gap-6 sm:grid-cols-2">
-              {hero.panel.groups.map((group) => (
-                <div key={group.label}>
-                  <h3 className="text-[0.7rem] font-semibold tracking-[0.16em] text-brand-400 uppercase">
-                    {group.label}
-                  </h3>
-                  <ul className="mt-3 flex flex-col gap-1">
-                    {group.items.map((item) => (
-                      <li key={item.label}>
-                        <span className="flex items-center justify-between gap-2 rounded-lg px-2.5 py-2 text-sm text-white/70 transition-colors duration-300 hover:bg-white/8 hover:text-white">
-                          <span className="truncate">{item.label}</span>
-                          {item.badge && (
-                            <span className="shrink-0 rounded-full bg-brand-600 px-1.5 py-0.5 text-[0.6rem] font-semibold uppercase">
-                              {item.badge}
-                            </span>
-                          )}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-
-            {/* Nested featured-course panel */}
-            <div className="mt-6 rounded-2xl border border-brand-500/25 bg-gradient-to-br from-brand-600/25 to-accent/25 p-5">
-              <span className="text-[0.65rem] font-semibold tracking-[0.18em] text-brand-200 uppercase">
-                {hero.panel.featured.eyebrow}
-              </span>
-              <h3 className="font-display mt-2 text-lg leading-snug font-semibold">
-                {hero.panel.featured.title}
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-white/60">
-                {hero.panel.featured.body}
-              </p>
-              <Link
-                href={hero.panel.featured.cta.href}
-                className="group mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-brand-200 transition-colors hover:text-white"
-              >
-                {hero.panel.featured.cta.label}
-                <ArrowRight
-                  className="size-4 transition-transform duration-300 group-hover:translate-x-1"
-                  aria-hidden="true"
-                />
-              </Link>
-            </div>
-          </div>
         </Reveal>
       </div>
     </section>

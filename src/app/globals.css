@@ -17,6 +17,20 @@
   --color-ink-soft: #1e293b;
   --color-ink-mute: #334155;
 
+  /*
+   * Gold — the contrast accent against the brand blue. A true yellow ramp with
+   * no orange in it. Used for heading accent words, eyebrows and the primary
+   * call to action. On dark grounds use 300; on white use 500, the darkest
+   * step that still reads unmistakably yellow.
+   */
+  --color-gold-100: #fef9c3;
+  --color-gold-200: #fef08a;
+  --color-gold-300: #fcd34d;
+  --color-gold-400: #facc15;
+  --color-gold-500: #eab308;
+  --color-gold-600: #ca8a04;
+  --color-gold-700: #a16207;
+
   /* Neutrals */
   --color-line: #e2e8f0;
   --color-muted: #64748b;
@@ -138,6 +152,15 @@
   to {
     opacity: 1;
     transform: none;
+  }
+}
+
+@keyframes watermark-shimmer {
+  from {
+    background-position: 0% 50%;
+  }
+  to {
+    background-position: 200% 50%;
   }
 }
 
@@ -286,6 +309,32 @@
     background-size: 22px 22px;
   }
 
+  /*
+   * Giant wordmark watermark across the foot of the page. The gradient is
+   * clipped to the glyphs and twice as wide as the element, so sweeping
+   * background-position from 0% to 200% drags one full tile past the text —
+   * a seamless shimmer, since both ends of the gradient are the same faint
+   * grey-blue. Decorative only: the element must stay aria-hidden and
+   * pointer-events-none so it never blocks the links above it.
+   */
+  .footer-watermark {
+    background-image: linear-gradient(
+      100deg,
+      rgb(203 213 225 / 0.5) 0%,
+      rgb(203 213 225 / 0.5) 32%,
+      rgb(255 255 255 / 0.95) 50%,
+      rgb(203 213 225 / 0.5) 68%,
+      rgb(203 213 225 / 0.5) 100%
+    );
+    background-size: 200% 100%;
+    background-position: 0% 50%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    pointer-events: none;
+    animation: watermark-shimmer 9s linear infinite;
+  }
+
   /* Film-grain noise so the large gradient washes don't band on wide screens. */
   .tech-noise {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
@@ -312,7 +361,8 @@
   .animate-aurora-a,
   .animate-aurora-b,
   .animate-beam,
-  .animate-twinkle {
+  .animate-twinkle,
+  .footer-watermark {
     animation: none !important;
   }
 }

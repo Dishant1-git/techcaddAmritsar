@@ -43,7 +43,7 @@ export default function AiHead({
         <span
           className={cn(
             "inline-flex items-center gap-2 text-xs font-semibold tracking-[0.18em] uppercase",
-            dark ? "text-brand-400" : "text-brand-600",
+            dark ? "text-gold-300" : "text-gold-500",
           )}
         >
           <span
@@ -61,7 +61,7 @@ export default function AiHead({
         as="h2"
         text={heading}
         accent={accent}
-        accentClassName={dark ? "text-brand-400" : "text-brand-600"}
+        accentClassName={dark ? "text-gold-300" : "text-gold-500"}
         className={cn(
           "mt-4 max-w-3xl text-3xl leading-[1.14] font-semibold sm:text-4xl lg:text-[2.75rem]",
           dark ? "text-white" : "text-ink",

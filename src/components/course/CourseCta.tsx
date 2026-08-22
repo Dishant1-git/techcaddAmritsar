@@ -157,7 +157,7 @@ export default function CourseCta({ course }: { course: Course }) {
         <div className="grid gap-12 lg:grid-cols-12 lg:items-center lg:gap-16">
           <div className="lg:col-span-7">
             <FadeUp standalone>
-              <span className="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.18em] text-brand-300 uppercase">
+              <span className="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.18em] text-gold-300 uppercase">
                 <span className="h-px w-6 bg-brand-300/60" aria-hidden="true" />
                 Next batch, Amritsar campus
               </span>
@@ -166,7 +166,7 @@ export default function CourseCta({ course }: { course: Course }) {
               as="h2"
               text={`Start the ${course.title} programme`}
               accent="this intake."
-              accentClassName="text-brand-300"
+              accentClassName="text-gold-300"
               className="mt-4 max-w-2xl text-3xl leading-[1.12] font-semibold sm:text-4xl lg:text-5xl"
             />
             <span id="cta-heading" className="sr-only">

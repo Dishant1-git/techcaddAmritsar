@@ -522,36 +522,6 @@ export const hero = {
     { title: "Done For You", detail: "Live projects, end to end" },
     { title: "The Best Placements", detail: "500+ active hiring partners" },
   ],
-  panel: {
-    title: "Learn AI Skills.",
-    body: LOREM_SHORT,
-    groups: [
-      {
-        label: "AI Fundamentals",
-        items: [
-          { label: "Generative AI", badge: null },
-          { label: "Artificial Intelligence (AI)", badge: null },
-          { label: "Prompt Engineering", badge: null },
-          { label: "ChatGPT & AI Tools", badge: "Hot" },
-        ],
-      },
-      {
-        label: "AI Development",
-        items: [
-          { label: "Agentic AI", badge: "Hot" },
-          { label: "AI-Powered Marketing", badge: "Hot" },
-          { label: "RAG Development", badge: null },
-          { label: "AI-Powered Courses", badge: null },
-        ],
-      },
-    ],
-    featured: {
-      eyebrow: "Featured AI Course",
-      title: `Artificial Intelligence Training in ${site.city}`,
-      body: LOREM_SHORT,
-      cta: { label: "Explore AI", href: "/courses/artificial-intelligence" },
-    },
-  },
 };
 
 /* ------------------------------------------------------------------- about */
@@ -625,13 +595,72 @@ export const categories = {
   accent: ["careers", "technology"],
   /** First entry is the reset filter; the rest match an item's `group`. */
   filters: ["All categories", "IT Courses", "AI & Data", "Design", "Marketing"],
+  /**
+   * Tiles on the homepage. `image` is a transparent 3D render under
+   * /public/images/categories; `tone` is the card's gradient wash over the
+   * dark background.
+   */
   items: [
-    { title: "IT Courses", group: "IT Courses", body: LOREM_SHORT, href: "/courses/it-courses", count: "18 programmes" },
-    { title: "AI & Data", group: "AI & Data", body: LOREM_SHORT, href: "/courses#ai-data", count: "12 programmes" },
-    { title: "Design & CAD", group: "Design", body: LOREM_SHORT, href: "/courses#design", count: "9 programmes" },
-    { title: "Digital Marketing", group: "Marketing", body: LOREM_SHORT, href: "/courses#digital-marketing", count: "6 programmes" },
-    { title: "Cyber & Cloud", group: "IT Courses", body: LOREM_SHORT, href: "/courses#cyber-cloud", count: "8 programmes" },
-    { title: "Programming", group: "IT Courses", body: LOREM_SHORT, href: "/courses#programming", count: "14 programmes" },
+    {
+      title: "IT Courses",
+      tagline: "Foundations & Fluency",
+      group: "IT Courses",
+      body: LOREM_SHORT,
+      href: "/courses/it-courses",
+      count: "18 programmes",
+      image: "/images/categories/python.png",
+      tone: "from-brand-600/30",
+    },
+    {
+      title: "AI & Data",
+      tagline: "Models & Insight",
+      group: "AI & Data",
+      body: LOREM_SHORT,
+      href: "/courses#ai-data",
+      count: "12 programmes",
+      image: "/images/categories/ai.png",
+      tone: "from-violet-500/30",
+    },
+    {
+      title: "Design & CAD",
+      tagline: "Precision & Craft",
+      group: "Design",
+      body: LOREM_SHORT,
+      href: "/courses#design",
+      count: "9 programmes",
+      image: "/images/categories/cad.png",
+      tone: "from-sky-500/30",
+    },
+    {
+      title: "Digital Marketing",
+      tagline: "Growth & Reach",
+      group: "Marketing",
+      body: LOREM_SHORT,
+      href: "/courses#digital-marketing",
+      count: "6 programmes",
+      image: "/images/categories/digital-marketing.png",
+      tone: "from-fuchsia-500/25",
+    },
+    {
+      title: "Cyber & Cloud",
+      tagline: "Secure & Scalable",
+      group: "IT Courses",
+      body: LOREM_SHORT,
+      href: "/courses#cyber-cloud",
+      count: "8 programmes",
+      image: "/images/categories/cloud.png",
+      tone: "from-emerald-500/25",
+    },
+    {
+      title: "Programming",
+      tagline: "Logic & Build",
+      group: "IT Courses",
+      body: LOREM_SHORT,
+      href: "/courses#programming",
+      count: "14 programmes",
+      image: "/images/categories/programming.png",
+      tone: "from-brand-400/30",
+    },
   ],
 };
 
@@ -863,6 +892,23 @@ export const finalCta = {
 /* ------------------------------------------------------------------ footer */
 
 export const footer = {
+  /** Drawn as the giant shimmering watermark across the footer's foot. */
+  watermark: "techcadd",
+  blurb: `Your Skill & Technology Partner. Training students since 2007 with live projects, industry trainers and placement support.`,
+  /* TODO: swap in the real Amritsar branch address before launch. */
+  address: `Lawrence Road, ${site.city}, Punjab 143001`,
+  hours: "Mon – Sat, 9 AM – 7 PM",
+  /* TODO: confirm with marketing before this ships. */
+  status: [
+    { label: "Admissions Open", dot: true },
+    { label: "Rated on Google", dot: false },
+  ],
+  legal: [
+    { label: "Privacy Policy", href: "/privacy-policy" },
+    { label: "Terms & Conditions", href: "/terms" },
+    { label: "Cookie Policy", href: "/cookie-policy" },
+    { label: "Refund Policy", href: "/refund-policy" },
+  ],
   columns: [
     {
       title: "Courses",
@@ -871,6 +917,16 @@ export const footer = {
         { label: "AI & Data", href: "/courses#ai-data" },
         { label: "Digital Marketing", href: "/courses#digital-marketing" },
         { label: "Cyber & Cloud", href: "/courses#cyber-cloud" },
+      ],
+    },
+    {
+      title: "Training",
+      links: [
+        { label: "Internship & Training", href: "/internship-training" },
+        { label: "After 12th Courses", href: "/after-12th-courses" },
+        { label: "Industrial Training", href: "/internship-training/industrial-training" },
+        { label: "6 Months Training", href: "/internship-training/6-months" },
+        { label: "45 Days Training", href: "/internship-training/45-days" },
       ],
     },
     {

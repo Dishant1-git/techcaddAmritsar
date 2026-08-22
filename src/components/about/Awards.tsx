@@ -26,7 +26,7 @@ export default function Awards() {
             text={awards.heading}
             accent={awards.accent}
             className="text-3xl leading-[1.12] text-white sm:text-4xl lg:text-5xl"
-            accentClassName="text-brand-400"
+            accentClassName="text-gold-300"
           />
           <p className="max-w-xl text-base leading-relaxed text-white/55">
             {awards.body}

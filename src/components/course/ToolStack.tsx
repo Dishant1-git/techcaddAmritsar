@@ -20,7 +20,7 @@ export default function ToolStack({ course }: { course: Course }) {
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-5">
             <FadeUp standalone>
-              <span className="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.18em] text-brand-600 uppercase">
+              <span className="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.18em] text-gold-500 uppercase">
                 <span className="h-px w-6 bg-brand-600/40" aria-hidden="true" />
                 Tools you will actually use
               </span>
@@ -29,7 +29,7 @@ export default function ToolStack({ course }: { course: Course }) {
               as="h2"
               text="The working stack for"
               accent={course.title}
-              accentClassName="text-brand-600"
+              accentClassName="text-gold-500"
               className="mt-4 text-3xl leading-[1.14] font-semibold text-ink sm:text-4xl"
             />
             <span id="tools-heading" className="sr-only">

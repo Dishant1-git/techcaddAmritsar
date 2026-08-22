@@ -58,7 +58,7 @@ export default function CoursePhases({ course }: { course: Course }) {
       <div className="container-page">
         <div className="max-w-2xl">
           <FadeUp standalone>
-            <span className="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.18em] text-brand-600 uppercase">
+            <span className="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.18em] text-gold-500 uppercase">
               <span className="h-px w-6 bg-brand-600/40" aria-hidden="true" />
               How the programme is paced
             </span>
@@ -67,7 +67,7 @@ export default function CoursePhases({ course }: { course: Course }) {
             as="h2"
             text="Three stages, in the order"
             accent="a working practitioner learns them"
-            accentClassName="text-brand-600"
+            accentClassName="text-gold-500"
             className="mt-4 text-3xl leading-[1.14] font-semibold text-ink sm:text-4xl"
           />
           <span id="phases-heading" className="sr-only">
@@ -99,7 +99,7 @@ export default function CoursePhases({ course }: { course: Course }) {
 
                 <div className="grid gap-6 lg:grid-cols-12 lg:gap-10">
                   <div className="lg:col-span-5">
-                    <span className="text-[0.65rem] font-semibold tracking-[0.24em] text-brand-600 uppercase">
+                    <span className="text-[0.65rem] font-semibold tracking-[0.24em] text-gold-500 uppercase">
                       {phase.label}
                     </span>
                     <h3 className="font-display mt-2 text-2xl font-semibold text-ink">

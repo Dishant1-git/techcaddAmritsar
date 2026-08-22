@@ -29,7 +29,7 @@ export default function LearningToPractice() {
               {`0${i + 1}`}
             </span>
 
-            <span className="text-[0.65rem] font-bold tracking-[0.18em] text-brand-600 uppercase">
+            <span className="text-[0.65rem] font-bold tracking-[0.18em] text-gold-500 uppercase">
               {rung.stage}
             </span>
 
