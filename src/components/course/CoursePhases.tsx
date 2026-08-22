@@ -88,7 +88,7 @@ export default function CoursePhases({ course }: { course: Course }) {
           />
 
           <Stagger className="space-y-12 lg:space-y-16" gap={0.12}>
-            {phases.map((phase, i) => (
+            {phases.map((phase) => (
               <FadeUp key={phase.title} className="relative">
                 <span
                   aria-hidden="true"
