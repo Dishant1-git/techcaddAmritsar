@@ -71,7 +71,7 @@ export default function ModuleExplorer({ course }: { course: Course }) {
               as="h2"
               text="Open any module and see"
               accent="exactly what happens inside it"
-              accentClassName="text-brand-600"
+              accentClassName="text-gold-600"
               className="mt-4 max-w-2xl text-3xl leading-[1.14] font-semibold text-ink sm:text-4xl"
             />
             <span id="curriculum-heading" className="sr-only">

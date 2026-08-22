@@ -42,7 +42,7 @@ export default function FinalCta() {
             text={finalCta.heading}
             accent={finalCta.accent}
             className="text-3xl leading-[1.12] text-white sm:text-4xl lg:text-5xl"
-            accentClassName="text-brand-400"
+            accentClassName="text-gold-300"
           />
           <p className="max-w-xl text-base leading-relaxed text-white/60">
             {finalCta.body}

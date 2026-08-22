@@ -537,8 +537,9 @@ export const categories = {
   /** First entry is the reset filter; the rest match an item's `group`. */
   filters: ["All categories", "IT Courses", "AI & Data", "Design", "Marketing"],
   /**
-   * Tiles on the homepage. `icon` keys into CATEGORY_ICON in the Categories
-   * section; `tone` is the card's gradient wash over the dark background.
+   * Tiles on the homepage. `image` is a transparent 3D render under
+   * /public/images/categories; `tone` is the card's gradient wash over the
+   * dark background.
    */
   items: [
     {
@@ -548,7 +549,7 @@ export const categories = {
       body: LOREM_SHORT,
       href: "/courses/it-courses",
       count: "18 programmes",
-      icon: "laptop" as const,
+      image: "/images/categories/python.png",
       tone: "from-brand-600/30",
     },
     {
@@ -558,7 +559,7 @@ export const categories = {
       body: LOREM_SHORT,
       href: "/courses#ai-data",
       count: "12 programmes",
-      icon: "brain" as const,
+      image: "/images/categories/ai.png",
       tone: "from-violet-500/30",
     },
     {
@@ -568,7 +569,7 @@ export const categories = {
       body: LOREM_SHORT,
       href: "/courses#design",
       count: "9 programmes",
-      icon: "pen" as const,
+      image: "/images/categories/cad.png",
       tone: "from-sky-500/30",
     },
     {
@@ -578,7 +579,7 @@ export const categories = {
       body: LOREM_SHORT,
       href: "/courses#digital-marketing",
       count: "6 programmes",
-      icon: "megaphone" as const,
+      image: "/images/categories/digital-marketing.png",
       tone: "from-fuchsia-500/25",
     },
     {
@@ -588,7 +589,7 @@ export const categories = {
       body: LOREM_SHORT,
       href: "/courses#cyber-cloud",
       count: "8 programmes",
-      icon: "shield" as const,
+      image: "/images/categories/cloud.png",
       tone: "from-emerald-500/25",
     },
     {
@@ -598,7 +599,7 @@ export const categories = {
       body: LOREM_SHORT,
       href: "/courses#programming",
       count: "14 programmes",
-      icon: "code" as const,
+      image: "/images/categories/programming.png",
       tone: "from-brand-400/30",
     },
   ],
@@ -780,6 +781,24 @@ export const finalCta = {
 /* ------------------------------------------------------------------ footer */
 
 export const footer = {
+  /** Drawn as the giant shimmering watermark across the footer's foot. */
+  watermark: "techcadd",
+  blurb: `Your Skill & Technology Partner. Training students since 2007 with live projects, industry trainers and placement support.`,
+  /* TODO: swap in the real Amritsar branch address before launch. */
+  address: `Lawrence Road, ${site.city}, Punjab 143001`,
+  hours: "Mon – Sat, 9 AM – 7 PM",
+  /* TODO: confirm both strings with marketing — the rating in particular must
+     match the live Google listing before this ships. */
+  status: [
+    { label: "Admissions Open", dot: true },
+    { label: "Rated on Google", dot: false },
+  ],
+  legal: [
+    { label: "Privacy Policy", href: "/privacy-policy" },
+    { label: "Terms & Conditions", href: "/terms" },
+    { label: "Cookie Policy", href: "/cookie-policy" },
+    { label: "Refund Policy", href: "/refund-policy" },
+  ],
   columns: [
     {
       title: "Courses",
@@ -788,6 +807,16 @@ export const footer = {
         { label: "AI & Data", href: "/courses#ai-data" },
         { label: "Digital Marketing", href: "/courses#digital-marketing" },
         { label: "Cyber & Cloud", href: "/courses#cyber-cloud" },
+      ],
+    },
+    {
+      title: "Training",
+      links: [
+        { label: "Internship & Training", href: "/internship-training" },
+        { label: "After 12th Courses", href: "/after-12th-courses" },
+        { label: "Industrial Training", href: "/internship-training/industrial-training" },
+        { label: "6 Months Training", href: "/internship-training/6-months" },
+        { label: "45 Days Training", href: "/internship-training/45-days" },
       ],
     },
     {

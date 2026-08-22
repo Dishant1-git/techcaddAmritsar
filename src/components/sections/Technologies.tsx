@@ -1,12 +1,27 @@
 "use client";
 
+import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { technologies } from "@/lib/content";
+import { cn } from "@/lib/utils";
+import Marquee from "@/components/ui/Marquee";
 import Reveal from "@/components/ui/Reveal";
 import SplitHeading from "@/components/ui/SplitHeading";
 import TabGroup from "@/components/ui/TabGroup";
 import { Eyebrow } from "@/components/ui/Section";
-import Link from "next/link";
+
+/**
+ * Monogram for a tile badge: the first two glyphs, keeping the characters that
+ * carry a language's identity (`C++`, `C#`, `.NET`).
+ */
+function monogram(name: string) {
+  return name.replace(/[^A-Za-z0-9+#.]/g, "").slice(0, 2);
+}
+
+/** Every technology once, in tab order — the ticker along the bottom edge. */
+const ALL_TECHNOLOGIES = Array.from(
+  new Set(technologies.tabs.flatMap((tab) => tab.items)),
+);
 
 export default function Technologies() {
   return (
@@ -16,11 +31,16 @@ export default function Technologies() {
       className="relative isolate overflow-hidden bg-ink py-20 text-white lg:py-28"
     >
       <div aria-hidden="true" className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 grid-overlay opacity-40" />
-        <div className="absolute left-1/3 top-1/4 size-[36rem] rounded-full bg-brand-700/20 blur-[140px]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-ink via-brand-900/35 to-ink" />
+        <div className="animate-trace circuit-texture absolute inset-0 opacity-30" />
+        <div className="grid-overlay absolute inset-0 opacity-30" />
+        <div className="absolute top-1/4 left-1/3 size-[36rem] rounded-full bg-brand-700/25 blur-[140px]" />
+        <div className="absolute -right-40 bottom-0 size-[30rem] rounded-full bg-accent/35 blur-[130px]" />
+        <div className="tech-noise absolute inset-0 opacity-[0.03] mix-blend-overlay" />
       </div>
 
       <div className="container-page">
+        {/* ------------------------------------------------------- header */}
         <Reveal className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div className="flex flex-col gap-4 lg:max-w-2xl">
             <Eyebrow dark>{technologies.eyebrow}</Eyebrow>
@@ -29,54 +49,102 @@ export default function Technologies() {
               text={technologies.heading}
               accent={technologies.accent}
               className="text-3xl leading-[1.12] text-white sm:text-4xl lg:text-5xl"
-              accentClassName="text-brand-400"
+              accentClassName="text-gold-300"
             />
             <p className="max-w-xl text-base leading-relaxed text-white/60">
               {technologies.body}
             </p>
           </div>
-          <Link
-            href={technologies.cta.href}
-            className="group inline-flex shrink-0 items-center gap-1.5 text-sm font-medium text-brand-400 transition-colors hover:text-white"
-          >
-            {technologies.cta.label}
-            <ArrowRight
-              className="size-4 transition-transform duration-300 group-hover:translate-x-1"
-              aria-hidden="true"
+
+          <div className="flex shrink-0 flex-col items-start gap-5 lg:items-end">
+            {/* Headline stat, promoted out of the old footnote line. */}
+            <div className="lg:text-right">
+              <span className="font-display bg-gradient-to-br from-white to-gold-300 bg-clip-text text-4xl font-bold text-transparent lg:text-5xl">
+                {technologies.footnote.value}
+              </span>
+              <p className="mt-1 text-sm text-white/45">
+                {technologies.footnote.label}
+              </p>
+            </div>
+
+            <Link
+              href={technologies.cta.href}
+              className="group inline-flex items-center gap-2 rounded-full bg-white/8 px-5 py-2.5 text-sm font-medium text-white ring-1 ring-white/15 ring-inset backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/15"
+            >
+              {technologies.cta.label}
+              <ArrowRight
+                className="size-4 transition-transform duration-300 group-hover:translate-x-1"
+                aria-hidden="true"
+              />
+            </Link>
+          </div>
+        </Reveal>
+
+        {/* --------------------------------------- category rail + tiles */}
+        <Reveal delay={120} className="mt-14">
+          <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-5 backdrop-blur-sm lg:p-7">
+            <TabGroup
+              dark
+              orientation="vertical"
+              labels={technologies.tabs.map((tab) => tab.label)}
+              listClassName="lg:w-56 xl:w-64"
+              renderLabel={(label, index, selected) => (
+                <span className="flex items-center justify-between gap-3">
+                  {label}
+                  <span
+                    className={cn(
+                      "hidden rounded-full px-2 py-0.5 font-mono text-[0.65rem] transition-colors duration-300 lg:inline-block",
+                      selected
+                        ? "bg-ink/10 text-ink/70"
+                        : "bg-white/10 text-white/50",
+                    )}
+                  >
+                    {technologies.tabs[index].items.length}
+                  </span>
+                </span>
+              )}
+              renderPanel={(index) => (
+                <ul className="grid min-h-64 grid-cols-2 gap-3 sm:grid-cols-3">
+                  {technologies.tabs[index].items.map((item) => (
+                    <li key={item}>
+                      <span className="group/tile relative flex h-full items-center gap-3 overflow-hidden rounded-xl border border-white/10 bg-white/[0.04] px-3.5 py-3 transition-all duration-300 hover:-translate-y-0.5 hover:border-brand-400/50 hover:bg-white/[0.09]">
+                        {/* Glow that blooms from the badge on hover. */}
+                        <span
+                          aria-hidden="true"
+                          className="absolute -left-6 size-20 rounded-full bg-brand-500/30 opacity-0 blur-2xl transition-opacity duration-500 group-hover/tile:opacity-100"
+                        />
+                        <span className="relative grid size-9 shrink-0 place-items-center rounded-lg bg-gradient-to-br from-white/20 to-white/[0.04] font-mono text-xs font-semibold text-brand-200 ring-1 ring-white/10 ring-inset transition-colors duration-300 group-hover/tile:text-white">
+                          {monogram(item)}
+                        </span>
+                        <span className="relative truncate text-sm text-white/75 transition-colors duration-300 group-hover/tile:text-white">
+                          {item}
+                        </span>
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              )}
             />
-          </Link>
-        </Reveal>
-
-        <Reveal delay={120} className="mt-12">
-          <TabGroup
-            dark
-            labels={technologies.tabs.map((tab) => tab.label)}
-            renderPanel={(index) => (
-              <ul className="flex flex-wrap gap-2.5">
-                {technologies.tabs[index].items.map((item) => (
-                  <li key={item}>
-                    <span className="inline-flex items-center rounded-xl border border-white/10 bg-white/[0.04] px-4 py-2.5 text-sm text-white/75 transition-all duration-300 hover:-translate-y-0.5 hover:border-brand-500/40 hover:bg-white/[0.08] hover:text-white">
-                      {item}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            )}
-          />
-        </Reveal>
-
-        <Reveal
-          delay={200}
-          className="mt-12 flex flex-wrap items-baseline gap-x-3 gap-y-1 border-t border-white/10 pt-8"
-        >
-          <span className="font-display text-2xl font-bold text-white">
-            {technologies.footnote.value}
-          </span>
-          <span className="text-sm text-white/50">
-            {technologies.footnote.label}
-          </span>
+          </div>
         </Reveal>
       </div>
+
+      {/* ------------------------------------------------- full-bleed ticker */}
+      <Reveal delay={200} className="mt-14 border-y border-white/10 py-6">
+        <Marquee
+          items={ALL_TECHNOLOGIES}
+          duration={90}
+          renderItem={(item) => (
+            <span className="flex items-center gap-2.5 text-sm whitespace-nowrap text-white/40 transition-colors duration-300 hover:text-white">
+              <span
+                aria-hidden="true"
+                className="size-1 rounded-full bg-brand-400/70"
+              />
+              {item}
+            </span>
+          )}
+        />
+      </Reveal>
     </section>
   );
 }
