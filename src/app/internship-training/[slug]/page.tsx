@@ -100,7 +100,7 @@ export default async function TrainingPage({ params }: TrainingPageProps) {
         basePath={trainingBasePath}
         allLabel="See all training formats"
       />
-      <CourseCta course={course} showMessage={false} />
+      <CourseCta course={course} variant="split" />
       <StickyCourseBar
         title={`${course.title} — ${site.city}`}
         duration={course.spec[0].value}

@@ -106,10 +106,19 @@ export default function CourseCta({
    * enquiry is a call-back request and the counsellor asks the questions.
    */
   showMessage = true,
+  variant = "aside",
 }: {
   course: Course;
   showMessage?: boolean;
+  /**
+   * `aside` stands the form in a narrow column beside the copy. `split` gives
+   * the form the larger half so name and phone pair on one line, turns the
+   * assurances into a checklist under the copy, and compresses the captcha
+   * into a single row — used on the training pages.
+   */
+  variant?: "aside" | "split";
 }) {
+  const split = variant === "split";
   const id = useId();
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -183,20 +192,37 @@ export default function CourseCta({
       </div>
 
       <div className="container-page">
-        <div className="grid gap-12 lg:grid-cols-12 lg:items-center lg:gap-16">
-          <div className="lg:col-span-7">
+        <div
+          className={cn(
+            "grid gap-12 lg:grid-cols-12 lg:items-center",
+            split ? "lg:gap-14" : "lg:gap-16",
+          )}
+        >
+          <div className={cn(split ? "lg:col-span-5" : "lg:col-span-7")}>
             <FadeUp standalone>
-              <span className="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.18em] text-gold-300 uppercase">
-                <span className="h-px w-6 bg-brand-300/60" aria-hidden="true" />
-                Next batch, Amritsar campus
-              </span>
+              {split ? (
+                <span className="inline-flex items-center rounded-full bg-white/[0.07] px-4 py-2 text-sm font-medium text-white/85 ring-1 ring-white/20 ring-inset backdrop-blur-sm">
+                  Course information
+                </span>
+              ) : (
+                <span className="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.18em] text-gold-300 uppercase">
+                  <span
+                    className="h-px w-6 bg-brand-300/60"
+                    aria-hidden="true"
+                  />
+                  Next batch, Amritsar campus
+                </span>
+              )}
             </FadeUp>
             <WordsUp
               as="h2"
               text={`Start the ${course.title} programme`}
               accent="this intake."
               accentClassName="text-gold-300"
-              className="mt-4 max-w-2xl text-3xl leading-[1.12] font-semibold sm:text-4xl lg:text-5xl"
+              className={cn(
+                "mt-4 text-3xl leading-[1.12] font-semibold sm:text-4xl lg:text-5xl",
+                split ? "text-balance" : "max-w-2xl",
+              )}
             />
             <span id="cta-heading" className="sr-only">
               Enquire about the {course.title} course
@@ -204,7 +230,10 @@ export default function CourseCta({
             <FadeUp
               standalone
               as="p"
-              className="mt-5 max-w-xl text-base leading-relaxed text-white/60"
+              className={cn(
+                "mt-5 text-base leading-relaxed text-white/60",
+                !split && "max-w-xl",
+              )}
             >
               Leave a number and a counsellor calls you back with batch timings,
               the fee structure and an honest read on whether this track fits
@@ -213,39 +242,63 @@ export default function CourseCta({
 
             <Stagger
               as="ul"
-              className="mt-8 flex flex-wrap gap-x-6 gap-y-3"
+              className={cn(
+                "mt-8",
+                split ? "space-y-3.5" : "flex flex-wrap gap-x-6 gap-y-3",
+              )}
               gap={0.07}
             >
               {ASSURANCES.map((item) => (
                 <FadeUp
                   as="li"
                   key={item}
-                  className="flex items-center gap-2 text-sm text-white/70"
+                  className={cn(
+                    "flex items-center gap-3 text-white/70",
+                    split ? "text-base" : "gap-2 text-sm",
+                  )}
                 >
-                  <Check
-                    className="size-4 text-brand-300"
-                    strokeWidth={3}
-                    aria-hidden="true"
-                  />
+                  {split ? (
+                    <span
+                      className="grid size-6 shrink-0 place-items-center rounded-full bg-white/10 ring-1 ring-white/20 ring-inset"
+                      aria-hidden="true"
+                    >
+                      <Check className="size-3.5 text-white" strokeWidth={3} />
+                    </span>
+                  ) : (
+                    <Check
+                      className="size-4 text-brand-300"
+                      strokeWidth={3}
+                      aria-hidden="true"
+                    />
+                  )}
                   {item}
                 </FadeUp>
               ))}
             </Stagger>
           </div>
 
-          <FadeUp standalone className="lg:col-span-5">
-            <div className="rounded-3xl border border-white/12 bg-white/[0.05] p-7 backdrop-blur-xl lg:p-8">
-              <h3 className="font-display text-lg font-semibold">
-                Request a call back
-              </h3>
-              <p className="mt-1.5 text-sm text-white/55">
-                About the {course.title} course · {course.spec[0].value}
-              </p>
+          <FadeUp
+            standalone
+            className={cn(split ? "lg:col-span-7" : "lg:col-span-5")}
+          >
+            <div className="rounded-3xl border border-white/12 bg-white/[0.05] p-7 shadow-[0_2px_0_rgb(255_255_255/0.06)_inset,0_40px_90px_-50px_rgb(2_6_23/0.9)] backdrop-blur-xl lg:p-8">
+              {/* The reference card opens straight onto the fields; the
+                  heading it would repeat is already the section's own. */}
+              {!split && (
+                <div>
+                  <h3 className="font-display text-lg font-semibold">
+                    Request a call back
+                  </h3>
+                  <p className="mt-1.5 text-sm text-white/55">
+                    About the {course.title} course · {course.spec[0].value}
+                  </p>
+                </div>
+              )}
 
               <form
                 onSubmit={onSubmit}
                 noValidate
-                className="mt-6 flex flex-col gap-5"
+                className={cn("grid gap-5", split ? "sm:grid-cols-2" : "mt-6")}
               >
                 {/* ------------------------------------------------- name */}
                 <div className="flex flex-col gap-1.5">
@@ -302,33 +355,51 @@ export default function CourseCta({
                 </div>
 
                 {/* ----------------------------------------------- course */}
-                <div className="flex flex-col gap-1.5">
+                <div
+                  className={cn(
+                    "flex flex-col gap-1.5",
+                    split && "sm:col-span-2",
+                  )}
+                >
                   <span className={LABEL}>Course or Service</span>
                   {/*
                     Not a picker: the reader is already on the course page, so
                     the enquiry is tagged with it and the value rides along in
                     a hidden input for whatever handles the submission.
                   */}
-                  <div className="flex items-center justify-between gap-3 rounded-2xl border border-brand-400/40 bg-brand-600/25 px-4 py-3">
-                    <span className="font-display text-base font-semibold text-white">
-                      {course.title} Course
-                    </span>
-                    <Check
-                      className="size-4 shrink-0 text-brand-200"
-                      strokeWidth={3}
-                      aria-hidden="true"
-                    />
-                  </div>
+                  {split ? (
+                    <div className={cn(FIELD, "font-medium")}>
+                      {course.title}
+                    </div>
+                  ) : (
+                    <div className="flex items-center justify-between gap-3 rounded-2xl border border-brand-400/40 bg-brand-600/25 px-4 py-3">
+                      <span className="font-display text-base font-semibold text-white">
+                        {course.title} Course
+                      </span>
+                      <Check
+                        className="size-4 shrink-0 text-brand-200"
+                        strokeWidth={3}
+                        aria-hidden="true"
+                      />
+                    </div>
+                  )}
                   <input type="hidden" name="course" value={course.title} />
-                  <p className="text-xs leading-relaxed text-white/45">
-                    Taken from the page you are on — this enquiry reaches the{" "}
-                    {course.title} counsellor directly.
-                  </p>
+                  {!split && (
+                    <p className="text-xs leading-relaxed text-white/45">
+                      Taken from the page you are on — this enquiry reaches the{" "}
+                      {course.title} counsellor directly.
+                    </p>
+                  )}
                 </div>
 
                 {/* ---------------------------------------------- message */}
                 {showMessage && (
-                  <div className="flex flex-col gap-1.5">
+                  <div
+                    className={cn(
+                      "flex flex-col gap-1.5",
+                      split && "sm:col-span-2",
+                    )}
+                  >
                     <label htmlFor={`${id}-message`} className={LABEL}>
                       Your Message
                     </label>
@@ -345,58 +416,125 @@ export default function CourseCta({
                 )}
 
                 {/* ---------------------------------------------- captcha */}
-                <div className="rounded-2xl border border-white/12 bg-ink/40 p-4">
-                  <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                {split ? (
+                  <div className="flex flex-col gap-1.5 sm:col-span-2">
                     <label htmlFor={`${id}-answer`} className={LABEL}>
-                      What is {question.a} plus {question.b}?
+                      Security check
                     </label>
-                    <button
-                      type="button"
-                      onClick={newQuestion}
-                      className="inline-flex shrink-0 items-center gap-1.5 self-start rounded-lg border border-white/15 bg-white/[0.06] px-3 py-1.5 text-xs text-white/70 transition-colors hover:border-white/30 hover:text-white sm:self-auto"
+                    <div className="flex items-stretch gap-2.5">
+                      <span
+                        className="font-display grid shrink-0 place-items-center rounded-2xl border border-white/15 bg-ink/50 px-4 text-base font-semibold tabular-nums text-white"
+                        aria-hidden="true"
+                      >
+                        {question.a} + {question.b} = ?
+                      </span>
+                      <input
+                        ref={answerRef}
+                        id={`${id}-answer`}
+                        name="captcha"
+                        type="text"
+                        inputMode="text"
+                        autoComplete="off"
+                        value={answer}
+                        onChange={(event) => setAnswer(event.target.value)}
+                        placeholder="Answer"
+                        aria-invalid={errors.answer ? true : undefined}
+                        aria-describedby={`${id}-answer-hint`}
+                        className={cn(
+                          FIELD,
+                          "min-w-0 flex-1",
+                          errors.answer && "border-rose-400/70",
+                        )}
+                      />
+                      <button
+                        type="button"
+                        onClick={newQuestion}
+                        aria-label="Show a new question"
+                        className="grid w-12 shrink-0 place-items-center rounded-2xl border border-white/15 bg-white/[0.06] text-white/70 transition-colors hover:border-white/30 hover:text-white"
+                      >
+                        <RefreshCw className="size-4" aria-hidden="true" />
+                      </button>
+                    </div>
+                    {/* The sum chip is aria-hidden so it is not announced as
+                        loose symbols; the question is spelled out here. */}
+                    <p
+                      id={`${id}-answer-hint`}
+                      className="text-xs text-white/45"
                     >
-                      <RefreshCw className="size-3" aria-hidden="true" />
-                      New question
-                    </button>
+                      What is {question.a} plus {question.b}? Digits or words
+                      both work — it tells us you are a person.
+                    </p>
+                    {errors.answer && <p className={ERROR}>{errors.answer}</p>}
                   </div>
-
-                  <input
-                    ref={answerRef}
-                    id={`${id}-answer`}
-                    name="captcha"
-                    type="text"
-                    inputMode="text"
-                    autoComplete="off"
-                    value={answer}
-                    onChange={(event) => setAnswer(event.target.value)}
-                    placeholder="Your answer"
-                    aria-invalid={errors.answer ? true : undefined}
-                    aria-describedby={`${id}-answer-hint`}
+                ) : (
+                  <div
                     className={cn(
-                      FIELD,
-                      "mt-2.5",
-                      errors.answer && "border-rose-400/70",
+                      "rounded-2xl border border-white/12 bg-ink/40 p-4",
+                      split && "sm:col-span-2",
                     )}
-                  />
-
-                  <p
-                    id={`${id}-answer-hint`}
-                    className="mt-2 text-xs text-white/45"
                   >
-                    A one-line sum, so we know you are a person. Digits or words
-                    both work.
-                  </p>
-                  {errors.answer && (
-                    <p className={cn(ERROR, "mt-1")}>{errors.answer}</p>
-                  )}
-                </div>
+                    <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                      <label htmlFor={`${id}-answer`} className={LABEL}>
+                        What is {question.a} plus {question.b}?
+                      </label>
+                      <button
+                        type="button"
+                        onClick={newQuestion}
+                        className="inline-flex shrink-0 items-center gap-1.5 self-start rounded-lg border border-white/15 bg-white/[0.06] px-3 py-1.5 text-xs text-white/70 transition-colors hover:border-white/30 hover:text-white sm:self-auto"
+                      >
+                        <RefreshCw className="size-3" aria-hidden="true" />
+                        New question
+                      </button>
+                    </div>
+
+                    <input
+                      ref={answerRef}
+                      id={`${id}-answer`}
+                      name="captcha"
+                      type="text"
+                      inputMode="text"
+                      autoComplete="off"
+                      value={answer}
+                      onChange={(event) => setAnswer(event.target.value)}
+                      placeholder="Your answer"
+                      aria-invalid={errors.answer ? true : undefined}
+                      aria-describedby={`${id}-answer-hint`}
+                      className={cn(
+                        FIELD,
+                        "mt-2.5",
+                        errors.answer && "border-rose-400/70",
+                      )}
+                    />
+
+                    <p
+                      id={`${id}-answer-hint`}
+                      className="mt-2 text-xs text-white/45"
+                    >
+                      A one-line sum, so we know you are a person. Digits or
+                      words both work.
+                    </p>
+                    {errors.answer && (
+                      <p className={cn(ERROR, "mt-1")}>{errors.answer}</p>
+                    )}
+                  </div>
+                )}
 
                 <button
                   type="submit"
-                  className="h-13 rounded-full bg-gradient-to-r from-brand-500 to-brand-700 px-6 text-base font-semibold tracking-wide text-white uppercase shadow-lg shadow-brand-900/40 transition-all duration-300 hover:-translate-y-0.5 hover:from-brand-400 hover:to-brand-600"
+                  className={cn(
+                    "h-13 rounded-full bg-gradient-to-r from-brand-500 to-brand-700 px-6 text-base font-semibold tracking-wide text-white uppercase shadow-lg shadow-brand-900/40 transition-all duration-300 hover:-translate-y-0.5 hover:from-brand-400 hover:to-brand-600",
+                    split && "sm:col-span-2",
+                  )}
                 >
                   {showMessage ? "Send message" : "Request a call back"}
                 </button>
+
+                {split && (
+                  <p className="text-center text-xs text-white/45 sm:col-span-2">
+                    We never share your number. Expect a call within working
+                    hours.
+                  </p>
+                )}
               </form>
 
               <p role="status" className="mt-3 min-h-5 text-xs text-brand-200">
@@ -405,7 +543,12 @@ export default function CourseCta({
                   : ""}
               </p>
 
-              <div className="mt-6 border-t border-white/10 pt-5">
+              <div
+                className={cn(
+                  "mt-6 border-t border-white/10 pt-5",
+                  split && "hidden",
+                )}
+              >
                 <a
                   href={site.phoneHref}
                   className="group inline-flex items-center gap-2.5 text-sm text-white/70 transition-colors hover:text-white"
