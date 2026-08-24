@@ -52,7 +52,7 @@ export const navItems: NavItem[] = [
     children: [
       { label: "About Techcadd", href: "/about" },
       { label: "Mission and Vision", href: "/about/mission-vision" },
-      { label: "Our Founder", href: "/about#founder" },
+      { label: "Our Founder", href: "/founder" },
     ],
   },
   {
@@ -464,7 +464,7 @@ const aboutMenu: RailMenu = {
   categories: [
     { label: "About Techcadd", href: "/about" },
     { label: "Mission and Vision", href: "/about/mission-vision" },
-    { label: "Our Founder", href: "/about#founder" },
+    { label: "Our Founder", href: "/founder" },
   ],
   cta: { label: "Talk to a counsellor", href: "/contact" },
   featured: [
@@ -487,7 +487,7 @@ const aboutMenu: RailMenu = {
     },
     {
       title: "Our Founder",
-      href: "/about#founder",
+      href: "/founder",
       chip: "Profile",
       meta: "Gourav Gupta",
       tone: "from-brand-900 via-brand-600 to-brand-400",
@@ -988,6 +988,16 @@ export const finalCta = {
     "No registration fee",
     "Placement support included",
   ],
+};
+
+/* ------------------------------------------------------------ pre-footer cta */
+
+/** The slim bar every page carries just above the footer — the last nudge. */
+export const preFooterCta = {
+  heading: "Ready to start your career in tech?",
+  body: "Book a free demo class and see the lab before you decide.",
+  primaryCta: { label: "Book Free Demo", href: "/contact" },
+  secondaryCta: { label: site.phone, href: site.phoneHref },
 };
 
 /* ------------------------------------------------------------------ footer */

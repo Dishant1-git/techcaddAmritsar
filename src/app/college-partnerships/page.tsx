@@ -5,7 +5,6 @@ import CollegeWays from "@/components/college/CollegeWays";
 import CollegeProcess from "@/components/college/CollegeProcess";
 import CollegePartnerCta from "@/components/college/CollegePartnerCta";
 import FinalCta from "@/components/sections/FinalCta";
-import CollegeStrip from "@/components/college/CollegeStrip";
 
 export const metadata: Metadata = {
   title: `College Partnerships — TechCadd ${site.city}`,
@@ -21,7 +20,6 @@ export default function CollegePartnershipsPage() {
       <CollegeProcess />
       <CollegePartnerCta />
       <FinalCta />
-      <CollegeStrip />
     </>
   );
 }

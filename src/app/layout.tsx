@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Sora } from "next/font/google";
 import Header from "@/components/layout/Header";
+import PreFooterCta from "@/components/layout/PreFooterCta";
 import Footer from "@/components/layout/Footer";
 import { EnquiryProvider } from "@/components/layout/EnquiryDialog";
 import CursorRing from "@/components/ui/CursorRing";
@@ -59,6 +60,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         >
           Skip to content
         </a>
+<<<<<<< Updated upstream
         <EnquiryProvider>
           <Header />
           <main id="main" className="flex-1">
@@ -66,6 +68,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           </main>
           <Footer />
         </EnquiryProvider>
+=======
+        <Header />
+        <main id="main" className="flex-1">
+          {children}
+        </main>
+        <PreFooterCta />
+        <Footer />
+>>>>>>> Stashed changes
         <ScrollToTop />
         <CursorRing />
       </body>

@@ -108,12 +108,3 @@ export const partnerCta = {
   primaryCta: { label: `Call ${site.phone}`, href: site.phoneHref },
   secondaryCta: { label: "Send an enquiry", href: "/contact" },
 };
-
-/* -------------------------------------------------------------------- strip */
-
-export const collegeStrip = {
-  heading: "Ready to bring TechCadd to your campus?",
-  body: "Book a free demo session and see the lab before your department decides.",
-  primaryCta: { label: "Book Free Demo", href: "/contact" },
-  secondaryCta: { label: site.phone, href: site.phoneHref },
-};
