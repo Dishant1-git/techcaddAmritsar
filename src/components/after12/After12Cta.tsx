@@ -4,6 +4,7 @@ import { useId, useState } from "react";
 import { ArrowRight, Check, Clock, MapPin, Phone } from "lucide-react";
 import { after12Cta, after12Streams } from "@/lib/after-12th";
 import { footer, site } from "@/lib/content";
+import { submitEnquiry } from "@/lib/submit-enquiry";
 import Button from "@/components/ui/Button";
 import Reveal from "@/components/ui/Reveal";
 import SplitHeading from "@/components/ui/SplitHeading";
@@ -23,7 +24,7 @@ export default function After12Cta() {
   const [error, setError] = useState<string | null>(null);
   const [done, setDone] = useState(false);
 
-  function onSubmit(event: React.FormEvent) {
+  function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const digits = mobile.replace(/\D/g, "");
 
@@ -34,6 +35,7 @@ export default function After12Cta() {
     }
 
     setError(null);
+    submitEnquiry("after12_cta", Object.fromEntries(new FormData(event.currentTarget)));
     setDone(true);
   }
 

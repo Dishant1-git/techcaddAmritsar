@@ -6,6 +6,7 @@ import { contactForm, getInTouch, type TouchPoint } from "@/lib/contact-content"
 import { footer } from "@/lib/content";
 import { Facebook, Instagram, Linkedin, Youtube } from "@/components/layout/SocialIcons";
 import { cn } from "@/lib/utils";
+import { submitEnquiry } from "@/lib/submit-enquiry";
 import Reveal from "@/components/ui/Reveal";
 
 const socialIcons = {
@@ -55,7 +56,7 @@ export default function ContactInfo() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [sent, setSent] = useState(false);
 
-  function onSubmit(event: React.FormEvent) {
+  function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     const next: Record<string, string> = {
@@ -71,6 +72,7 @@ export default function ContactInfo() {
       return;
     }
 
+    submitEnquiry("contact_page", Object.fromEntries(new FormData(event.currentTarget)));
     setSent(true);
     setName("");
     setEmail("");

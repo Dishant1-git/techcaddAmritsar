@@ -65,7 +65,7 @@ export default function AiCoursePage({
 
       <CourseFaq course={course} />
       <RelatedCourses courses={related} />
-      <CourseCta course={course} />
+      <CourseCta course={course} showMessage={false} />
 
       <StickyCourseBar
         title={`${course.title} — ${site.city}`}

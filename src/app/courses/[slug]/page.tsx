@@ -8,7 +8,6 @@ import CourseHero from "@/components/course/CourseHero";
 import AiOverview from "@/components/course/ai/AiOverview";
 import AiCertificate from "@/components/course/ai/AiCertificate";
 import ModuleExplorer from "@/components/course/ModuleExplorer";
-import CoursePhases from "@/components/course/CoursePhases";
 import ToolStack from "@/components/course/ToolStack";
 import CourseFit from "@/components/course/CourseFit";
 import CourseFutureScope from "@/components/course/CourseFutureScope";
@@ -68,17 +67,16 @@ export default async function CoursePage({ params }: CoursePageProps) {
       <CourseHero course={course} />
       <AiOverview course={course} view={view} />
       <ModuleExplorer course={course} />
-      <CoursePhases course={course} />
       <ToolStack course={course} />
       <AiCertificate view={view} />
+      <CourseProjects course={course} />
       <CourseFit course={course} variant="checklist" />
       <CourseFutureScope course={course} />
-      <CourseProjects course={course} />
       <CourseWhyChoose course={course} />
       <CourseReviews course={course} />
       <CourseFaq course={course} />
       <RelatedCourses courses={related} />
-      <CourseCta course={course} />
+      <CourseCta course={course} showMessage={false} />
       <StickyCourseBar
         title={`${course.title} — ${site.city}`}
         duration={course.spec[0].value}

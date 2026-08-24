@@ -5,6 +5,7 @@ import { Check, Phone, RefreshCw } from "lucide-react";
 import type { Course } from "@/lib/courses";
 import { site } from "@/lib/content";
 import { cn } from "@/lib/utils";
+import { submitEnquiry } from "@/lib/submit-enquiry";
 import { FadeUp, Stagger, WordsUp } from "@/components/ui/Motion";
 
 const ASSURANCES = [
@@ -147,12 +148,7 @@ export default function CourseCta({
     answerRef.current?.focus();
   }
 
-  /**
-   * No backend yet: the form validates and acknowledges locally so the
-   * interaction is testable. Swap the success branch for the real endpoint
-   * when it exists — the collected values are already in state.
-   */
-  function onSubmit(event: React.FormEvent) {
+  function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     const next: Record<string, string> = {
@@ -169,6 +165,7 @@ export default function CourseCta({
       return;
     }
 
+    submitEnquiry("course_cta", Object.fromEntries(new FormData(event.currentTarget)));
     setSent(true);
     setName("");
     setPhone("");

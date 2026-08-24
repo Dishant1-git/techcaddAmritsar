@@ -3,6 +3,7 @@
 import { useId, useState } from "react";
 import { CheckCircle2, Phone } from "lucide-react";
 import { finalCta, site } from "@/lib/content";
+import { submitEnquiry } from "@/lib/submit-enquiry";
 import Reveal from "@/components/ui/Reveal";
 import SplitHeading from "@/components/ui/SplitHeading";
 import { Eyebrow } from "@/components/ui/Section";
@@ -13,13 +14,15 @@ export default function FinalCta() {
   const [value, setValue] = useState("");
   const [error, setError] = useState<string | null>(null);
 
-  function onSubmit(event: React.FormEvent) {
-    // Layout pass only — nothing is sent anywhere yet.
+  function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const digits = value.replace(/\D/g, "");
-    setError(
-      digits.length === 10 ? null : "Enter a valid 10-digit mobile number.",
-    );
+    if (digits.length !== 10) {
+      setError("Enter a valid 10-digit mobile number.");
+      return;
+    }
+    setError(null);
+    submitEnquiry("final_cta", Object.fromEntries(new FormData(event.currentTarget)));
   }
 
   return (

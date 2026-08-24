@@ -22,6 +22,7 @@ import {
 import { enquiry, site } from "@/lib/content";
 import { courseSummaries } from "@/lib/courses";
 import { cn } from "@/lib/utils";
+import { submitEnquiry } from "@/lib/submit-enquiry";
 
 /* --------------------------------------------------------------- context */
 
@@ -176,8 +177,7 @@ function EnquiryDialog({
     };
   }, [open, onClose]);
 
-  function onSubmit(event: React.FormEvent) {
-    // Layout pass only — nothing is sent anywhere yet.
+  function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const next: Record<string, string> = {};
 
@@ -194,6 +194,8 @@ function EnquiryDialog({
       setAnswer("");
       return;
     }
+
+    submitEnquiry("enquiry_dialog", Object.fromEntries(new FormData(event.currentTarget)));
     setSent(true);
   }
 
@@ -336,6 +338,7 @@ function EnquiryDialog({
                   </label>
                   <select
                     id={`${baseId}-course`}
+                    name="course"
                     value={course}
                     onChange={(event) => setCourse(event.target.value)}
                     className={cn(field, "appearance-none")}
@@ -362,6 +365,7 @@ function EnquiryDialog({
                   </label>
                   <input
                     id={`${baseId}-name`}
+                    name="name"
                     value={name}
                     autoComplete="name"
                     onChange={(event) => setName(event.target.value)}
@@ -377,6 +381,7 @@ function EnquiryDialog({
                   </label>
                   <input
                     id={`${baseId}-phone`}
+                    name="phone"
                     type="tel"
                     inputMode="numeric"
                     autoComplete="tel-national"
