@@ -265,8 +265,11 @@ export default function CourseHero({
             </Stagger>
 
             {/* --------------------------------------------------- artwork */}
+            {/* Hidden below lg: the render adds real weight to an already
+                long mobile hero, and the copy above already carries the
+                page on small screens. */}
             {course.hero.image && (
-              <div className="lg:col-span-5">
+              <div className="hidden lg:col-span-5 lg:block">
                 <CourseArt src={course.hero.image} />
               </div>
             )}

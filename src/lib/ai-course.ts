@@ -11,7 +11,7 @@
  * the AI menu in `content.ts` and it picks this layout up automatically.
  */
 
-import { aiMenu, navItems, site } from "./content";
+import { aiMenu, megaMenus, navItems, site } from "./content";
 import type { Course } from "./courses";
 
 /* ------------------------------------------------------------- membership */
@@ -22,6 +22,17 @@ function slugsFrom(hrefs: string[]) {
     .map((href) => href.slice("/courses/".length))
     .filter((slug) => slug !== "" && !slug.includes("#"));
 }
+
+/**
+ * Slugs also linked from the Courses mega menu (e.g. Artificial Intelligence,
+ * Machine Learning). A course listed there needs to render the same catalogue
+ * layout as every other Courses-dropdown page — Digital Marketing included —
+ * so it is excluded from the AI layout below even though it is *also* linked
+ * from the AI mega menu.
+ */
+const COURSES_MENU_SLUGS = new Set(
+  slugsFrom(megaMenus.courses.columns.flatMap((column) => column.links.map((link) => link.href))),
+);
 
 /**
  * Both AI navigation surfaces feed this set — the mobile drawer's `children`
@@ -36,7 +47,7 @@ export const AI_COURSE_SLUGS = new Set(
     ...aiMenu.groups.flatMap((group) => group.links.map((link) => link.href)),
     aiMenu.featured.href,
     aiMenu.promo.cta.href,
-  ]),
+  ]).filter((slug) => !COURSES_MENU_SLUGS.has(slug)),
 );
 
 export function isAiCourse(slug: string) {

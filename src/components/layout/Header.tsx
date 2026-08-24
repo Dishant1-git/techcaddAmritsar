@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { ChevronDown, Menu, Sparkles } from "lucide-react";
 import {
   megaMenus,
@@ -11,6 +12,7 @@ import {
   type MegaKey,
   type RailMegaKey,
 } from "@/lib/content";
+import { courseSlugs } from "@/lib/courses";
 import { cn } from "@/lib/utils";
 import Button from "@/components/ui/Button";
 import { useEnquiry } from "./EnquiryDialog";
@@ -29,10 +31,19 @@ const megaId = (key: MegaKey) => `${key}-mega-menu`;
  */
 export default function Header() {
   const enquiry = useEnquiry();
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   /** Which mega panel is showing, if any. */
   const [openMega, setOpenMega] = useState<MegaKey | null>(null);
+
+  /* When the visitor is reading a course page, Book Demo should hand that
+     course straight to the enquiry dialog instead of asking them to pick it
+     again from the dropdown. */
+  const activeCourseSlug = useMemo(() => {
+    const slug = pathname?.match(/^\/courses\/([^/]+)\/?$/)?.[1];
+    return slug && courseSlugs.includes(slug) ? slug : undefined;
+  }, [pathname]);
 
   useEffect(() => {
     function onScroll() {
@@ -152,7 +163,7 @@ export default function Header() {
 
             <div className="flex shrink-0 items-center gap-2">
               <Button
-                onClick={enquiry.open}
+                onClick={() => enquiry.open(activeCourseSlug)}
                 variant="gradient"
                 size="sm"
                 className="hidden sm:inline-flex"

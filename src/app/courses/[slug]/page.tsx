@@ -6,11 +6,14 @@ import { site } from "@/lib/content";
 import AiCoursePage from "@/components/course/ai/AiCoursePage";
 import CourseHero from "@/components/course/CourseHero";
 import AiOverview from "@/components/course/ai/AiOverview";
+import AiCertificate from "@/components/course/ai/AiCertificate";
 import ModuleExplorer from "@/components/course/ModuleExplorer";
 import CoursePhases from "@/components/course/CoursePhases";
 import ToolStack from "@/components/course/ToolStack";
 import CourseFit from "@/components/course/CourseFit";
+import CourseFutureScope from "@/components/course/CourseFutureScope";
 import CourseProjects from "@/components/course/CourseProjects";
+import CourseWhyChoose from "@/components/course/CourseWhyChoose";
 import CourseReviews from "@/components/course/CourseReviews";
 import CourseFaq from "@/components/course/CourseFaq";
 import RelatedCourses from "@/components/course/RelatedCourses";
@@ -57,16 +60,21 @@ export default async function CoursePage({ params }: CoursePageProps) {
     return <AiCoursePage course={course} related={related} />;
   }
 
+  const view = buildAiView(course);
+
   return (
     <>
       <ScrollToHero />
       <CourseHero course={course} />
-      <AiOverview course={course} view={buildAiView(course)} />
+      <AiOverview course={course} view={view} />
       <ModuleExplorer course={course} />
       <CoursePhases course={course} />
       <ToolStack course={course} />
-      <CourseFit course={course} />
+      <AiCertificate view={view} />
+      <CourseFit course={course} variant="checklist" />
+      <CourseFutureScope course={course} />
       <CourseProjects course={course} />
+      <CourseWhyChoose course={course} />
       <CourseReviews course={course} />
       <CourseFaq course={course} />
       <RelatedCourses courses={related} />

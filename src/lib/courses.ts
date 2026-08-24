@@ -82,10 +82,31 @@ export type Course = {
   toolGroups: Array<{ label: string; items: string[] }>;
 
   audience: Array<{ title: string; body: string; tag: string }>;
+
+  eligibility: {
+    heading: string;
+    intro: string;
+    criteria: Array<{ label: string; detail: string }>;
+  };
+
   outcomes: Array<{ role: string; blurb: string }>;
   projects: Array<{ title: string; body: string; tags: string[] }>;
   faqs: CourseFaq[];
   reviews: CourseReviews;
+
+  futureScope: {
+    heading: string;
+    intro: string;
+    drivers: Array<{ title: string; body: string }>;
+    horizon: string;
+  };
+
+  whyChoose: {
+    heading: string;
+    accent: string;
+    body: string;
+    reasons: Array<{ title: string; body: string }>;
+  };
 
   closing: string;
 };
@@ -173,6 +194,172 @@ const CATEGORY_BLURBS: Record<CourseCategory, string> = {
   "Internship & Training":
     "Fixed-duration formats built around live delivery work, ending in a certificate and a documented letter.",
 };
+
+/**
+ * One line on why demand in this category is structural rather than seasonal,
+ * plus the short label used to refer to "work in this field" in the closing
+ * paragraph the future-scope generator below writes.
+ */
+const CATEGORY_FUTURE: Record<CourseCategory, { angle: string; field: string }> = {
+  Programming: {
+    angle:
+      "Every product, in every industry, still runs on code someone has to write and maintain — and that has not changed even as the tools drafting the first version have.",
+    field: "development work",
+  },
+  "AI & Data": {
+    angle:
+      "Every company sitting on years of data is now under pressure to turn it into forecasts, automation and decisions — and that pressure is still climbing, not levelling off.",
+    field: "AI and data work",
+  },
+  "Digital Marketing": {
+    angle:
+      "Marketing budgets keep shifting from print and outdoor to channels that can be measured, so the people who can run a campaign and prove its return are the ones who get funded first.",
+    field: "digital marketing work",
+  },
+  "Cyber & Cloud": {
+    angle:
+      "Every workload a business moves online creates a workload that needs securing, and breach headlines have turned that budget line non-negotiable rather than optional.",
+    field: "cyber and cloud work",
+  },
+  "Graphics & Media": {
+    angle:
+      "Every brand, product and platform now needs a constant stream of visual and video content, and the studios producing it are hiring faster than they can train people internally.",
+    field: "design and media work",
+  },
+  "Design & Drafting": {
+    angle:
+      "Infrastructure and real-estate spending across Punjab and the rest of India keeps funding new sites, and every one of them needs drawings before it needs concrete.",
+    field: "drafting and design work",
+  },
+  "Business & Office": {
+    angle:
+      "Every business, regardless of size, still runs its books, filings and reporting on the software this course teaches — that layer of work does not shrink as a company grows, it multiplies.",
+    field: "accounts and office work",
+  },
+  "Internship & Training": {
+    angle:
+      "Employers keep filtering for candidates who have already done real, supervised delivery work, not just coursework — a documented internship is what turns a resume into a shortlist.",
+    field: "internship and training work",
+  },
+};
+
+/**
+ * Where the course leads over the next few years, not just at graduation.
+ * Deliberately hedged — "markets move" is in the closing line on purpose —
+ * because the honest version of this section is a case for durability, not a
+ * guarantee of a number.
+ */
+function futureScopeFor(seed: CourseSeed, title: string, city: string): Course["futureScope"] {
+  const future = CATEGORY_FUTURE[seed.category];
+  const nextRole = seed.roles[1] ?? seed.roles[0];
+  const coreTool = seed.tools[0];
+
+  return {
+    heading: `Where ${title.toLowerCase()} is headed from here`,
+    intro: `A certificate answers what you can do today. This is the honest answer to what ${title.toLowerCase()} looks like three to five years out, and why the fundamentals this course spends real time on are what carry you there.`,
+    drivers: [
+      {
+        title: "Demand is structural, not seasonal",
+        body: future.angle,
+      },
+      {
+        title: "The skill ladder keeps climbing",
+        body: `${seed.roles[0]} is the entry rung, not the ceiling. Once that portfolio is in place, ${nextRole.toLowerCase()} is the realistic next step — a promotion earned on the job, not a second course you have to go back and pay for.`,
+      },
+      {
+        title: "Tooling changes; fundamentals compound",
+        body: `${coreTool} and the rest of the stack will look different in five years — they always do. What does not expire is the fundamentals this course is built around, which is why the syllabus is reviewed each intake instead of frozen once and reused.`,
+      },
+      {
+        title: "Remote and hybrid widen the market",
+        body: `A ${title.toLowerCase()} portfolio built in ${city} competes for the same remote and hybrid roles as anywhere else. Companies hiring for this work are increasingly indifferent to which city the offer letter is posted to.`,
+      },
+    ],
+    horizon: `None of this is a guarantee — markets move, and no course can promise otherwise. What the ${seed.duration.toLowerCase()} programme controls for is the part actually in your hands: a reviewed portfolio, an industry certificate and a fundamentals-first foundation that keeps you relevant as ${future.field} around you keeps shifting.`,
+  };
+}
+
+/**
+ * Six concrete reasons to enrol here rather than at the next centre down the
+ * road — the same six beats the AI mega-menu pages argue (practitioner-led
+ * teaching, small batches, reviewed work, current tooling, flexible batches,
+ * support that continues), written generically enough to hold for every
+ * category without needing its own seed field.
+ */
+function whyChooseFor(seed: CourseSeed, title: string, city: string): Course["whyChoose"] {
+  const lower = title.toLowerCase();
+
+  return {
+    heading: "Why students choose",
+    accent: site.name.toLowerCase(),
+    body: `Two decades of training in ${city}, in a format that has not changed since: small batches, real projects, mentors who still work in the field.`,
+    reasons: [
+      {
+        title: "Practitioner-led teaching",
+        body: `Your mentor works in ${lower} for a living. The examples in class come from that work, and so do the shortcuts.`,
+      },
+      {
+        title: "Small, fixed batches",
+        body: "Batch sizes are capped so a raised hand gets answered in the session it was raised in, not weeks later.",
+      },
+      {
+        title: "Reviewed, not marked",
+        body: "Every submission comes back annotated, line by line. The notes are the point — they are what you carry into the interview.",
+      },
+      {
+        title: "Current tooling",
+        body: `We teach ${seed.tools.slice(0, 3).join(", ")} and refresh the list each intake, because a stale stack is worse than no stack.`,
+      },
+      {
+        title: "Flexible batches",
+        body: "Morning, evening and weekend tracks, classroom or live online, with recordings either way for revision.",
+      },
+      {
+        title: "Support that continues",
+        body: "Resume and portfolio review, mock interviews and hiring-drive access — and it does not stop the day the course ends.",
+      },
+    ],
+  };
+}
+
+/**
+ * The concrete "can I actually join" criteria — a straight checklist rather
+ * than the persona copy `audience` carries, for the pages that want eligibility
+ * read at a glance instead of argued.
+ */
+function eligibilityFor(seed: CourseSeed, title: string): Course["eligibility"] {
+  const entryLevel = seed.level.split(" to ")[0];
+
+  return {
+    heading: `Who can join the ${title} course`,
+    intro: `There is no entrance test and no restrictive prerequisite. What follows is what the programme actually checks for before you enrol.`,
+    criteria: [
+      {
+        label: "Educational background",
+        detail:
+          "No specific degree or stream required — school leavers, graduates and career switchers all qualify.",
+      },
+      {
+        label: "Prior experience",
+        detail: `None required. The programme opens at ${entryLevel.toLowerCase()} level and builds from there across ${seed.duration.toLowerCase()}.`,
+      },
+      {
+        label: "Age",
+        detail:
+          "No upper age limit. What matters is being able to commit to the full course rather than dropping off midway.",
+      },
+      {
+        label: "Equipment",
+        detail:
+          "A laptop or desktop with a stable internet connection for classroom or live-online batches.",
+      },
+      {
+        label: "Time commitment",
+        detail: `Able to attend regularly across ${seed.duration.toLowerCase()}, in a morning, evening or weekend batch.`,
+      },
+    ],
+  };
+}
 
 /**
  * Slugs with hero artwork. Files are transparent 3D renders at
@@ -499,6 +686,8 @@ export function buildCourse(seed: CourseSeed): Course {
       },
     ],
 
+    eligibility: eligibilityFor(seed, title),
+
     outcomes: seed.roles.map((role, i) => ({
       role,
       blurb:
@@ -544,6 +733,9 @@ export function buildCourse(seed: CourseSeed): Course {
     ],
 
     reviews,
+
+    futureScope: futureScopeFor(seed, title, city),
+    whyChoose: whyChooseFor(seed, title, city),
 
     closing: `By the end of this ${title.toLowerCase()} programme in ${city}, you will not just understand ${title.toLowerCase()} theoretically — you will have built and reviewed real work, giving you a practical skill set and a portfolio ready for hiring conversations.`,
   };

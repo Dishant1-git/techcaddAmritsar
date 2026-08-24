@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, useMotionTemplate, useMotionValue } from "framer-motion";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, CheckCircle2 } from "lucide-react";
 import type { Course } from "@/lib/courses";
 import { cn } from "@/lib/utils";
 import { FadeUp, Stagger, WordsUp } from "@/components/ui/Motion";
@@ -45,7 +45,140 @@ function SpotlightCard({
   );
 }
 
-export default function CourseFit({ course }: { course: Course }) {
+/** The original persona-card treatment — four spotlight cards on why you fit. */
+function PersonasBlock({ course }: { course: Course }) {
+  return (
+    <>
+      <div className="max-w-2xl">
+        <FadeUp standalone>
+          <span className="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.18em] text-gold-300 uppercase">
+            <span className="h-px w-6 bg-brand-400/60" aria-hidden="true" />
+            Eligibility
+          </span>
+        </FadeUp>
+        <WordsUp
+          as="h2"
+          text="Four kinds of people join this batch."
+          accent="You are probably one of them."
+          className="mt-4 text-3xl leading-[1.14] font-semibold sm:text-4xl"
+        />
+        <span id="fit-heading" className="sr-only">
+          Who this course is for
+        </span>
+        <FadeUp
+          standalone
+          as="p"
+          className="mt-5 text-base leading-relaxed text-white/55"
+        >
+          There is no entrance test and no prerequisite degree. What the
+          programme does assume is that you will show up for the full{" "}
+          {course.spec[0].value.toLowerCase()} and do the project work.
+        </FadeUp>
+      </div>
+
+      <Stagger className="mt-12 grid gap-5 sm:grid-cols-2" gap={0.09}>
+        {course.audience.map((persona, i) => (
+          <FadeUp
+            key={persona.title}
+            className={cn(i % 2 === 1 && "sm:mt-10")}
+          >
+            <SpotlightCard className="h-full">
+              <div className="flex items-start justify-between gap-4">
+                <span className="font-display text-4xl font-semibold text-white/12">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span className="rounded-full border border-brand-500/30 bg-brand-600/15 px-3 py-1 text-[0.65rem] font-semibold tracking-wide text-brand-200 uppercase">
+                  {persona.tag}
+                </span>
+              </div>
+              <h3 className="font-display mt-4 text-xl leading-snug font-semibold">
+                {persona.title}
+              </h3>
+              <p className="mt-3 text-sm leading-relaxed text-white/55">
+                {persona.body}
+              </p>
+            </SpotlightCard>
+          </FadeUp>
+        ))}
+      </Stagger>
+    </>
+  );
+}
+
+/**
+ * The eligibility checklist treatment: straight criteria instead of persona
+ * copy — what the programme actually checks for, read at a glance rather than
+ * argued for across four cards.
+ */
+function ChecklistBlock({ course }: { course: Course }) {
+  const { eligibility } = course;
+
+  return (
+    <>
+      <div className="max-w-2xl">
+        <FadeUp standalone>
+          <span className="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.18em] text-gold-300 uppercase">
+            <span className="h-px w-6 bg-brand-400/60" aria-hidden="true" />
+            Eligibility
+          </span>
+        </FadeUp>
+        <WordsUp
+          as="h2"
+          text={eligibility.heading}
+          className="mt-4 text-3xl leading-[1.14] font-semibold sm:text-4xl"
+        />
+        <span id="fit-heading" className="sr-only">
+          {eligibility.heading}
+        </span>
+        <FadeUp
+          standalone
+          as="p"
+          className="mt-5 text-base leading-relaxed text-white/55"
+        >
+          {eligibility.intro}
+        </FadeUp>
+      </div>
+
+      <Stagger as="ul" className="mt-12 grid gap-4 sm:grid-cols-2" gap={0.08}>
+        {eligibility.criteria.map((item) => (
+          <FadeUp
+            as="li"
+            key={item.label}
+            className="flex items-start gap-4 rounded-2xl border border-white/10 bg-white/[0.035] p-6 transition-colors duration-300 hover:border-white/25"
+          >
+            <span
+              className="grid size-9 shrink-0 place-items-center rounded-full bg-brand-600/20 text-brand-300 ring-1 ring-brand-400/30 ring-inset"
+              aria-hidden="true"
+            >
+              <CheckCircle2 className="size-5" strokeWidth={2} />
+            </span>
+            <span>
+              <span className="font-display block text-base font-semibold text-white">
+                {item.label}
+              </span>
+              <span className="mt-1.5 block text-sm leading-relaxed text-white/55">
+                {item.detail}
+              </span>
+            </span>
+          </FadeUp>
+        ))}
+      </Stagger>
+    </>
+  );
+}
+
+/**
+ * `variant` picks the top block: `personas` (default) is the original four
+ * spotlight cards; `checklist` swaps in the straight eligibility criteria
+ * above instead. The outcomes panel below is unaffected either way.
+ */
+export default function CourseFit({
+  course,
+  variant = "personas",
+}: {
+  course: Course;
+  variant?: "personas" | "checklist";
+}) {
   const [openRole, setOpenRole] = useState(0);
 
   return (
@@ -65,58 +198,11 @@ export default function CourseFit({ course }: { course: Course }) {
 
       <div className="container-page">
         {/* ------------------------------------------------------ audience */}
-        <div className="max-w-2xl">
-          <FadeUp standalone>
-            <span className="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.18em] text-gold-300 uppercase">
-              <span className="h-px w-6 bg-brand-400/60" aria-hidden="true" />
-              Eligibility
-            </span>
-          </FadeUp>
-          <WordsUp
-            as="h2"
-            text="Four kinds of people join this batch."
-            accent="You are probably one of them."
-            className="mt-4 text-3xl leading-[1.14] font-semibold sm:text-4xl"
-          />
-          <span id="fit-heading" className="sr-only">
-            Who this course is for
-          </span>
-          <FadeUp
-            standalone
-            as="p"
-            className="mt-5 text-base leading-relaxed text-white/55"
-          >
-            There is no entrance test and no prerequisite degree. What the
-            programme does assume is that you will show up for the full{" "}
-            {course.spec[0].value.toLowerCase()} and do the project work.
-          </FadeUp>
-        </div>
-
-        <Stagger className="mt-12 grid gap-5 sm:grid-cols-2" gap={0.09}>
-          {course.audience.map((persona, i) => (
-            <FadeUp
-              key={persona.title}
-              className={cn(i % 2 === 1 && "sm:mt-10")}
-            >
-              <SpotlightCard className="h-full">
-                <div className="flex items-start justify-between gap-4">
-                  <span className="font-display text-4xl font-semibold text-white/12">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <span className="rounded-full border border-brand-500/30 bg-brand-600/15 px-3 py-1 text-[0.65rem] font-semibold tracking-wide text-brand-200 uppercase">
-                    {persona.tag}
-                  </span>
-                </div>
-                <h3 className="font-display mt-4 text-xl leading-snug font-semibold">
-                  {persona.title}
-                </h3>
-                <p className="mt-3 text-sm leading-relaxed text-white/55">
-                  {persona.body}
-                </p>
-              </SpotlightCard>
-            </FadeUp>
-          ))}
-        </Stagger>
+        {variant === "checklist" ? (
+          <ChecklistBlock course={course} />
+        ) : (
+          <PersonasBlock course={course} />
+        )}
 
         {/* ------------------------------------------------------ outcomes */}
         <div className="mt-24 grid gap-12 lg:grid-cols-12 lg:gap-16">

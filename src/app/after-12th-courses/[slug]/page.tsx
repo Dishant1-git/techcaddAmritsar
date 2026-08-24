@@ -13,7 +13,9 @@ import ModuleExplorer from "@/components/course/ModuleExplorer";
 import CoursePhases from "@/components/course/CoursePhases";
 import ToolStack from "@/components/course/ToolStack";
 import CourseFit from "@/components/course/CourseFit";
+import CourseFutureScope from "@/components/course/CourseFutureScope";
 import CourseProjects from "@/components/course/CourseProjects";
+import CourseWhyChoose from "@/components/course/CourseWhyChoose";
 import CourseReviews from "@/components/course/CourseReviews";
 import CourseFaq from "@/components/course/CourseFaq";
 import RelatedCourses from "@/components/course/RelatedCourses";
@@ -75,6 +77,8 @@ export default async function After12CoursePage({
       <ToolStack course={course} withMarks />
       <CourseFit course={course} />
       <CourseProjects course={course} variant="steps" />
+      <CourseFutureScope course={course} />
+      <CourseWhyChoose course={course} />
       <CourseReviews course={course} hoverBehavior="slow" />
       <CourseFaq course={course} variant="split" />
       <RelatedCourses

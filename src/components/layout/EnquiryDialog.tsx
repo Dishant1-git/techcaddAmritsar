@@ -25,7 +25,15 @@ import { cn } from "@/lib/utils";
 
 /* --------------------------------------------------------------- context */
 
-type EnquiryContext = { open: () => void };
+type EnquiryContext = {
+  /**
+   * Opens the dialog. Pass the slug of the course the visitor is currently
+   * reading about (e.g. from the course-page pathname) to have the course
+   * picker pre-select it — the Book Demo button in the header does this so
+   * clicking it never asks someone to re-pick the course they are already on.
+   */
+  open: (courseSlug?: string) => void;
+};
 
 const Ctx = createContext<EnquiryContext | null>(null);
 
@@ -41,8 +49,12 @@ const SEEN_KEY = "techcadd:enquiry-seen";
 
 export function EnquiryProvider({ children }: { children: React.ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [initialCourse, setInitialCourse] = useState<string | undefined>();
 
-  const open = useCallback(() => setIsOpen(true), []);
+  const open = useCallback((courseSlug?: string) => {
+    setInitialCourse(courseSlug);
+    setIsOpen(true);
+  }, []);
   const close = useCallback(() => setIsOpen(false), []);
 
   /* Show itself once, a few seconds in — never again this tab. */
@@ -72,7 +84,7 @@ export function EnquiryProvider({ children }: { children: React.ReactNode }) {
   return (
     <Ctx.Provider value={value}>
       {children}
-      <EnquiryDialog open={isOpen} onClose={close} />
+      <EnquiryDialog open={isOpen} onClose={close} initialCourse={initialCourse} />
     </Ctx.Provider>
   );
 }
@@ -89,9 +101,12 @@ function newChallenge() {
 function EnquiryDialog({
   open,
   onClose,
+  initialCourse,
 }: {
   open: boolean;
   onClose: () => void;
+  /** Course slug to pre-select, set by whatever opened the dialog. */
+  initialCourse?: string;
 }) {
   const panelRef = useRef<HTMLDivElement>(null);
   const baseId = useId();
@@ -107,6 +122,12 @@ function EnquiryDialog({
      client necessarily roll different numbers, so the one element that shows
      them opts out of hydration matching. */
   const [challenge, setChallenge] = useState(newChallenge);
+
+  /* Carries the course from wherever "Book Demo" was clicked into the
+     picker, each time the dialog opens with one to carry. */
+  useEffect(() => {
+    if (open && initialCourse) setCourse(initialCourse);
+  }, [open, initialCourse]);
 
   /* Escape to close, focus kept inside, page scroll locked while open —
      the same contract as the mobile drawer. */
