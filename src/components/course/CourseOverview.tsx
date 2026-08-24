@@ -98,7 +98,7 @@ export default function CourseOverview({
               <FadeUp standalone>
                 <span className="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.18em] text-gold-500 uppercase">
                   <span className="h-px w-6 bg-brand-600/40" aria-hidden="true" />
-                  Programme facts
+                  About the programme
                 </span>
               </FadeUp>
 
