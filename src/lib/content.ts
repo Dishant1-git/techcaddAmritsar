@@ -772,13 +772,53 @@ export const modules = {
   heading: "Included with every programme we run",
   accent: ["every", "programme"],
   body: LOREM_SHORT,
-  items: [
-    { n: "01", title: "Industry certificate", body: LOREM_SHORT },
-    { n: "02", title: "Internship letter", body: LOREM_SHORT },
-    { n: "03", title: "Live client projects", body: LOREM_SHORT },
-    { n: "04", title: "Doubt-clearing sessions", body: LOREM_SHORT },
-    { n: "05", title: "Interview preparation", body: LOREM_SHORT },
+  cta: { label: "See what's included", href: "/courses" },
+
+  /** Glass panel beside the lead copy — a receipt of what a batch includes. */
+  panel: {
+    title: "Programme includes",
+    subtitle: "Every batch, every course",
+    rows: [
+      "Industry certificate",
+      "Internship letter",
+      "Live client projects",
+      "Doubt-clearing sessions",
+      "Interview preparation",
+    ],
+    footer: "Issued on completion",
+  },
+
+  /** Two feature columns. `icon` keys into MODULE_ICON in the section. */
+  blocks: [
+    {
+      eyebrow: "On the course",
+      heading: "Everything you need while you are learning",
+      body: LOREM_SHORT,
+      items: [
+        { icon: "projects" as const, title: "Live client projects", body: LOREM_SHORT },
+        { icon: "doubts" as const, title: "Doubt-clearing sessions", body: LOREM_SHORT },
+        { icon: "interview" as const, title: "Interview preparation", body: LOREM_SHORT },
+      ],
+    },
+    {
+      eyebrow: "After the course",
+      heading: "Proof of work that hiring teams accept",
+      body: LOREM_SHORT,
+      items: [
+        { icon: "certificate" as const, title: "Industry certificate", body: LOREM_SHORT },
+        { icon: "letter" as const, title: "Internship letter", body: LOREM_SHORT },
+      ],
+    },
   ],
+
+  /** Closing diagram: what feeds in, and what comes out. */
+  flow: {
+    eyebrow: "How it fits together",
+    heading: "One track from your first class to your first offer",
+    body: LOREM_SHORT,
+    inputs: ["Live classes", "Mentor reviews", "Client projects"],
+    output: "Placement ready",
+  },
 };
 
 /* ------------------------------------------------------------ technologies */
@@ -828,34 +868,41 @@ export const capabilities = {
   eyebrow: "Capabilities",
   heading: "Best-in-class technology, engineered into your solution",
   accent: ["engineered"],
+  /** `icon` keys into CAPABILITY_ICON in the section. */
   items: [
     {
       label: "AI & Machine Learning",
+      icon: "ai" as const,
       body: LOREM_MED,
       stack: ["TensorFlow", "PyTorch", "Keras", "scikit-learn", "Hugging Face", "LangChain", "OpenCV", "Pandas", "NumPy", "Jupyter"],
     },
     {
       label: "Full-Stack Engineering",
+      icon: "fullstack" as const,
       body: LOREM_MED,
       stack: ["React", "Next.js", "Node.js", "Express", "MongoDB", "PostgreSQL", "Prisma", "GraphQL", "Tailwind CSS", "Vite"],
     },
     {
       label: "Data & Analytics",
+      icon: "data" as const,
       body: LOREM_MED,
       stack: ["Power BI", "Tableau", "Pandas", "Apache Spark", "Airflow", "dbt", "Snowflake", "BigQuery", "Excel", "SQL"],
     },
     {
       label: "Cloud & DevOps",
+      icon: "cloud" as const,
       body: LOREM_MED,
       stack: ["AWS", "Azure", "Docker", "Kubernetes", "Terraform", "Jenkins", "GitHub Actions", "Nginx", "Ansible", "Grafana"],
     },
     {
       label: "Cybersecurity",
+      icon: "security" as const,
       body: LOREM_MED,
       stack: ["Kali Linux", "Metasploit", "Burp Suite", "Wireshark", "Nmap", "Splunk", "OWASP ZAP", "Snort", "John the Ripper"],
     },
     {
       label: "Digital Marketing",
+      icon: "marketing" as const,
       body: LOREM_MED,
       stack: ["Google Ads", "Meta Ads", "GA4", "SEMrush", "Ahrefs", "HubSpot", "Mailchimp", "Canva", "Search Console"],
     },

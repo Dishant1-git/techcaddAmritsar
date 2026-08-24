@@ -6,6 +6,8 @@ import { cn } from "@/lib/utils";
 type TabGroupProps = {
   labels: string[];
   renderPanel: (index: number) => React.ReactNode;
+  /** Replaces the plain label text inside the tab button. */
+  renderLabel?: (label: string, index: number, selected: boolean) => React.ReactNode;
   orientation?: "horizontal" | "vertical";
   dark?: boolean;
   className?: string;
@@ -21,6 +23,7 @@ type TabGroupProps = {
 export default function TabGroup({
   labels,
   renderPanel,
+  renderLabel,
   orientation = "horizontal",
   dark = false,
   className,
@@ -66,7 +69,7 @@ export default function TabGroup({
         onKeyDown={onKeyDown}
         className={cn(
           vertical
-            ? "flex gap-2 overflow-x-auto pb-2 lg:w-64 lg:shrink-0 lg:flex-col lg:overflow-visible lg:pb-0"
+            ? "flex gap-2 overflow-x-auto pb-2 lg:w-72 lg:shrink-0 lg:flex-col lg:overflow-visible lg:pb-0"
             : "flex flex-wrap gap-2",
           listClassName,
         )}
@@ -97,7 +100,7 @@ export default function TabGroup({
                     : "text-muted ring-1 ring-inset ring-line hover:text-ink hover:ring-brand-200",
               )}
             >
-              {label}
+              {renderLabel ? renderLabel(label, i, selected) : label}
             </button>
           );
         })}

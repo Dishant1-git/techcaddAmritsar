@@ -162,11 +162,20 @@ function TechArc({ items }: { items: string[] }) {
         })}
       </div>
 
+      {/* Caption centred in the bowl the arc encloses — it fills what would
+          otherwise be dead space above the curve. */}
+      <div className="absolute top-[34%] left-1/2 z-20 -translate-x-1/2 -translate-y-1/2">
+        <span className="font-display block rounded-full border border-white/15 bg-ink/80 px-9 py-4 text-base font-semibold whitespace-nowrap text-white shadow-[0_24px_60px_-16px_rgb(0_0_0/1)] backdrop-blur-md lg:px-12 lg:py-5 lg:text-lg">
+          Taught at TechCadd
+        </span>
+      </div>
+
       {/*
-        The hub, centred in the bowl the arc encloses. Everything on the arc
-        reads as orbiting it, and it fills what was otherwise dead space.
+        The mark sits at the crown, where the chips start: they emerge from
+        behind it and drift out to either tip. Opaque and wider than a chip, so
+        logos appear from under it rather than popping in beside it.
       */}
-      <div className="absolute top-[34%] left-1/2 z-20 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center">
+      <div className="absolute top-[82%] left-1/2 z-20 -translate-x-1/2 -translate-y-1/2">
         <span className="relative grid size-24 place-items-center lg:size-28">
           {/* Concentric rings, widest first, plus a bloom behind the mark. */}
           <span
@@ -188,16 +197,6 @@ function TechArc({ items }: { items: string[] }) {
             height={192}
             className="relative size-20 rounded-full ring-1 ring-white/15 lg:size-24"
           />
-        </span>
-      </div>
-
-      {/* Caption at the crown, where the chips start — they emerge from
-          behind it and drift out to either tip. */}
-      <div className="absolute top-[82%] left-1/2 z-20 -translate-x-1/2 -translate-y-1/2">
-        {/* Sized to fully mask a chip at the crown, so logos appear from
-            under it rather than popping into view beside it. */}
-        <span className="font-display block rounded-full border border-white/15 bg-ink px-9 py-4 text-base font-semibold whitespace-nowrap text-white shadow-[0_24px_60px_-16px_rgb(0_0_0/1)] lg:px-12 lg:py-5 lg:text-lg">
-          Taught at TechCadd
         </span>
       </div>
     </div>

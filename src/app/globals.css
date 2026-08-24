@@ -378,6 +378,58 @@
     border-color: rgb(255 255 255 / 0.95);
   }
 
+  /*
+   * Light-ground twins of the dark textures above. Same circuit tile and
+   * solder grid, drawn in ink instead of white so they read on white panels.
+   */
+  .circuit-texture-ink {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160' fill='none'%3E%3Cg stroke='%230f172a' stroke-opacity='0.5' stroke-width='1'%3E%3Cpath d='M0 40h40V0'/%3E%3Cpath d='M40 40h50v50h70'/%3E%3Cpath d='M0 120h60v40'/%3E%3Cpath d='M120 0v60h40'/%3E%3Cpath d='M100 160v-30h60'/%3E%3Cpath d='M60 120v40'/%3E%3Cpath d='M90 90v40'/%3E%3C/g%3E%3Cg fill='%232563eb' fill-opacity='0.55'%3E%3Ccircle cx='40' cy='40' r='2.6'/%3E%3Ccircle cx='90' cy='90' r='2.6'/%3E%3Ccircle cx='120' cy='60' r='2.6'/%3E%3Ccircle cx='60' cy='120' r='2.6'/%3E%3Ccircle cx='100' cy='130' r='2.6'/%3E%3C/g%3E%3C/svg%3E");
+    background-size: 160px 160px;
+  }
+
+  .dot-matrix-ink {
+    background-image: radial-gradient(
+      rgb(15 23 42 / 0.5) 1px,
+      transparent 1px
+    );
+    background-size: 22px 22px;
+  }
+
+  /*
+   * Liquid glass. A translucent, blurred pane with a bright top-edge specular
+   * and a soft inner rim, so it reads as a physical sheet lying over whatever
+   * texture is behind it rather than a flat white box.
+   *
+   * The highlight is a ::before inset by a pixel, which keeps it inside the
+   * border radius without a second wrapper element.
+   */
+  .liquid-glass {
+    position: relative;
+    isolation: isolate;
+    background-color: rgb(255 255 255 / 0.55);
+    backdrop-filter: blur(20px) saturate(1.6);
+    -webkit-backdrop-filter: blur(20px) saturate(1.6);
+    border: 1px solid rgb(255 255 255 / 0.75);
+    box-shadow:
+      0 24px 70px -32px rgb(15 23 42 / 0.4),
+      inset 0 1px 0 0 rgb(255 255 255 / 0.9);
+  }
+
+  .liquid-glass::before {
+    content: "";
+    position: absolute;
+    inset: 1px;
+    z-index: -1;
+    border-radius: inherit;
+    background: linear-gradient(
+      to bottom,
+      rgb(255 255 255 / 0.75) 0%,
+      rgb(255 255 255 / 0.15) 45%,
+      rgb(255 255 255 / 0) 100%
+    );
+    pointer-events: none;
+  }
+
   /* Film-grain noise so the large gradient washes don't band on wide screens. */
   .tech-noise {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
