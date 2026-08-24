@@ -65,9 +65,13 @@ const CHECK_ICONS = [ClipboardCheck, Lightbulb, Users, FlaskConical];
  * itself — the hero strip, CTA and fit copy all read that array positionally,
  * so a row that is wrong for one page still has to exist in the data.
  *
- * `variant` picks the treatment: `ledger` is the plain rule-separated list the
- * main course pages use, `cards` is the after-12th one, where a school leaver
- * is scanning for the two or three facts that decide whether they qualify.
+ * `variant` picks the treatment. `ledger` is the plain rule-separated list the
+ * main course pages use and `cards` is the after-12th one, where a school
+ * leaver is scanning for the two or three facts that decide whether they
+ * qualify — both of them a heading-beside-facts split. `panel` breaks that
+ * shape for the training pages: prose across the top, then the facts as one
+ * full-width spec sheet, because a format is bought on its terms and those
+ * deserve to be read across rather than skimmed down a rail.
  */
 export default function CourseOverview({
   course,
@@ -76,13 +80,14 @@ export default function CourseOverview({
 }: {
   course: Course;
   hideSpecLabels?: readonly string[];
-  variant?: "ledger" | "cards";
+  variant?: "ledger" | "cards" | "panel";
 }) {
   const spec = hideSpecLabels
     ? course.spec.filter((row) => !hideSpecLabels.includes(row.label))
     : course.spec;
 
   if (variant === "cards") return <OverviewCards course={course} spec={spec} />;
+  if (variant === "panel") return <OverviewPanel course={course} spec={spec} />;
 
   return (
     <section
@@ -364,6 +369,129 @@ function OverviewCards({ course, spec }: { course: Course; spec: SpecRow[] }) {
             </Stagger>
           </div>
         </div>
+      </div>
+    </section>
+  );
+}
+
+
+/**
+ * The training treatment: prose first, then the terms as one dark spec sheet.
+ *
+ * The cells are a `gap-px` grid over a light background, so the dividers are
+ * the grid itself rather than borders that would double up at every join. A
+ * `dl` rather than a `ul` — these are label/value pairs, and on a page whose
+ * whole subject is "what are the terms" that distinction is worth making.
+ */
+function OverviewPanel({ course, spec }: { course: Course; spec: SpecRow[] }) {
+  return (
+    <section
+      id="overview"
+      aria-labelledby="overview-heading"
+      className="bg-white pt-24 pb-20 lg:pt-32 lg:pb-28"
+    >
+      <div className="container-page">
+        <div className="grid gap-8 lg:grid-cols-12 lg:gap-16">
+          <div className="lg:col-span-5">
+            <FadeUp standalone>
+              <span className="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.18em] text-gold-500 uppercase">
+                <span className="h-px w-6 bg-brand-600/40" aria-hidden="true" />
+                The terms
+              </span>
+            </FadeUp>
+            <FadeUp standalone>
+              <AccentedHeading
+                heading={course.overview.heading}
+                title={course.title}
+              />
+            </FadeUp>
+            <span id="overview-heading" className="sr-only">
+              {course.overview.heading}
+            </span>
+          </div>
+
+          <Stagger className="space-y-5 lg:col-span-7" gap={0.09}>
+            {course.overview.paragraphs.map((paragraph, i) => (
+              <FadeUp
+                as="p"
+                key={i}
+                className={
+                  i === 0
+                    ? "text-lg leading-relaxed font-medium text-ink"
+                    : "text-base leading-relaxed text-muted"
+                }
+              >
+                {paragraph}
+              </FadeUp>
+            ))}
+          </Stagger>
+        </div>
+
+        <FadeUp
+          standalone
+          className="relative isolate mt-14 overflow-hidden rounded-[1.75rem] border border-white/10 px-6 py-8 shadow-[0_40px_80px_-50px_rgb(15_23_42/0.7)] sm:rounded-[2rem] lg:mt-16 lg:px-10 lg:py-10"
+        >
+          <div aria-hidden="true" className="absolute inset-0 -z-10 bg-ink">
+            <div className="absolute inset-0 bg-gradient-to-br from-ink via-brand-900/55 to-ink" />
+            <div className="animate-aurora-a absolute -top-40 -left-24 size-[30rem] rounded-full bg-brand-600/25 blur-[130px] will-change-transform" />
+            <div className="animate-aurora-b absolute -right-32 -bottom-40 size-[26rem] rounded-full bg-accent/40 blur-[130px] will-change-transform" />
+            <div
+              className="animate-grid-pan absolute inset-0 opacity-40"
+              style={{
+                backgroundImage:
+                  "linear-gradient(to right, rgb(255 255 255 / 0.05) 1px, transparent 1px), linear-gradient(to bottom, rgb(255 255 255 / 0.05) 1px, transparent 1px)",
+                backgroundSize: "60px 60px",
+                maskImage:
+                  "radial-gradient(120% 100% at 50% 0%, black 10%, transparent 76%)",
+                WebkitMaskImage:
+                  "radial-gradient(120% 100% at 50% 0%, black 10%, transparent 76%)",
+              }}
+            />
+          </div>
+
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <span className="inline-flex items-center gap-2.5 text-xs font-semibold tracking-[0.18em] text-gold-300 uppercase">
+              <span className="h-px w-6 bg-gold-300/60" aria-hidden="true" />
+              Programme facts
+            </span>
+            <span className="text-xs text-white/40">
+              Confirmed in writing at counselling
+            </span>
+          </div>
+
+          {/* gap-px over a light ground: the grid gaps are the hairlines. */}
+          <dl className="mt-7 grid gap-px overflow-hidden rounded-2xl bg-white/12 sm:grid-cols-2 lg:grid-cols-3">
+            {spec.map((row) => (
+              <div key={row.label} className="bg-ink/85 px-5 py-5 lg:px-6">
+                <dt className="text-[0.65rem] font-semibold tracking-[0.2em] text-white/45 uppercase">
+                  {row.label}
+                </dt>
+                <dd className="font-display mt-2 text-base leading-snug font-semibold text-white">
+                  {row.value}
+                </dd>
+              </div>
+            ))}
+          </dl>
+
+          <ul className="mt-8 grid gap-3 sm:grid-cols-2">
+            {course.overview.checks.map((check) => (
+              <li
+                key={check}
+                className="flex items-start gap-3 rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3.5"
+              >
+                <span
+                  className="mt-0.5 grid size-5 shrink-0 place-items-center rounded-full bg-brand-500"
+                  aria-hidden="true"
+                >
+                  <Check className="size-3 text-white" strokeWidth={3} />
+                </span>
+                <span className="text-sm leading-relaxed text-white/70">
+                  {check}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </FadeUp>
       </div>
     </section>
   );

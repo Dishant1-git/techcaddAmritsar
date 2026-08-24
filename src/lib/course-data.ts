@@ -12,9 +12,10 @@
 
 /**
  * The four catalogue categories, plus three that exist only in the after-12th
- * registry (`after-12th-data.ts`), which reuses this seed shape. Keeping them
- * in one union means both registries build through the same `Course` model;
- * `courses.ts` decides which of them the /courses index renders.
+ * registry (`after-12th-data.ts`) and one that exists only in the training
+ * registry (`training-data.ts`) — both of which reuse this seed shape. Keeping
+ * them in one union means every registry builds through the same `Course`
+ * model; `courses.ts` decides which of them the /courses index renders.
  */
 export type CourseCategory =
   | "Programming"
@@ -23,7 +24,8 @@ export type CourseCategory =
   | "Cyber & Cloud"
   | "Graphics & Media"
   | "Design & Drafting"
-  | "Business & Office";
+  | "Business & Office"
+  | "Internship & Training";
 
 /** One curriculum unit: a title plus the concrete skills it leaves behind. */
 export type Topic = {

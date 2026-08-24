@@ -152,6 +152,7 @@ const CATEGORY_SLUGS: Record<CourseCategory, string> = {
   "Graphics & Media": "graphics-media",
   "Design & Drafting": "design-drafting",
   "Business & Office": "business-office",
+  "Internship & Training": "internship-training",
 };
 
 const CATEGORY_BLURBS: Record<CourseCategory, string> = {
@@ -169,6 +170,8 @@ const CATEGORY_BLURBS: Record<CourseCategory, string> = {
     "CAD and BIM for civil and mechanical work, taught to drawing-office standard.",
   "Business & Office":
     "Accounting, spreadsheets and the office software every commercial role assumes you already know.",
+  "Internship & Training":
+    "Fixed-duration formats built around live delivery work, ending in a certificate and a documented letter.",
 };
 
 /**

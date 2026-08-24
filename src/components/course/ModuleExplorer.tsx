@@ -6,6 +6,7 @@ import { ArrowUpRight, Check } from "lucide-react";
 import type { Course } from "@/lib/courses";
 import { cn } from "@/lib/utils";
 import { EASE, FadeUp, Stagger, WordsUp } from "@/components/ui/Motion";
+import ToolMark from "@/components/course/ToolMark";
 
 /**
  * Module explorer: the curriculum as a driveable index rather than a wall of
@@ -16,7 +17,18 @@ import { EASE, FadeUp, Stagger, WordsUp } from "@/components/ui/Motion";
  * Implemented as an ARIA vertical tablist — roving tabindex, arrow keys, and
  * Home/End — matching the pattern already used by the site's TabGroup.
  */
-export default function ModuleExplorer({ course }: { course: Course }) {
+/**
+ * `withMarks` prefixes each module's tool chips with the vendor's brand mark.
+ * On the training pages this is the only place a real toolchain is named, so
+ * the logos do the work the removed `ToolStack` section used to.
+ */
+export default function ModuleExplorer({
+  course,
+  withMarks = false,
+}: {
+  course: Course;
+  withMarks?: boolean;
+}) {
   const [active, setActive] = useState(0);
   const reduce = useReducedMotion();
   const baseId = useId();
@@ -232,8 +244,14 @@ export default function ModuleExplorer({ course }: { course: Course }) {
                         {current.tools.map((tool) => (
                           <span
                             key={tool}
-                            className="rounded-lg border border-line bg-brand-50/60 px-2.5 py-1.5 text-xs font-medium text-ink-mute"
+                            className={cn(
+                              "rounded-lg border border-line bg-brand-50/60 px-2.5 py-1.5 text-xs font-medium text-ink-mute",
+                              withMarks && "inline-flex items-center gap-2",
+                            )}
                           >
+                            {withMarks ? (
+                              <ToolMark tool={tool} className="size-3.5" />
+                            ) : null}
                             {tool}
                           </span>
                         ))}

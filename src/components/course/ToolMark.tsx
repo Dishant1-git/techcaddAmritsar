@@ -2,6 +2,28 @@ import { toolMarks } from "@/lib/tool-marks";
 import { cn } from "@/lib/utils";
 
 /**
+ * The registries name the same product differently — a course seed says
+ * "Python", the after-12th seeds say "Python 3" — and some name a specific
+ * edition of something whose mark is the parent brand. Rather than duplicate
+ * paths in `tool-marks.ts`, those spellings resolve to the key that holds one.
+ */
+const ALIASES: Record<string, string> = {
+  Python: "Python 3",
+  Ubuntu: "Ubuntu Linux",
+  "Search Console": "Google Search Console",
+  "Meta Business Suite": "Meta Ads Manager",
+  "Power BI Desktop": "Power BI",
+  "Tableau Desktop": "Tableau",
+  "Windows & Linux": "Windows",
+  "OpenAI API": "ChatGPT",
+  LangGraph: "LangChain",
+};
+
+function markFor(tool: string) {
+  return toolMarks[tool] ?? toolMarks[ALIASES[tool] ?? ""];
+}
+
+/**
  * Brand marks are drawn in the vendor's own colour, which several of them —
  * Hugging Face yellow, Google Fonts blue-white — pitch far too bright to read
  * against a white chip. Anything above this relative luminance gets swapped
@@ -45,7 +67,7 @@ export default function ToolMark({
   tone?: "brand" | "inherit";
   className?: string;
 }) {
-  const mark = toolMarks[tool];
+  const mark = markFor(tool);
   const inherit = tone === "inherit";
 
   if (!mark) {
