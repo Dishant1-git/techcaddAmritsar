@@ -22,7 +22,8 @@ const ASSURANCES = [
 function normalisePhone(raw: string) {
   let digits = raw.replace(/\D/g, "");
   if (digits.length === 12 && digits.startsWith("91")) digits = digits.slice(2);
-  else if (digits.length === 11 && digits.startsWith("0")) digits = digits.slice(1);
+  else if (digits.length === 11 && digits.startsWith("0"))
+    digits = digits.slice(1);
   return digits;
 }
 
@@ -30,15 +31,32 @@ function phoneError(raw: string) {
   const digits = normalisePhone(raw);
   if (!digits) return "Enter your mobile number.";
   if (digits.length !== 10) return "A mobile number is 10 digits.";
-  if (!/^[6-9]/.test(digits)) return "Indian mobile numbers start with 6, 7, 8 or 9.";
+  if (!/^[6-9]/.test(digits))
+    return "Indian mobile numbers start with 6, 7, 8 or 9.";
   return "";
 }
 
 /** Answers may be typed as digits or as words, so both are accepted. */
 const NUMBER_WORDS = [
-  "zero", "one", "two", "three", "four", "five", "six", "seven", "eight",
-  "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen",
-  "sixteen", "seventeen", "eighteen",
+  "zero",
+  "one",
+  "two",
+  "three",
+  "four",
+  "five",
+  "six",
+  "seven",
+  "eight",
+  "nine",
+  "ten",
+  "eleven",
+  "twelve",
+  "thirteen",
+  "fourteen",
+  "fifteen",
+  "sixteen",
+  "seventeen",
+  "eighteen",
 ];
 
 function captchaMatches(answer: string, expected: number) {
@@ -152,6 +170,7 @@ export default function CourseCta({
 
   return (
     <section
+      data-cursor="light"
       id="enquire"
       aria-labelledby="cta-heading"
       className="relative isolate overflow-hidden bg-ink py-20 text-white lg:py-28"
@@ -192,7 +211,11 @@ export default function CourseCta({
               your background.
             </FadeUp>
 
-            <Stagger as="ul" className="mt-8 flex flex-wrap gap-x-6 gap-y-3" gap={0.07}>
+            <Stagger
+              as="ul"
+              className="mt-8 flex flex-wrap gap-x-6 gap-y-3"
+              gap={0.07}
+            >
               {ASSURANCES.map((item) => (
                 <FadeUp
                   as="li"
@@ -219,7 +242,11 @@ export default function CourseCta({
                 About the {course.title} course · {course.spec[0].value}
               </p>
 
-              <form onSubmit={onSubmit} noValidate className="mt-6 flex flex-col gap-5">
+              <form
+                onSubmit={onSubmit}
+                noValidate
+                className="mt-6 flex flex-col gap-5"
+              >
                 {/* ------------------------------------------------- name */}
                 <div className="flex flex-col gap-1.5">
                   <label htmlFor={`${id}-name`} className={LABEL}>
@@ -234,7 +261,9 @@ export default function CourseCta({
                     onChange={(event) => setName(event.target.value)}
                     placeholder="Enter your full name"
                     aria-invalid={errors.name ? true : undefined}
-                    aria-describedby={errors.name ? `${id}-name-error` : undefined}
+                    aria-describedby={
+                      errors.name ? `${id}-name-error` : undefined
+                    }
                     className={cn(FIELD, errors.name && "border-rose-400/70")}
                   />
                   {errors.name && (
@@ -260,7 +289,9 @@ export default function CourseCta({
                     onChange={(event) => setPhone(event.target.value)}
                     placeholder="10-digit mobile number"
                     aria-invalid={errors.phone ? true : undefined}
-                    aria-describedby={errors.phone ? `${id}-phone-error` : undefined}
+                    aria-describedby={
+                      errors.phone ? `${id}-phone-error` : undefined
+                    }
                     className={cn(FIELD, errors.phone && "border-rose-400/70")}
                   />
                   {errors.phone && (
@@ -348,11 +379,16 @@ export default function CourseCta({
                     )}
                   />
 
-                  <p id={`${id}-answer-hint`} className="mt-2 text-xs text-white/45">
+                  <p
+                    id={`${id}-answer-hint`}
+                    className="mt-2 text-xs text-white/45"
+                  >
                     A one-line sum, so we know you are a person. Digits or words
                     both work.
                   </p>
-                  {errors.answer && <p className={cn(ERROR, "mt-1")}>{errors.answer}</p>}
+                  {errors.answer && (
+                    <p className={cn(ERROR, "mt-1")}>{errors.answer}</p>
+                  )}
                 </div>
 
                 <button

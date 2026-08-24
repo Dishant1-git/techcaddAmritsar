@@ -85,6 +85,7 @@ function CertificatePlate({ view }: { view: AiCourseView }) {
 export default function AiCertificate({ view }: { view: AiCourseView }) {
   return (
     <section
+      data-cursor="light"
       id="ai-certificate"
       aria-labelledby="ai-certificate-heading"
       className="relative isolate overflow-hidden bg-ink py-20 text-white lg:py-28"

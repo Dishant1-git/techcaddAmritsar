@@ -18,6 +18,7 @@ import Stars from "./Stars";
 export default function ReviewsHero() {
   return (
     <section
+      data-cursor="light"
       aria-labelledby="reviews-hero-heading"
       className="relative isolate overflow-hidden bg-ink pt-32 pb-24 text-white lg:pt-40 lg:pb-28"
     >

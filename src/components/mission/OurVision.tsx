@@ -12,6 +12,7 @@ import { Eyebrow } from "@/components/ui/Section";
 export default function OurVision() {
   return (
     <section
+      data-cursor="light"
       id="our-vision"
       aria-labelledby="our-vision-heading"
       className="relative isolate scroll-mt-28 overflow-hidden bg-ink py-20 text-white lg:py-28"

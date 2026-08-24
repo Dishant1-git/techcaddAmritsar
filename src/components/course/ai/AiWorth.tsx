@@ -62,6 +62,7 @@ function PhotoFrame({
 export default function AiWorth({ view }: { view: AiCourseView }) {
   return (
     <section
+      data-cursor="light"
       id="ai-worth"
       aria-labelledby="ai-worth-heading"
       className="relative isolate overflow-hidden bg-ink py-20 text-white lg:py-28"

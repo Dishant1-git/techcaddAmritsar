@@ -20,6 +20,7 @@ export default function Categories() {
 
   return (
     <section
+      data-cursor="light"
       id="categories"
       aria-labelledby="categories-heading"
       className="relative isolate overflow-hidden bg-ink py-20 text-white lg:py-28"

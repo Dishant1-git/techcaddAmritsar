@@ -18,6 +18,7 @@ import GalleryTile from "./GalleryTile";
 export default function GalleryHero() {
   return (
     <section
+      data-cursor="light"
       aria-labelledby="gallery-hero-heading"
       className="relative isolate overflow-hidden bg-ink pt-32 pb-24 text-white lg:pt-40 lg:pb-28"
     >
@@ -52,7 +53,10 @@ export default function GalleryHero() {
           <div className="lg:col-span-6">
             <Reveal delay={60} className="mt-6">
               <span className="inline-flex items-center gap-2 rounded-full bg-white/8 px-3.5 py-1.5 text-xs font-medium tracking-[0.14em] uppercase ring-1 ring-white/15 ring-inset backdrop-blur-md">
-                <ImageIcon className="size-3.5 text-brand-400" aria-hidden="true" />
+                <ImageIcon
+                  className="size-3.5 text-brand-400"
+                  aria-hidden="true"
+                />
                 {galleryHero.eyebrow}
                 <span className="text-white/40">
                   {galleryStats.photos} frames

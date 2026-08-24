@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter, Sora } from "next/font/google";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import CursorRing from "@/components/ui/CursorRing";
+import ScrollToTop from "@/components/ui/ScrollToTop";
 import "./globals.css";
 
 const inter = Inter({
@@ -61,6 +63,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           {children}
         </main>
         <Footer />
+        <ScrollToTop />
+        <CursorRing />
       </body>
     </html>
   );

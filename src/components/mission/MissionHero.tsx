@@ -12,6 +12,7 @@ import Reveal from "@/components/ui/Reveal";
 export default function MissionHero() {
   return (
     <section
+      data-cursor="light"
       aria-labelledby="mission-hero-heading"
       className="relative isolate overflow-hidden bg-ink pt-32 pb-24 text-white lg:pt-40 lg:pb-32"
     >
@@ -34,13 +35,19 @@ export default function MissionHero() {
               <nav aria-label="Breadcrumb">
                 <ol className="flex flex-wrap items-center gap-1 text-xs text-white/40">
                   <li>
-                    <Link href="/" className="transition-colors hover:text-white">
+                    <Link
+                      href="/"
+                      className="transition-colors hover:text-white"
+                    >
                       Home
                     </Link>
                   </li>
                   <ChevronRight className="size-3" aria-hidden="true" />
                   <li>
-                    <Link href="/about" className="transition-colors hover:text-white">
+                    <Link
+                      href="/about"
+                      className="transition-colors hover:text-white"
+                    >
                       About TechCadd
                     </Link>
                   </li>
@@ -54,7 +61,10 @@ export default function MissionHero() {
 
             <Reveal delay={60} className="mt-6">
               <span className="inline-flex items-center gap-2 rounded-full bg-white/8 px-3.5 py-1.5 text-xs font-medium tracking-[0.14em] uppercase ring-1 ring-white/15 ring-inset backdrop-blur-md">
-                <span className="size-1.5 rounded-full bg-brand-400" aria-hidden="true" />
+                <span
+                  className="size-1.5 rounded-full bg-brand-400"
+                  aria-hidden="true"
+                />
                 {missionHero.eyebrow}
               </span>
             </Reveal>

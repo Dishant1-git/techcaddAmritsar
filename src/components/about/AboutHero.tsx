@@ -14,6 +14,7 @@ export default function AboutHero() {
   return (
     <>
       <section
+        data-cursor="light"
         aria-labelledby="about-hero-heading"
         className="relative isolate overflow-hidden bg-ink pt-32 pb-32 text-white lg:pt-40 lg:pb-40"
       >
@@ -38,7 +39,10 @@ export default function AboutHero() {
                 <nav aria-label="Breadcrumb">
                   <ol className="flex flex-wrap items-center gap-1 text-xs text-white/40">
                     <li>
-                      <Link href="/" className="transition-colors hover:text-white">
+                      <Link
+                        href="/"
+                        className="transition-colors hover:text-white"
+                      >
                         Home
                       </Link>
                     </li>
@@ -85,7 +89,10 @@ export default function AboutHero() {
                       key={chip}
                       className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/[0.04] px-3.5 py-2 text-xs text-white/65"
                     >
-                      <span className="size-1.5 rounded-full bg-brand-400" aria-hidden="true" />
+                      <span
+                        className="size-1.5 rounded-full bg-brand-400"
+                        aria-hidden="true"
+                      />
                       {chip}
                     </li>
                   ))}

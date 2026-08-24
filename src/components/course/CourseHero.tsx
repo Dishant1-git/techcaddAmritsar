@@ -9,7 +9,13 @@ import {
   useSpring,
   useTransform,
 } from "framer-motion";
-import { ArrowRight, ChevronRight, Clock, MonitorPlay, Signal } from "lucide-react";
+import {
+  ArrowRight,
+  ChevronRight,
+  Clock,
+  MonitorPlay,
+  Signal,
+} from "lucide-react";
 import type { Course } from "@/lib/courses";
 import { site } from "@/lib/content";
 import { EASE, FadeUp, Stagger, WordsUp } from "@/components/ui/Motion";
@@ -32,11 +38,23 @@ function CourseArt({ src }: { src: string }) {
   const pointerY = useMotionValue(0);
   const spring = { stiffness: 110, damping: 18, mass: 0.6 };
 
-  const rotateX = useSpring(useTransform(pointerY, [-0.5, 0.5], [12, -12]), spring);
-  const rotateY = useSpring(useTransform(pointerX, [-0.5, 0.5], [-14, 14]), spring);
+  const rotateX = useSpring(
+    useTransform(pointerY, [-0.5, 0.5], [12, -12]),
+    spring,
+  );
+  const rotateY = useSpring(
+    useTransform(pointerX, [-0.5, 0.5], [-14, 14]),
+    spring,
+  );
   /* The glow lags behind the render, opposite the tilt. */
-  const glowX = useSpring(useTransform(pointerX, [-0.5, 0.5], [26, -26]), spring);
-  const glowY = useSpring(useTransform(pointerY, [-0.5, 0.5], [20, -20]), spring);
+  const glowX = useSpring(
+    useTransform(pointerX, [-0.5, 0.5], [26, -26]),
+    spring,
+  );
+  const glowY = useSpring(
+    useTransform(pointerY, [-0.5, 0.5], [20, -20]),
+    spring,
+  );
 
   function onPointerMove(event: React.PointerEvent<HTMLDivElement>) {
     if (reduce) return;
@@ -62,7 +80,11 @@ function CourseArt({ src }: { src: string }) {
         initial={reduce ? false : { opacity: 0, scale: 0.92, y: 24 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         transition={{ duration: 1, delay: 0.15, ease: EASE }}
-        style={reduce ? undefined : { rotateX, rotateY, transformStyle: "preserve-3d" }}
+        style={
+          reduce
+            ? undefined
+            : { rotateX, rotateY, transformStyle: "preserve-3d" }
+        }
         className="relative grid size-full place-items-center"
       >
         <motion.span
@@ -114,6 +136,7 @@ export default function CourseHero({
   return (
     <>
       <section
+        data-cursor="light"
         aria-labelledby="course-hero-heading"
         className="relative isolate overflow-hidden bg-ink pt-32 pb-36 text-white lg:pt-40 lg:pb-44"
       >
@@ -148,7 +171,10 @@ export default function CourseHero({
                 <nav aria-label="Breadcrumb">
                   <ol className="flex flex-wrap items-center gap-1 text-xs text-white/40">
                     <li>
-                      <Link href="/" className="transition-colors hover:text-white">
+                      <Link
+                        href="/"
+                        className="transition-colors hover:text-white"
+                      >
                         Home
                       </Link>
                     </li>
@@ -205,7 +231,10 @@ export default function CourseHero({
                     key={label}
                     className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/[0.04] px-3.5 py-2 text-xs text-white/65"
                   >
-                    <Icon className="size-3.5 text-brand-400" aria-hidden="true" />
+                    <Icon
+                      className="size-3.5 text-brand-400"
+                      aria-hidden="true"
+                    />
                     {label}
                   </span>
                 ))}

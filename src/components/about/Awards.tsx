@@ -7,6 +7,7 @@ import { Eyebrow } from "@/components/ui/Section";
 export default function Awards() {
   return (
     <section
+      data-cursor="light"
       id="awards"
       aria-labelledby="awards-heading"
       className="relative isolate overflow-hidden bg-ink py-20 text-white lg:py-28"

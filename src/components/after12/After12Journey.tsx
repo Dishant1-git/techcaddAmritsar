@@ -7,6 +7,7 @@ import { Eyebrow } from "@/components/ui/Section";
 export default function After12Journey() {
   return (
     <section
+      data-cursor="light"
       id="how-it-runs"
       aria-labelledby="after12-journey-heading"
       className="relative isolate overflow-hidden bg-ink py-20 text-white lg:py-28"

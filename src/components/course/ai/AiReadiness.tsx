@@ -65,6 +65,7 @@ function AiDisciplineBoard() {
 export default function AiReadiness({ view }: { view: AiCourseView }) {
   return (
     <section
+      data-cursor="light"
       id="ai-readiness"
       aria-labelledby="ai-readiness-heading"
       className="relative isolate overflow-hidden bg-ink py-20 text-white lg:py-28"

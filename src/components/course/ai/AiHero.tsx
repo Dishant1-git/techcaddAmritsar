@@ -110,6 +110,7 @@ export default function AiHero({
 
   return (
     <section
+      data-cursor="light"
       aria-labelledby="ai-hero-heading"
       className="relative isolate overflow-hidden bg-ink pt-32 pb-20 text-white lg:pt-40 lg:pb-24"
     >

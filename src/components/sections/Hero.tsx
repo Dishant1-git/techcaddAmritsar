@@ -7,6 +7,7 @@ import Reveal from "@/components/ui/Reveal";
 export default function Hero() {
   return (
     <section
+      data-cursor="light"
       id="hero"
       aria-labelledby="hero-heading"
       className="relative isolate flex min-h-screen flex-col overflow-hidden bg-ink pt-32 pb-20 text-white lg:pt-40 lg:pb-28"
@@ -91,7 +92,10 @@ export default function Hero() {
 
           <dl className="mt-6 grid w-full max-w-4xl gap-px overflow-hidden rounded-2xl bg-white/10 text-left sm:grid-cols-3">
             {hero.stats.map((stat) => (
-              <div key={stat.title} className="bg-ink/70 px-5 py-5 backdrop-blur-sm">
+              <div
+                key={stat.title}
+                className="bg-ink/70 px-5 py-5 backdrop-blur-sm"
+              >
                 <dt className="font-display text-sm font-semibold text-white">
                   {stat.title}
                 </dt>

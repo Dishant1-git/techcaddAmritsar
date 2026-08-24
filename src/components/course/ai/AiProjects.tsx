@@ -14,6 +14,7 @@ import AiHead from "./AiHead";
 export default function AiProjects({ view }: { view: AiCourseView }) {
   return (
     <section
+      data-cursor="light"
       id="ai-projects"
       aria-labelledby="ai-projects-heading"
       className="relative isolate overflow-hidden bg-ink py-20 text-white lg:py-28"

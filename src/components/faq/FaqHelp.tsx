@@ -10,6 +10,7 @@ import { Eyebrow } from "@/components/ui/Section";
 export default function FaqHelp() {
   return (
     <section
+      data-cursor="light"
       id="ask-us"
       aria-labelledby="ask-us-heading"
       className="relative isolate scroll-mt-28 overflow-hidden bg-ink py-20 text-white lg:py-28"

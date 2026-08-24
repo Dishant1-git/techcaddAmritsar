@@ -335,6 +335,49 @@
     animation: watermark-shimmer 9s linear infinite;
   }
 
+  /*
+   * Pointer ring. Its transform is written by CursorRing's rAF loop; only the
+   * paint properties live here. It never receives pointer events, and the
+   * component refuses to mount its loop on touch or under reduced motion, so
+   * this is inert on those devices.
+   */
+  .cursor-ring {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 120;
+    width: 2rem;
+    height: 2rem;
+    border: 1.5px solid rgb(37 99 235 / 0.6);
+    border-radius: 9999px;
+    opacity: 0;
+    pointer-events: none;
+    will-change: transform;
+    transition:
+      opacity 0.3s ease,
+      background-color 0.3s ease,
+      border-color 0.3s ease;
+  }
+
+  .cursor-ring.is-active {
+    opacity: 1;
+  }
+
+  .cursor-ring.is-hovering {
+    background-color: rgb(37 99 235 / 0.12);
+    border-color: rgb(37 99 235 / 0.95);
+  }
+
+  /* Over dark sections the ring inverts so it stays visible. */
+  .cursor-ring.is-light {
+    border-color: rgb(255 255 255 / 0.7);
+  }
+
+  .cursor-ring.is-light.is-hovering {
+    background-color: rgb(255 255 255 / 0.16);
+    border-color: rgb(255 255 255 / 0.95);
+  }
+
   /* Film-grain noise so the large gradient washes don't band on wide screens. */
   .tech-noise {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");

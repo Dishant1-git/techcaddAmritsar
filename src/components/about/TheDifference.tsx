@@ -11,6 +11,7 @@ import { Eyebrow } from "@/components/ui/Section";
 export default function TheDifference() {
   return (
     <section
+      data-cursor="light"
       id="the-difference"
       aria-labelledby="the-difference-heading"
       className="relative isolate overflow-hidden bg-ink py-20 text-white lg:py-28"

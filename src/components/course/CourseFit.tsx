@@ -50,6 +50,7 @@ export default function CourseFit({ course }: { course: Course }) {
 
   return (
     <section
+      data-cursor="light"
       id="who-its-for"
       aria-labelledby="fit-heading"
       className="relative isolate overflow-hidden bg-ink py-20 text-white lg:py-28"
@@ -93,7 +94,10 @@ export default function CourseFit({ course }: { course: Course }) {
 
         <Stagger className="mt-12 grid gap-5 sm:grid-cols-2" gap={0.09}>
           {course.audience.map((persona, i) => (
-            <FadeUp key={persona.title} className={cn(i % 2 === 1 && "sm:mt-10")}>
+            <FadeUp
+              key={persona.title}
+              className={cn(i % 2 === 1 && "sm:mt-10")}
+            >
               <SpotlightCard className="h-full">
                 <div className="flex items-start justify-between gap-4">
                   <span className="font-display text-4xl font-semibold text-white/12">
@@ -120,7 +124,10 @@ export default function CourseFit({ course }: { course: Course }) {
             <div className="lg:sticky lg:top-28">
               <FadeUp standalone>
                 <span className="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.18em] text-gold-300 uppercase">
-                  <span className="h-px w-6 bg-brand-400/60" aria-hidden="true" />
+                  <span
+                    className="h-px w-6 bg-brand-400/60"
+                    aria-hidden="true"
+                  />
                   Where it leads
                 </span>
               </FadeUp>
@@ -169,7 +176,10 @@ export default function CourseFit({ course }: { course: Course }) {
                           height: open ? "auto" : 0,
                           opacity: open ? 1 : 0,
                         }}
-                        transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                        transition={{
+                          duration: 0.35,
+                          ease: [0.22, 1, 0.36, 1],
+                        }}
                         className="block overflow-hidden"
                       >
                         <span className="block pt-2 text-sm leading-relaxed text-white/50">

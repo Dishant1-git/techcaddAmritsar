@@ -10,6 +10,7 @@ import Button from "@/components/ui/Button";
 export default function After12Hero() {
   return (
     <section
+      data-cursor="light"
       aria-labelledby="after12-heading"
       className="relative isolate overflow-hidden bg-ink pt-32 pb-20 text-white lg:pt-40 lg:pb-24"
     >
@@ -26,7 +27,10 @@ export default function After12Hero() {
         <div className="grid gap-12 lg:grid-cols-12 lg:items-end lg:gap-16">
           <div className="lg:col-span-7">
             <span className="inline-flex items-center gap-2 rounded-full bg-white/8 px-3.5 py-1.5 text-xs font-medium ring-1 ring-white/15 ring-inset backdrop-blur-md">
-              <GraduationCap className="size-3.5 text-gold-300" aria-hidden="true" />
+              <GraduationCap
+                className="size-3.5 text-gold-300"
+                aria-hidden="true"
+              />
               {after12Hero.eyebrow}
             </span>
 
@@ -54,11 +58,19 @@ export default function After12Hero() {
             </ul>
 
             <div className="mt-9 flex flex-wrap gap-3">
-              <Button href={after12Hero.primaryCta.href} variant="gradient" size="lg">
+              <Button
+                href={after12Hero.primaryCta.href}
+                variant="gradient"
+                size="lg"
+              >
                 {after12Hero.primaryCta.label}
                 <ArrowRight className="size-4" aria-hidden="true" />
               </Button>
-              <Button href={after12Hero.secondaryCta.href} variant="ghost" size="lg">
+              <Button
+                href={after12Hero.secondaryCta.href}
+                variant="ghost"
+                size="lg"
+              >
                 {after12Hero.secondaryCta.label}
               </Button>
             </div>
@@ -67,7 +79,10 @@ export default function After12Hero() {
           <div className="lg:col-span-5">
             <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/10">
               {after12Hero.stats.map((stat) => (
-                <div key={stat.label} className="bg-ink/70 px-5 py-6 backdrop-blur-sm">
+                <div
+                  key={stat.label}
+                  className="bg-ink/70 px-5 py-6 backdrop-blur-sm"
+                >
                   <dt className="text-xs tracking-wide text-white/45">
                     {stat.label}
                   </dt>

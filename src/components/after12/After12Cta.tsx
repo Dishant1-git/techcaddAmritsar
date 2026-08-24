@@ -39,6 +39,7 @@ export default function After12Cta() {
 
   return (
     <section
+      data-cursor="light"
       id="enquire"
       aria-labelledby="after12-cta-heading"
       className="relative isolate scroll-mt-24 overflow-hidden bg-ink py-20 text-white lg:py-28"
@@ -87,14 +88,20 @@ export default function After12Cta() {
             <Reveal delay={160}>
               <dl className="mt-9 flex flex-col gap-4 border-t border-white/10 pt-7 text-sm sm:flex-row sm:flex-wrap sm:gap-8">
                 <div className="flex items-start gap-2.5">
-                  <MapPin className="mt-0.5 size-4 shrink-0 text-brand-400" aria-hidden="true" />
+                  <MapPin
+                    className="mt-0.5 size-4 shrink-0 text-brand-400"
+                    aria-hidden="true"
+                  />
                   <div>
                     <dt className="sr-only">Address</dt>
                     <dd className="text-white/70">{footer.address}</dd>
                   </div>
                 </div>
                 <div className="flex items-start gap-2.5">
-                  <Phone className="mt-0.5 size-4 shrink-0 text-brand-400" aria-hidden="true" />
+                  <Phone
+                    className="mt-0.5 size-4 shrink-0 text-brand-400"
+                    aria-hidden="true"
+                  />
                   <div>
                     <dt className="sr-only">Phone</dt>
                     <dd>
@@ -108,7 +115,10 @@ export default function After12Cta() {
                   </div>
                 </div>
                 <div className="flex items-start gap-2.5">
-                  <Clock className="mt-0.5 size-4 shrink-0 text-brand-400" aria-hidden="true" />
+                  <Clock
+                    className="mt-0.5 size-4 shrink-0 text-brand-400"
+                    aria-hidden="true"
+                  />
                   <div>
                     <dt className="sr-only">Hours</dt>
                     <dd className="text-white/70">{footer.hours}</dd>
@@ -205,7 +215,12 @@ export default function After12Cta() {
                 </div>
               </div>
 
-              <Button type="submit" variant="gradient" size="lg" className="mt-7 w-full">
+              <Button
+                type="submit"
+                variant="gradient"
+                size="lg"
+                className="mt-7 w-full"
+              >
                 Request a call back
                 <ArrowRight className="size-4" aria-hidden="true" />
               </Button>

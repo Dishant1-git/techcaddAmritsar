@@ -11,6 +11,7 @@ import { Eyebrow } from "@/components/ui/Section";
 export default function HowWeTeach() {
   return (
     <section
+      data-cursor="light"
       id="how-we-teach"
       aria-labelledby="how-we-teach-heading"
       className="relative isolate overflow-hidden bg-ink py-20 text-white lg:py-28"

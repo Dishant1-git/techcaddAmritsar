@@ -25,6 +25,7 @@ export default function FinalCta() {
 
   return (
     <section
+      data-cursor="light"
       id="get-started"
       aria-labelledby="get-started-heading"
       className="relative isolate overflow-hidden bg-ink py-20 text-white lg:py-28"

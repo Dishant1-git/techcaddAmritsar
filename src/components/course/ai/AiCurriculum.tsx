@@ -51,6 +51,7 @@ export default function AiCurriculum({ course }: { course: Course }) {
 
   return (
     <section
+      data-cursor="light"
       id="ai-curriculum"
       aria-labelledby="ai-curriculum-heading"
       className="relative isolate overflow-hidden bg-ink py-20 text-white lg:py-28"

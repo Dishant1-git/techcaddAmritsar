@@ -19,6 +19,7 @@ export default function AiCompare({ view }: { view: AiCourseView }) {
 
   return (
     <section
+      data-cursor="light"
       id="ai-compare"
       aria-labelledby="ai-compare-heading"
       className="relative isolate overflow-hidden bg-ink py-20 text-white lg:py-28"
