@@ -1,6 +1,7 @@
 "use client";
 
 import type { Course } from "@/lib/courses";
+import { cn } from "@/lib/utils";
 import { FadeUp, Stagger, WordsUp } from "@/components/ui/Motion";
 
 /**
@@ -8,26 +9,60 @@ import { FadeUp, Stagger, WordsUp } from "@/components/ui/Motion";
  * numbered-tile grid the AI mega-menu pages use for the equivalent argument —
  * kept as its own component because the standard and after-12th page shapes
  * have no analogue for it otherwise.
+ *
+ * `tone` picks the ground. `dark` carries the exact treatment `CourseFit` uses
+ * for its eligibility block — same ink base, gradient, circuit and grid
+ * textures and bloom pair — so the two read as one family rather than two
+ * near-misses.
  */
-export default function CourseWhyChoose({ course }: { course: Course }) {
+export default function CourseWhyChoose({
+  course,
+  tone = "light",
+}: {
+  course: Course;
+  tone?: "light" | "dark";
+}) {
   const { whyChoose } = course;
+  const dark = tone === "dark";
 
   return (
     <section
       id="why-choose"
       aria-labelledby="why-choose-heading"
-      className="relative isolate overflow-hidden border-y border-line bg-white py-20 lg:py-28"
+      data-cursor={dark ? "light" : undefined}
+      className={cn(
+        "py-20 lg:py-28",
+        dark
+          ? "relative isolate overflow-hidden bg-ink text-white"
+          : "border-y border-line bg-white",
+      )}
     >
-      <div
-        aria-hidden="true"
-        className="absolute -z-10 -top-40 left-1/2 size-[36rem] -translate-x-1/2 rounded-full bg-brand-50 blur-[130px]"
-      />
+      {dark && (
+        <div aria-hidden="true" className="absolute inset-0 -z-10">
+          <div className="absolute inset-0 bg-gradient-to-b from-ink via-brand-900/45 to-ink" />
+          <div className="animate-trace-slow circuit-texture absolute inset-0 opacity-25" />
+          <div className="animate-grid-pan grid-overlay absolute inset-0 opacity-30" />
+          <div className="animate-aurora-a absolute -top-40 left-1/4 size-[34rem] rounded-full bg-brand-600/20 blur-[130px] will-change-transform" />
+          <div className="animate-aurora-b absolute -right-32 bottom-0 size-[30rem] rounded-full bg-accent/35 blur-[130px] will-change-transform" />
+        </div>
+      )}
 
       <div className="container-page">
         <div className="mx-auto flex max-w-2xl flex-col items-center text-center">
           <FadeUp standalone>
-            <span className="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.18em] text-gold-500 uppercase">
-              <span className="h-px w-6 bg-brand-600/40" aria-hidden="true" />
+            <span
+              className={cn(
+                "inline-flex items-center gap-2 text-xs font-semibold tracking-[0.18em] uppercase",
+                dark ? "text-gold-300" : "text-gold-500",
+              )}
+            >
+              <span
+                className={cn(
+                  "h-px w-6",
+                  dark ? "bg-brand-400/60" : "bg-brand-600/40",
+                )}
+                aria-hidden="true"
+              />
               Why choose {course.title}
             </span>
           </FadeUp>
@@ -35,8 +70,11 @@ export default function CourseWhyChoose({ course }: { course: Course }) {
             as="h2"
             text={whyChoose.heading}
             accent={whyChoose.accent}
-            accentClassName="text-gold-500"
-            className="mt-4 text-3xl leading-[1.14] font-semibold text-ink sm:text-4xl"
+            accentClassName={dark ? "text-gold-300" : "text-gold-500"}
+            className={cn(
+              "mt-4 text-3xl leading-[1.14] font-semibold sm:text-4xl",
+              !dark && "text-ink",
+            )}
           />
           <span id="why-choose-heading" className="sr-only">
             {whyChoose.heading} {whyChoose.accent}
@@ -44,7 +82,10 @@ export default function CourseWhyChoose({ course }: { course: Course }) {
           <FadeUp
             standalone
             as="p"
-            className="mt-5 text-base leading-relaxed text-muted"
+            className={cn(
+              "mt-5 text-base leading-relaxed",
+              dark ? "text-white/55" : "text-muted",
+            )}
           >
             {whyChoose.body}
           </FadeUp>
@@ -52,22 +93,45 @@ export default function CourseWhyChoose({ course }: { course: Course }) {
 
         <Stagger
           as="ul"
-          className="mt-14 grid gap-px overflow-hidden rounded-3xl border border-line bg-line sm:grid-cols-2 lg:mt-16 lg:grid-cols-3"
+          className={cn(
+            "mt-14 grid gap-px overflow-hidden rounded-3xl border sm:grid-cols-2 lg:mt-16 lg:grid-cols-3",
+            dark ? "border-white/12 bg-white/12" : "border-line bg-line",
+          )}
           gap={0.06}
         >
           {whyChoose.reasons.map((reason, i) => (
             <FadeUp
               as="li"
               key={reason.title}
-              className="group relative bg-white p-7 transition-colors duration-300 hover:bg-brand-50/60"
+              className={cn(
+                "group relative p-7 transition-colors duration-300",
+                dark
+                  ? "bg-ink/80 hover:bg-white/[0.06]"
+                  : "bg-white hover:bg-brand-50/60",
+              )}
             >
-              <span className="font-display text-xs font-semibold tracking-[0.2em] text-brand-600/70">
+              <span
+                className={cn(
+                  "font-display text-xs font-semibold tracking-[0.2em]",
+                  dark ? "text-brand-300" : "text-brand-600/70",
+                )}
+              >
                 {String(i + 1).padStart(2, "0")}
               </span>
-              <h3 className="font-display mt-4 text-lg leading-snug font-semibold text-ink">
+              <h3
+                className={cn(
+                  "font-display mt-4 text-lg leading-snug font-semibold",
+                  !dark && "text-ink",
+                )}
+              >
                 {reason.title}
               </h3>
-              <p className="mt-2.5 text-sm leading-relaxed text-muted">
+              <p
+                className={cn(
+                  "mt-2.5 text-sm leading-relaxed",
+                  dark ? "text-white/55" : "text-muted",
+                )}
+              >
                 {reason.body}
               </p>
             </FadeUp>

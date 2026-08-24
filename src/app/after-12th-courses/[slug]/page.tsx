@@ -8,6 +8,7 @@ import {
 } from "@/lib/after-12th-courses";
 import { site } from "@/lib/content";
 import CourseHero from "@/components/course/CourseHero";
+import CourseIntro from "@/components/course/CourseIntro";
 import CourseOverview from "@/components/course/CourseOverview";
 import ModuleExplorer from "@/components/course/ModuleExplorer";
 import CoursePhases from "@/components/course/CoursePhases";
@@ -67,6 +68,10 @@ export default async function After12CoursePage({
         course={course}
         breadcrumb={{ label: "After 12th", href: after12BasePath }}
       />
+      <CourseIntro
+        course={course}
+        audience="students who have just finished 12th"
+      />
       <CourseOverview
         course={course}
         hideSpecLabels={["Duration", "Fee range"]}
@@ -78,7 +83,7 @@ export default async function After12CoursePage({
       <CourseFit course={course} />
       <CourseProjects course={course} variant="steps" />
       <CourseFutureScope course={course} />
-      <CourseWhyChoose course={course} />
+      <CourseWhyChoose course={course} tone="dark" />
       <CourseReviews course={course} hoverBehavior="slow" />
       <CourseFaq course={course} variant="split" />
       <RelatedCourses

@@ -202,7 +202,7 @@ export default function CourseCta({
             <FadeUp standalone>
               {split ? (
                 <span className="inline-flex items-center rounded-full bg-white/[0.07] px-4 py-2 text-sm font-medium text-white/85 ring-1 ring-white/20 ring-inset backdrop-blur-sm">
-                  Course information
+                  Course Information
                 </span>
               ) : (
                 <span className="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.18em] text-gold-300 uppercase">
@@ -216,8 +216,12 @@ export default function CourseCta({
             </FadeUp>
             <WordsUp
               as="h2"
-              text={`Start the ${course.title} programme`}
-              accent="this intake."
+              text={
+                split
+                  ? `Ask about ${course.title}`
+                  : `Start the ${course.title} programme`
+              }
+              accent={split ? undefined : "this intake."}
               accentClassName="text-gold-300"
               className={cn(
                 "mt-4 text-3xl leading-[1.12] font-semibold sm:text-4xl lg:text-5xl",
