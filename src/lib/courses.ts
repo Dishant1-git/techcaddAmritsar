@@ -172,19 +172,38 @@ const CATEGORY_BLURBS: Record<CourseCategory, string> = {
 };
 
 /**
- * Hero artwork, keyed by slug. Files are transparent 3D renders under
- * /public/images/courses, named for the slug they belong to. A course without
- * an entry simply renders the syllabus deck on its own — add the PNG and a
- * line here to give it artwork.
+ * Slugs with hero artwork. Files are transparent 3D renders at
+ * /public/images/courses/<slug>.png — the filename *is* the slug, so adding a
+ * course's art means dropping the PNG in and listing it here. A course absent
+ * from this set simply renders no artwork column.
  */
-const COURSE_IMAGES: Record<string, string> = {
-  "artificial-intelligence": "/images/courses/artificial-intelligence.png",
-  "data-analytics": "/images/courses/data-analytics.png",
-  "google-ads": "/images/courses/google-ads.png",
-  "power-bi": "/images/courses/power-bi.png",
-  shopify: "/images/courses/shopify.png",
-  "social-media-marketing": "/images/courses/social-media-marketing.png",
-};
+const COURSE_IMAGE_SLUGS = new Set([
+  "artificial-intelligence",
+  "c-cpp",
+  "cloud-computing",
+  "cybersecurity",
+  "data-analytics",
+  "data-science",
+  "deep-learning",
+  "digital-marketing",
+  "ethical-hacking",
+  "generative-ai",
+  "google-ads",
+  "java",
+  "linux",
+  "machine-learning",
+  "mean-stack",
+  "mern-stack",
+  "php-full-stack",
+  "power-bi",
+  "python",
+  "seo",
+  "shopify",
+  "social-media-marketing",
+  "web-designing",
+  "web-development",
+  "wordpress",
+]);
 
 /**
  * Categories the /courses index renders. The three after-12th-only categories
@@ -380,7 +399,9 @@ export function buildCourse(seed: CourseSeed): Course {
       accent: city,
       tagline: seed.tagline,
       chips: [seed.duration, "Classroom & online", seed.level.split(" to ")[0]],
-      image: COURSE_IMAGES[seed.slug],
+      image: COURSE_IMAGE_SLUGS.has(seed.slug)
+        ? `/images/courses/${seed.slug}.png`
+        : undefined,
     },
 
     spec: [

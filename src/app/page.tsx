@@ -8,6 +8,7 @@ import Testimonials from "@/components/sections/Testimonials";
 import Modules from "@/components/sections/Modules";
 import Technologies from "@/components/sections/Technologies";
 import Capabilities from "@/components/sections/Capabilities";
+import Faq from "@/components/sections/Faq";
 import Blog from "@/components/sections/Blog";
 import FinalCta from "@/components/sections/FinalCta";
 
@@ -24,6 +25,7 @@ export default function Home() {
       <Modules />
       <Technologies />
       <Capabilities />
+      <Faq />
       <Blog />
       <FinalCta />
     </>

@@ -909,6 +909,21 @@ export const capabilities = {
   ],
 };
 
+/* --------------------------------------------------------------------- faq */
+
+/**
+ * Homepage FAQ block. The questions themselves come from `faq-content.ts`, so
+ * the answers here and on /faq can never drift apart.
+ */
+export const faq = {
+  eyebrow: "FAQs",
+  heading: "Frequently asked questions",
+  accent: ["questions"],
+  cta: { label: "See all questions", href: "/faq" },
+  /** How many to show on the homepage, split evenly across two columns. */
+  count: 10,
+};
+
 /* -------------------------------------------------------------------- blog */
 
 export const blog = {
@@ -926,14 +941,20 @@ export const blog = {
 /* ---------------------------------------------------------------- final cta */
 
 export const finalCta = {
-  eyebrow: "Get started today",
+  eyebrow: "Ready to get started?",
   heading: "Start building your career today.",
   accent: ["career"],
-  body: LOREM_SHORT,
+  body: "Talk to a counsellor today. One call is usually enough to know which track fits your degree, your schedule and the job you want.",
   inputLabel: "Mobile number",
-  placeholder: "98765 43210",
-  submitLabel: "Enquire Now",
-  secondaryCta: { label: "Book Demo", href: "/contact" },
+  placeholder: "Your mobile number",
+  submitLabel: "Book Demo",
+  callLabel: "Call now",
+  /** Reassurance row under the call button. */
+  assurances: [
+    "Free career counselling",
+    "No registration fee",
+    "Placement support included",
+  ],
 };
 
 /* ------------------------------------------------------------------ footer */
