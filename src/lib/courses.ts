@@ -388,7 +388,7 @@ export function buildCourse(seed: CourseSeed): Course {
       { label: "Level", value: seed.level },
       { label: "Mode", value: "Classroom & live online" },
       { label: "Batches", value: "Morning, evening & weekend" },
-      { label: "Certification", value: "TechCadd industry certificate" },
+      { label: "Certification", value: "techcadd industry certificate" },
       { label: "Placement support", value: "Included for every enrolled student" },
     ],
 
