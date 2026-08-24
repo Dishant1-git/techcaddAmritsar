@@ -158,6 +158,12 @@ function buildTrainingCourse(seed: TrainingSeed): Course {
 
   return {
     ...base,
+    /* `buildCourse` rewrites the slug into the /courses URL form
+       ("<name>-course-in-amritsar"); these formats keep their own short slugs,
+       which is what the mega menu and the hub grid link to. */
+    slug: seed.slug,
+    /* Points the category rail at the hub anchor rather than a /courses one. */
+    categorySlug: seed.track,
 
     hero: {
       ...base.hero,

@@ -217,6 +217,9 @@ const CATEGORY_IMAGES: Record<CourseCategory, string> = {
   "Graphics & Media": "/images/categories/cad.png",
   "Design & Drafting": "/images/categories/cad.png",
   "Business & Office": "/images/categories/programming.png",
+  /* Training formats are cross-discipline, so there is no single true render;
+     the neutral programming one stands in. */
+  "Internship & Training": "/images/categories/programming.png",
 };
 
 function heroImage(seed: CourseSeed) {
