@@ -18,6 +18,13 @@ const LOREM_MED =
 export const site = {
   name: "TechCadd",
   city: "Amritsar",
+  /**
+   * Canonical origin, used for metadataBase, the sitemap and robots.
+   * Set NEXT_PUBLIC_SITE_URL in the host's environment; the fallback is only
+   * so local builds resolve.
+   * TODO: confirm the production domain before launch.
+   */
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://techcaddamritsar.com",
   wordmark: "TECHCADD",
   wordmarkAccent: "AMRITSAR",
   tagline: "AI & Software Training",

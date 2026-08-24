@@ -19,7 +19,7 @@ export const founderHero = {
   name: `Mr. ${NAME}`,
   role: ROLE,
   tags: ["Visionary Entrepreneur", "Technology Educator", "Skill Development Advocate"],
-  photo: "/images/founder/founder.jpeg",
+  photo: "/images/founder/gouravsir.jpg",
 };
 
 /* --------------------------------------------------------------- profile */
@@ -167,7 +167,12 @@ export const founderTeam = {
   cta: { label: "Talk to a counsellor", href: "/contact" },
   members: [
     { name: "Aman Sharma", role: "Full-Stack Trainer", initials: "AS" },
-    { name: "Gourav Gupta", role: "Founder & Director", initials: "GG" },
+    {
+      name: "Gourav Gupta",
+      role: "Founder & Director",
+      initials: "GG",
+      photo: "/images/founder/gouravsir.jpg",
+    },
     { name: "Shilpa Gupta", role: "AI & Data Trainer", initials: "SG" },
     { name: "Asmita Sehgal", role: "Digital Marketing Trainer", initials: "AS" },
     { name: "Daljeet Singh", role: "Placement Counsellor", initials: "DS" },

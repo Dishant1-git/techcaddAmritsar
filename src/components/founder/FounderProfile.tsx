@@ -1,8 +1,9 @@
-import { founderProfile } from "@/lib/founder-content";
+import Image from "next/image";
+import { founderHero, founderProfile } from "@/lib/founder-content";
 import { Eyebrow } from "@/components/ui/Section";
 import Reveal from "@/components/ui/Reveal";
 
-/** Bio on the left, a plain initials card on the right — no stock photography stand-in. */
+/** Bio on the left, his own photograph on the right. */
 export default function FounderProfile() {
   return (
     <section id="profile" aria-labelledby="profile-heading" className="py-20 lg:py-28">
@@ -36,17 +37,22 @@ export default function FounderProfile() {
           </Reveal>
 
           <Reveal delay={120}>
-            <div className="flex aspect-4/5 flex-col items-center justify-center gap-4 rounded-3xl border border-line bg-gradient-to-br from-brand-50 to-white">
-              <span className="font-display grid size-24 place-items-center rounded-full bg-gradient-to-br from-brand-500 to-brand-700 text-3xl font-bold text-white">
-                {founderProfile.initials}
-              </span>
-              <div className="text-center">
-                <p className="font-display text-base font-semibold text-ink">
+            <figure className="relative aspect-4/5 overflow-hidden rounded-3xl border border-line bg-gradient-to-br from-brand-50 to-white">
+              <Image
+                src={founderHero.photo}
+                alt={`Mr. ${founderProfile.name}, ${founderProfile.role}`}
+                fill
+                sizes="(min-width: 1024px) 40vw, 90vw"
+                className="object-cover object-top"
+              />
+              {/* Caption sits on a scrim so it stays legible over the photo. */}
+              <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink/85 to-transparent px-6 pt-14 pb-5 text-white">
+                <p className="font-display text-base font-semibold">
                   Mr. {founderProfile.name}
                 </p>
-                <p className="text-sm text-muted">{founderProfile.role}</p>
-              </div>
-            </div>
+                <p className="text-sm text-white/70">{founderProfile.role}</p>
+              </figcaption>
+            </figure>
           </Reveal>
         </div>
       </div>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Sora } from "next/font/google";
+import { site } from "@/lib/content";
 import Header from "@/components/layout/Header";
 import PreFooterCta from "@/components/layout/PreFooterCta";
 import Footer from "@/components/layout/Footer";
@@ -21,10 +22,40 @@ const sora = Sora({
 });
 
 export const metadata: Metadata = {
-  title: "TechCadd Amritsar — AI & Software Training",
+  /* Resolves every relative URL below — Open Graph images, canonicals — so
+     crawlers and link unfurlers see absolute URLs. */
+  metadataBase: new URL(site.url),
+  title: {
+    default: `${site.name} ${site.city} — ${site.tagline}`,
+    /* Page titles supply their own half; this appends the brand. */
+    template: `%s | ${site.name} ${site.city}`,
+  },
   description:
     "IT training institute in Amritsar covering AI, cloud, cybersecurity and full-stack engineering, with live projects and placement support.",
+  applicationName: `${site.name} ${site.city}`,
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    siteName: `${site.name} ${site.city}`,
+    locale: "en_IN",
+    url: "/",
+    title: `${site.name} ${site.city} — ${site.tagline}`,
+    description:
+      "AI, cloud, cybersecurity and full-stack training in Amritsar, taught on live projects with placement support.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${site.name} ${site.city} — ${site.tagline}`,
+    description:
+      "AI, cloud, cybersecurity and full-stack training in Amritsar, taught on live projects with placement support.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large" },
+  },
 };
+
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
