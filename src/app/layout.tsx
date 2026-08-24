@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Sora } from "next/font/google";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import { EnquiryProvider } from "@/components/layout/EnquiryDialog";
 import CursorRing from "@/components/ui/CursorRing";
 import ScrollToTop from "@/components/ui/ScrollToTop";
 import "./globals.css";
@@ -58,11 +59,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         >
           Skip to content
         </a>
-        <Header />
-        <main id="main" className="flex-1">
-          {children}
-        </main>
-        <Footer />
+        <EnquiryProvider>
+          <Header />
+          <main id="main" className="flex-1">
+            {children}
+          </main>
+          <Footer />
+        </EnquiryProvider>
         <ScrollToTop />
         <CursorRing />
       </body>

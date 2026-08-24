@@ -34,6 +34,8 @@ type ButtonProps = {
   size?: Size;
   className?: string;
   type?: "button" | "submit";
+  /** Ignored when `href` is set — a link is a link. */
+  onClick?: () => void;
 };
 
 export default function Button({
@@ -43,6 +45,7 @@ export default function Button({
   size = "md",
   className,
   type = "button",
+  onClick,
 }: ButtonProps) {
   const classes = cn(base, variants[variant], sizes[size], className);
 
@@ -55,7 +58,7 @@ export default function Button({
   }
 
   return (
-    <button type={type} className={classes}>
+    <button type={type} onClick={onClick} className={classes}>
       {children}
     </button>
   );

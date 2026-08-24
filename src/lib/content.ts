@@ -81,7 +81,6 @@ export const navItems: NavItem[] = [
       { label: "Digital Marketing", href: "/courses#digital-marketing" },
       { label: "Cyber & Cloud", href: "/courses#cyber-cloud" },
       { label: "Generative AI", href: "/courses/generative-ai" },
-      { label: "IT Foundation Programme", href: "/courses/it-courses" },
       { label: "All courses", href: "/courses" },
     ],
   },
@@ -168,7 +167,6 @@ const coursesMenu: MegaMenu = {
         { label: "MERN Stack", href: "/courses/mern-stack" },
         { label: "MEAN Stack", href: "/courses/mean-stack" },
         { label: "PHP Full Stack", href: "/courses/php-full-stack" },
-        { label: "IT Foundation Programme", href: "/courses/it-courses" },
       ],
     },
     {
@@ -907,6 +905,39 @@ export const capabilities = {
       stack: ["Google Ads", "Meta Ads", "GA4", "SEMrush", "Ahrefs", "HubSpot", "Mailchimp", "Canva", "Search Console"],
     },
   ],
+};
+
+/* ---------------------------------------------------------------- enquiry */
+
+/** Copy for the enquiry dialog that opens on a delay and from "Book Demo". */
+export const enquiry = {
+  /** Seconds after first load before the dialog shows itself. */
+  autoOpenAfter: 5,
+  heading: "Still exploring? Let us help",
+  body: "Talk to a counsellor and we'll map the shortest route from where you are to the job you want.",
+  /* TODO: "AI is the new electricity" is usually credited to Andrew Ng —
+     confirm the attribution with marketing before this goes live. */
+  quote: {
+    text: "AI is the new electricity for modern computing.",
+    author: "Jensen Huang",
+    role: "CEO, NVIDIA Corporation",
+  },
+  verified: { label: "Google Verified", stars: 5 },
+  emailLead: "You can also share your requirements at",
+  emailTail: "and our team will get back to you right away.",
+
+  form: {
+    heading: "Tell us your goal. We'll code it into reality.",
+    coursePlaceholder: "Select Your Course of Interest*",
+    namePlaceholder: "Full Name*",
+    phonePlaceholder: "Contact Number (10 Digits)*",
+    captchaLabel: "Security verification",
+    answerPlaceholder: "Answer",
+    assurance: "Expert response within 5 minutes.",
+    submitLabel: "Submit",
+    successHeading: "Thanks — we have your details.",
+    successBody: "A counsellor will call you shortly on the number you shared.",
+  },
 };
 
 /* --------------------------------------------------------------------- faq */

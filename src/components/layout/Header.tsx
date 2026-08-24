@@ -13,6 +13,7 @@ import {
 } from "@/lib/content";
 import { cn } from "@/lib/utils";
 import Button from "@/components/ui/Button";
+import { useEnquiry } from "./EnquiryDialog";
 import AiMega from "./AiMega";
 import MegaMenu from "./MegaMenu";
 import RailMega from "./RailMega";
@@ -27,6 +28,7 @@ const megaId = (key: MegaKey) => `${key}-mega-menu`;
  * scrolls past the threshold.
  */
 export default function Header() {
+  const enquiry = useEnquiry();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   /** Which mega panel is showing, if any. */
@@ -150,7 +152,7 @@ export default function Header() {
 
             <div className="flex shrink-0 items-center gap-2">
               <Button
-                href="/contact"
+                onClick={enquiry.open}
                 variant="gradient"
                 size="sm"
                 className="hidden sm:inline-flex"
