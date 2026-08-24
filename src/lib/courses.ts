@@ -175,7 +175,7 @@ const CATEGORY_BLURBS: Record<CourseCategory, string> = {
  * Slugs with hero artwork. Files are transparent 3D renders at
  * /public/images/courses/<slug>.png — the filename *is* the slug, so adding a
  * course's art means dropping the PNG in and listing it here. A course absent
- * from this set simply renders no artwork column.
+ * from this set falls back to its category render below.
  */
 const COURSE_IMAGE_SLUGS = new Set([
   "artificial-intelligence",
@@ -204,6 +204,39 @@ const COURSE_IMAGE_SLUGS = new Set([
   "web-development",
   "wordpress",
 ]);
+
+/** The render a course falls back to when it has no artwork of its own. */
+const CATEGORY_IMAGES: Record<CourseCategory, string> = {
+  Programming: "/images/categories/programming.png",
+  "AI & Data": "/images/categories/ai.png",
+  "Digital Marketing": "/images/categories/digital-marketing.png",
+  "Cyber & Cloud": "/images/categories/cyber.png",
+  "Graphics & Media": "/images/categories/cad.png",
+  "Design & Drafting": "/images/categories/cad.png",
+  "Business & Office": "/images/categories/programming.png",
+};
+
+function heroImage(seed: CourseSeed) {
+  return COURSE_IMAGE_SLUGS.has(seed.slug)
+    ? `/images/courses/${seed.slug}.png`
+    : CATEGORY_IMAGES[seed.category];
+}
+
+/* ------------------------------------------------------------------- slugs */
+
+/**
+ * The public URL segment for a course: `<name>-course-in-amritsar`.
+ *
+ * Seeds keep their short, stable name (`digital-marketing`) as the internal
+ * key — image lookups, related-course wiring and the AI menu all key off the
+ * long form built here, so the short name never leaks into a URL. Names that
+ * already end in "course"/"courses" have it stripped first, so `it-courses`
+ * reads as "IT course in Amritsar" rather than repeating the word.
+ */
+export function courseUrlSlug(name: string) {
+  const base = name.replace(/-courses?$/, "");
+  return `${base}-course-in-${site.city.toLowerCase()}`;
+}
 
 /**
  * Categories the /courses index renders. The three after-12th-only categories
@@ -386,7 +419,7 @@ export function buildCourse(seed: CourseSeed): Course {
   const reviews = buildReviews(seed);
 
   return {
-    slug: seed.slug,
+    slug: courseUrlSlug(seed.slug),
     title,
     category: seed.category,
     categorySlug: CATEGORY_SLUGS[seed.category],
@@ -399,9 +432,7 @@ export function buildCourse(seed: CourseSeed): Course {
       accent: city,
       tagline: seed.tagline,
       chips: [seed.duration, "Classroom & online", seed.level.split(" to ")[0]],
-      image: COURSE_IMAGE_SLUGS.has(seed.slug)
-        ? `/images/courses/${seed.slug}.png`
-        : undefined,
+      image: heroImage(seed),
     },
 
     spec: [
@@ -527,7 +558,7 @@ export function getCourse(slug: string): Course | undefined {
 }
 
 export const courseSummaries: CourseSummary[] = courseSeeds.map((seed) => ({
-  slug: seed.slug,
+  slug: courseUrlSlug(seed.slug),
   title: seed.title,
   category: seed.category,
   badge: seed.badge,

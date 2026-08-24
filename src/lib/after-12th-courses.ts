@@ -133,6 +133,9 @@ function buildAfter12Course(seed: After12Seed): Course {
 
   return {
     ...base,
+    /* `buildCourse` rewrites the slug into the /courses URL form
+       ("best-…-course-in-amritsar"); this hub keeps its own short slugs. */
+    slug: seed.slug,
     /* Points the category rail at the hub anchor rather than a /courses one. */
     categorySlug: seed.stream,
 

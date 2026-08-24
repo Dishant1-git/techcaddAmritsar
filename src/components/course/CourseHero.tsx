@@ -123,9 +123,13 @@ const DEFAULT_BREADCRUMB: CourseBreadcrumb = {
 export default function CourseHero({
   course,
   breadcrumb = DEFAULT_BREADCRUMB,
+  curriculumHref = "#curriculum",
 }: {
   course: Course;
   breadcrumb?: CourseBreadcrumb;
+  /** Anchor the secondary CTA jumps to. The AI page shape ids its curriculum
+      section differently, so it passes its own. */
+  curriculumHref?: string;
 }) {
   const meta = [
     { icon: Clock, label: course.spec[0].value },
@@ -252,7 +256,7 @@ export default function CourseHero({
                   />
                 </Link>
                 <Link
-                  href="#curriculum"
+                  href={curriculumHref}
                   className="inline-flex h-13 items-center justify-center rounded-full px-8 text-base font-medium whitespace-nowrap text-white ring-1 ring-white/25 ring-inset backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/10"
                 >
                   See the curriculum
