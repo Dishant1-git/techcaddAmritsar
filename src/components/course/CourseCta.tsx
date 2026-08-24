@@ -1,7 +1,7 @@
 "use client";
 
 import { useId, useRef, useState, useSyncExternalStore } from "react";
-import { Check, RefreshCw } from "lucide-react";
+import { Check, Phone, RefreshCw } from "lucide-react";
 import type { Course } from "@/lib/courses";
 import { site } from "@/lib/content";
 import { cn } from "@/lib/utils";
@@ -122,7 +122,6 @@ export default function CourseCta({
   const id = useId();
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [courseInput, setCourseInput] = useState(course.title);
   const [message, setMessage] = useState("");
   const [answer, setAnswer] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -193,7 +192,6 @@ export default function CourseCta({
       </div>
 
       <div className="container-page">
-<<<<<<< Updated upstream
         <div
           className={cn(
             "grid gap-12 lg:grid-cols-12 lg:items-center",
@@ -225,19 +223,6 @@ export default function CourseCta({
                 "mt-4 text-3xl leading-[1.12] font-semibold sm:text-4xl lg:text-5xl",
                 split ? "text-balance" : "max-w-2xl",
               )}
-=======
-        <div className="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-16">
-          <div className="lg:col-span-7">
-            <FadeUp standalone>
-              <span className="inline-flex items-center gap-2 rounded-full bg-white/8 px-3.5 py-1.5 text-xs font-semibold tracking-[0.14em] text-white ring-1 ring-white/15 ring-inset uppercase">
-                Course Information
-              </span>
-            </FadeUp>
-            <WordsUp
-              as="h2"
-              text={`Ask about ${course.title}`}
-              className="mt-5 max-w-2xl text-3xl leading-[1.12] font-semibold sm:text-4xl lg:text-5xl"
->>>>>>> Stashed changes
             />
             <span id="cta-heading" className="sr-only">
               Enquire about the {course.title} course
@@ -245,14 +230,10 @@ export default function CourseCta({
             <FadeUp
               standalone
               as="p"
-<<<<<<< Updated upstream
               className={cn(
                 "mt-5 text-base leading-relaxed text-white/60",
                 !split && "max-w-xl",
               )}
-=======
-              className="mt-4 max-w-xl text-base leading-relaxed text-white/60"
->>>>>>> Stashed changes
             >
               Send your question and a counsellor will call you back about
               batch timings, fees, EMI options, placement record, or whether
@@ -261,14 +242,10 @@ export default function CourseCta({
 
             <Stagger
               as="ul"
-<<<<<<< Updated upstream
               className={cn(
                 "mt-8",
                 split ? "space-y-3.5" : "flex flex-wrap gap-x-6 gap-y-3",
               )}
-=======
-              className="mt-6 flex flex-col gap-3"
->>>>>>> Stashed changes
               gap={0.07}
             >
               {ASSURANCES.map((item) => (
@@ -300,7 +277,6 @@ export default function CourseCta({
             </Stagger>
           </div>
 
-<<<<<<< Updated upstream
           <FadeUp
             standalone
             className={cn(split ? "lg:col-span-7" : "lg:col-span-5")}
@@ -323,14 +299,6 @@ export default function CourseCta({
                 onSubmit={onSubmit}
                 noValidate
                 className={cn("grid gap-5", split ? "sm:grid-cols-2" : "mt-6")}
-=======
-          <FadeUp standalone className="lg:col-span-5">
-            <div className="rounded-3xl border border-white/12 bg-white/[0.05] p-5 backdrop-blur-xl sm:p-6 lg:p-7">
-              <form
-                onSubmit={onSubmit}
-                noValidate
-                className="flex flex-col gap-4"
->>>>>>> Stashed changes
               >
                 {/* ------------------------------------------- name + phone */}
                 <div className="grid gap-4 sm:grid-cols-2">
@@ -388,7 +356,6 @@ export default function CourseCta({
                 </div>
 
                 {/* ----------------------------------------------- course */}
-<<<<<<< Updated upstream
                 <div
                   className={cn(
                     "flex flex-col gap-1.5",
@@ -424,20 +391,6 @@ export default function CourseCta({
                       {course.title} counsellor directly.
                     </p>
                   )}
-=======
-                <div className="flex flex-col gap-1.5">
-                  <label htmlFor={`${id}-course`} className={LABEL}>
-                    Course or Service
-                  </label>
-                  <input
-                    id={`${id}-course`}
-                    name="course"
-                    type="text"
-                    value={courseInput}
-                    onChange={(event) => setCourseInput(event.target.value)}
-                    className={FIELD}
-                  />
->>>>>>> Stashed changes
                 </div>
 
                 {/* ---------------------------------------------- message */}
@@ -464,7 +417,6 @@ export default function CourseCta({
                 )}
 
                 {/* ---------------------------------------------- captcha */}
-<<<<<<< Updated upstream
                 {split ? (
                   <div className="flex flex-col gap-1.5 sm:col-span-2">
                     <label htmlFor={`${id}-answer`} className={LABEL}>
@@ -574,55 +526,10 @@ export default function CourseCta({
                     "h-13 rounded-full bg-gradient-to-r from-brand-500 to-brand-700 px-6 text-base font-semibold tracking-wide text-white uppercase shadow-lg shadow-brand-900/40 transition-all duration-300 hover:-translate-y-0.5 hover:from-brand-400 hover:to-brand-600",
                     split && "sm:col-span-2",
                   )}
-=======
-                <div className="flex flex-col gap-1.5">
-                  <span className={LABEL}>Security Check</span>
-                  <div className="flex items-center gap-2">
-                    <span
-                      suppressHydrationWarning
-                      className="flex h-11 shrink-0 items-center justify-center rounded-2xl border border-white/15 bg-ink/50 px-4 text-sm font-semibold tabular-nums text-white"
-                    >
-                      {question.a} + {question.b} = ?
-                    </span>
-                    <input
-                      ref={answerRef}
-                      id={`${id}-answer`}
-                      name="captcha"
-                      type="text"
-                      inputMode="text"
-                      autoComplete="off"
-                      value={answer}
-                      onChange={(event) => setAnswer(event.target.value)}
-                      placeholder="Answer"
-                      aria-label={`What is ${question.a} plus ${question.b}?`}
-                      aria-invalid={errors.answer ? true : undefined}
-                      className={cn(
-                        FIELD,
-                        "flex-1",
-                        errors.answer && "border-rose-400/70",
-                      )}
-                    />
-                    <button
-                      type="button"
-                      onClick={newQuestion}
-                      aria-label="New question"
-                      className="grid size-11 shrink-0 place-items-center rounded-2xl border border-white/15 bg-white/[0.06] text-white/70 transition-colors hover:border-white/30 hover:text-white"
-                    >
-                      <RefreshCw className="size-4" aria-hidden="true" />
-                    </button>
-                  </div>
-                  {errors.answer && <p className={ERROR}>{errors.answer}</p>}
-                </div>
-
-                <button
-                  type="submit"
-                  className="h-12 rounded-full bg-gradient-to-r from-brand-500 to-brand-700 px-6 text-base font-semibold tracking-wide text-white uppercase shadow-lg shadow-brand-900/40 transition-all duration-300 hover:-translate-y-0.5 hover:from-brand-400 hover:to-brand-600"
->>>>>>> Stashed changes
                 >
                   {showMessage ? "Send message" : "Request a call back"}
                 </button>
 
-<<<<<<< Updated upstream
                 {split && (
                   <p className="text-center text-xs text-white/45 sm:col-span-2">
                     We never share your number. Expect a call within working
@@ -653,19 +560,6 @@ export default function CourseCta({
                   Prefer to call? {site.phone}
                 </a>
               </div>
-=======
-                <p className="text-center text-xs text-white/45">
-                  We never share your number. Expect a call within working
-                  hours.
-                </p>
-
-                <p role="status" className="min-h-5 text-center text-xs text-brand-200">
-                  {sent
-                    ? `Thanks — the ${site.city} desk will call you within one working day.`
-                    : ""}
-                </p>
-              </form>
->>>>>>> Stashed changes
             </div>
           </FadeUp>
         </div>

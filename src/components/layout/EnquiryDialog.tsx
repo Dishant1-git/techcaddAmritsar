@@ -124,10 +124,14 @@ function EnquiryDialog({
   const [challenge, setChallenge] = useState(newChallenge);
 
   /* Carries the course from wherever "Book Demo" was clicked into the
-     picker, each time the dialog opens with one to carry. */
-  useEffect(() => {
+     picker, each time the dialog opens with one to carry. Adjusted during
+     render (rather than in an effect) by tracking the previous `open` value,
+     so there is no cascading-render setState-in-effect. */
+  const [wasOpen, setWasOpen] = useState(open);
+  if (open !== wasOpen) {
+    setWasOpen(open);
     if (open && initialCourse) setCourse(initialCourse);
-  }, [open, initialCourse]);
+  }
 
   /* Escape to close, focus kept inside, page scroll locked while open —
      the same contract as the mobile drawer. */

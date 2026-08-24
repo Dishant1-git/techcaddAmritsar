@@ -60,22 +60,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         >
           Skip to content
         </a>
-<<<<<<< Updated upstream
         <EnquiryProvider>
           <Header />
           <main id="main" className="flex-1">
             {children}
           </main>
+          <PreFooterCta />
           <Footer />
         </EnquiryProvider>
-=======
-        <Header />
-        <main id="main" className="flex-1">
-          {children}
-        </main>
-        <PreFooterCta />
-        <Footer />
->>>>>>> Stashed changes
         <ScrollToTop />
         <CursorRing />
       </body>
