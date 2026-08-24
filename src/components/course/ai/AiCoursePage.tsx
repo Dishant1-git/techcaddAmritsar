@@ -7,8 +7,8 @@ import RelatedCourses from "@/components/course/RelatedCourses";
 import CourseCta from "@/components/course/CourseCta";
 import StickyCourseBar from "@/components/course/StickyCourseBar";
 import ScrollToHero from "@/components/course/ScrollToHero";
+import CourseHero from "@/components/course/CourseHero";
 
-import AiHero from "./AiHero";
 import AiOverview from "./AiOverview";
 import AiReadiness from "./AiReadiness";
 import AiAudience from "./AiAudience";
@@ -48,7 +48,7 @@ export default function AiCoursePage({
     <>
       <ScrollToHero />
 
-      <AiHero course={course} view={view} />
+      <CourseHero course={course} curriculumHref="#ai-curriculum" />
       <AiOverview course={course} view={view} />
       <AiReadiness view={view} />
       <AiAudience view={view} />

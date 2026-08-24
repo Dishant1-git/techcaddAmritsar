@@ -1,15 +1,27 @@
 "use client";
 
 import type { Course } from "@/lib/courses";
+import { cn } from "@/lib/utils";
 import Marquee from "@/components/ui/Marquee";
+import ToolMark from "@/components/course/ToolMark";
 import { FadeUp, Stagger, WordsUp } from "@/components/ui/Motion";
 
 /**
  * The tool stack, grouped by when you meet it rather than dumped as one cloud
  * of logos — core tools first, then the daily working set, then what you use to
  * ship. The marquee underneath restates the full list as ambient texture.
+ *
+ * `withMarks` prefixes every tool with its brand logo. It is on for the
+ * after-12th programmes, where the audience recognises the logos long before
+ * it recognises the product names.
  */
-export default function ToolStack({ course }: { course: Course }) {
+export default function ToolStack({
+  course,
+  withMarks = false,
+}: {
+  course: Course;
+  withMarks?: boolean;
+}) {
   return (
     <section
       id="tools"
@@ -65,8 +77,12 @@ export default function ToolStack({ course }: { course: Course }) {
                     {group.items.map((tool) => (
                       <li
                         key={tool}
-                        className="rounded-xl border border-line bg-white px-4 py-2.5 text-sm font-medium text-ink-mute transition-all duration-300 hover:-translate-y-0.5 hover:border-brand-300 hover:text-brand-700 hover:shadow-[0_12px_26px_-18px_rgb(37_99_235/0.6)]"
+                        className={cn(
+                          "rounded-xl border border-line bg-white px-4 py-2.5 text-sm font-medium text-ink-mute transition-all duration-300 hover:-translate-y-0.5 hover:border-brand-300 hover:text-brand-700 hover:shadow-[0_12px_26px_-18px_rgb(37_99_235/0.6)]",
+                          withMarks && "flex items-center gap-2.5",
+                        )}
                       >
+                        {withMarks ? <ToolMark tool={tool} /> : null}
                         {tool}
                       </li>
                     ))}
@@ -83,7 +99,13 @@ export default function ToolStack({ course }: { course: Course }) {
           items={course.tools}
           duration={42}
           renderItem={(tool) => (
-            <span className="font-display rounded-full border border-line bg-white/80 px-6 py-3 text-sm font-medium text-muted">
+            <span
+              className={cn(
+                "font-display rounded-full border border-line bg-white/80 px-6 py-3 text-sm font-medium text-muted",
+                withMarks && "inline-flex items-center gap-2.5",
+              )}
+            >
+              {withMarks ? <ToolMark tool={tool} /> : null}
               {tool}
             </span>
           )}

@@ -4,7 +4,6 @@ import { ratingBreakdown, reviewStats, reviews } from "@/lib/reviews-content";
 import ReviewsHero from "@/components/reviews/ReviewsHero";
 import ReviewsPlatforms from "@/components/reviews/ReviewsPlatforms";
 import ReviewsCarousel from "@/components/reviews/ReviewsCarousel";
-import ShareStory from "@/components/reviews/ShareStory";
 import FinalCta from "@/components/sections/FinalCta";
 
 export const metadata: Metadata = {
@@ -53,7 +52,7 @@ const reviewJsonLd = {
  * The reviews page, ordered the way a sceptical reader works through one:
  * the headline number and its full distribution, where the ratings came
  * from, then every review in the carousel with the filters to interrogate
- * them — and finally the ask to leave one.
+ * them.
  */
 export default function ReviewsPage() {
   return (
@@ -66,7 +65,6 @@ export default function ReviewsPage() {
       <ReviewsHero />
       <ReviewsPlatforms />
       <ReviewsCarousel />
-      <ShareStory />
       <FinalCta />
     </>
   );

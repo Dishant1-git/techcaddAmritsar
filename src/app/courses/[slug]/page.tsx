@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { courseSlugs, getCourse, relatedCourses } from "@/lib/courses";
-import { isAiCourse } from "@/lib/ai-course";
+import { buildAiView, isAiCourse } from "@/lib/ai-course";
 import { site } from "@/lib/content";
 import AiCoursePage from "@/components/course/ai/AiCoursePage";
 import CourseHero from "@/components/course/CourseHero";
-import CourseOverview from "@/components/course/CourseOverview";
+import AiOverview from "@/components/course/ai/AiOverview";
 import ModuleExplorer from "@/components/course/ModuleExplorer";
 import CoursePhases from "@/components/course/CoursePhases";
 import ToolStack from "@/components/course/ToolStack";
@@ -61,7 +61,7 @@ export default async function CoursePage({ params }: CoursePageProps) {
     <>
       <ScrollToHero />
       <CourseHero course={course} />
-      <CourseOverview course={course} />
+      <AiOverview course={course} view={buildAiView(course)} />
       <ModuleExplorer course={course} />
       <CoursePhases course={course} />
       <ToolStack course={course} />

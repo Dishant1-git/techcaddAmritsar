@@ -65,14 +65,18 @@ export default async function After12CoursePage({
         course={course}
         breadcrumb={{ label: "After 12th", href: after12BasePath }}
       />
-      <CourseOverview course={course} />
+      <CourseOverview
+        course={course}
+        hideSpecLabels={["Duration", "Fee range"]}
+        variant="cards"
+      />
       <ModuleExplorer course={course} />
-      <CoursePhases course={course} />
-      <ToolStack course={course} />
+      <CoursePhases course={course} variant="stack" />
+      <ToolStack course={course} withMarks />
       <CourseFit course={course} />
       <CourseProjects course={course} variant="steps" />
       <CourseReviews course={course} hoverBehavior="slow" />
-      <CourseFaq course={course} />
+      <CourseFaq course={course} variant="split" />
       <RelatedCourses
         courses={related}
         basePath={after12BasePath}

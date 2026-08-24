@@ -3,21 +3,25 @@
 import { Layers } from "lucide-react";
 import type { Course } from "@/lib/courses";
 import { cn } from "@/lib/utils";
+import ToolMark from "@/components/course/ToolMark";
 import { FadeUp, Stagger, WordsUp } from "@/components/ui/Motion";
 
 /**
  * One tone for all three panels; the colour shift is the hover state instead of
- * a per-step tint. At rest a panel is a light brand tile with ink type; hovered,
- * it fills with brand and every layer inside it inverts together — surface,
- * heading, body, tag chips and the step badge, which is a sibling of the panel
- * and so keys off the same `group`.
+ * a per-step tint. At rest a panel is a near-white brand tile with ink type.
+ * Hovered, it fills with `ink` — the ground of the `CourseFit` section directly
+ * above this one, so the hover reads as that section reaching down into this
+ * one — and takes that section's accents with it: gold-300 eyebrow, white/55
+ * body. Every layer inverts together: surface, heading, body, tag chips, the
+ * tool marks, and the step badge, which is a sibling of the panel and so keys
+ * off the same `group`.
  */
 const TONE = {
-  surface: "bg-brand-50 group-hover:bg-brand-600",
+  surface: "bg-brand-50 group-hover:bg-ink",
   badge: "bg-brand-600 text-white group-hover:bg-white group-hover:text-brand-700",
   title: "text-ink group-hover:text-white",
-  body: "text-ink-mute group-hover:text-white/70",
-  label: "text-brand-700 group-hover:text-brand-100",
+  body: "text-ink-mute group-hover:text-white/60",
+  label: "text-brand-700 group-hover:text-gold-300",
   tag: "border-brand-600/15 bg-white/70 text-ink-mute group-hover:border-white/20 group-hover:bg-white/10 group-hover:text-white/80",
 };
 
@@ -28,22 +32,13 @@ const TONE_TRANSITION = "transition-colors duration-400 ease-out";
 const STEPS = ["lg:mt-0", "lg:mt-16", "lg:mt-32"];
 
 /*
- * The notch and the badge that sits in it. The cut is only slightly larger than
- * the badge, and the badge is centred on the cut's inner corner — so a quarter
- * of the circle laps back onto the panel and the step reads as deliberate
- * rather than as a missing corner.
- *
- * Badge inset = notch size − badge radius, so these three values move together.
+ * The step badge. This used to sit in a rectangular notch clipped out of the
+ * panel, but the badge was centred on the cut's *inner* corner, which left a
+ * strip of the cut bare at the corner itself — the panel read as broken rather
+ * than notched. The badge now sits inside the panel, so there is no second
+ * shape to keep in sync with it.
  */
-const BADGE_SIZE = "3.5rem";
-
-const NOTCH = {
-  "--notch-w": "3.25rem",
-  "--notch-h": "2.5rem",
-} as React.CSSProperties;
-
-const NOTCH_CLIP =
-  "polygon(0 0, calc(100% - var(--notch-w)) 0, calc(100% - var(--notch-w)) var(--notch-h), 100% var(--notch-h), 100% 100%, 0 100%)";
+const BADGE_SIZE = "3.25rem";
 
 /**
  * `steps` variant: the projects as a stepped run of numbered blocks, each one
@@ -113,11 +108,10 @@ function ProjectSteps({ course }: { course: Course }) {
                   STEPS[i % STEPS.length],
                 )}
               >
-                {/* Sits outside the clipped panel so the cut does not eat it. */}
                 <span
                   aria-hidden="true"
                   className={cn(
-                    "font-display absolute top-3 right-6 z-10 grid place-items-center rounded-full text-base font-semibold",
+                    "font-display absolute top-6 right-6 z-10 grid place-items-center rounded-full text-base font-semibold transition-transform duration-500 group-hover:-translate-y-1.5",
                     TONE_TRANSITION,
                     TONE.badge,
                   )}
@@ -131,7 +125,6 @@ function ProjectSteps({ course }: { course: Course }) {
                     "flex h-full min-h-84 flex-col rounded-3xl p-8 transition-all duration-500 group-hover:-translate-y-1.5",
                     TONE.surface,
                   )}
-                  style={{ ...NOTCH, clipPath: NOTCH_CLIP }}
                 >
                   {i === 0 && (
                     <span
@@ -170,11 +163,20 @@ function ProjectSteps({ course }: { course: Course }) {
                         <li
                           key={tag}
                           className={cn(
-                            "rounded-lg border px-2.5 py-1.5 text-xs font-medium",
+                            "flex items-center gap-2 rounded-lg border px-2.5 py-1.5 text-xs font-medium",
                             TONE_TRANSITION,
                             TONE.tag,
                           )}
                         >
+                          {/* Tags are drawn from the course's tool list, so
+                              they key straight into the brand-mark set. The
+                              glyph inherits the chip's colour, so it inverts
+                              with the panel instead of needing its own rule. */}
+                          <ToolMark
+                            tool={tag}
+                            tone="inherit"
+                            className="size-3.5"
+                          />
                           {tag}
                         </li>
                       ))}
