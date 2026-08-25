@@ -98,7 +98,11 @@ export default async function TrainingPage({ params }: TrainingPageProps) {
       <TrainingDisciplines title={course.title} />
       <CourseFit course={course} />
       <TrainingPaperwork title={course.title} credential={seed.credential} />
-      <TrainingWhy title={course.title} />
+      <TrainingWhy
+        title={course.title}
+        intro={seed.copy?.why?.intro}
+        reasons={seed.copy?.why?.reasons}
+      />
       <CourseReviews course={course} hoverBehavior="slow" />
       <CourseFaq course={course} variant="split" />
       <RelatedCourses

@@ -51,7 +51,19 @@ const REASONS = [
   },
 ];
 
-export default function TrainingWhy({ title }: { title: string }) {
+export default function TrainingWhy({
+  title,
+  intro,
+  reasons,
+}: {
+  title: string;
+  /** Replaces the generic lead paragraph, for a programme with its own copy. */
+  intro?: string;
+  /** Replaces the six generic reasons. Any count lays out on the grid. */
+  reasons?: Array<{ title: string; body: string }>;
+}) {
+  const cards = reasons ?? REASONS;
+
   return (
     <section
       id="why"
@@ -93,13 +105,17 @@ export default function TrainingWhy({ title }: { title: string }) {
           as="p"
           className="mt-7 max-w-3xl text-base leading-relaxed text-white/55 lg:text-lg"
         >
-          There are many places to learn this in {site.city}, and the brochure
-          syllabus looks similar at all of them. What differs is who teaches,
-          whether you ever touch real work, and whether anyone picks up the
-          phone after you have paid. {site.name} has trained students across
-          Punjab since 2007 on the same model: small batches, working
-          practitioners as trainers, client projects as coursework — and {title}{" "}
-          runs on exactly that model.
+          {intro ?? (
+            <>
+              There are many places to learn this in {site.city}, and the
+              brochure syllabus looks similar at all of them. What differs is
+              who teaches, whether you ever touch real work, and whether anyone
+              picks up the phone after you have paid. {site.name} has trained
+              students across Punjab since 2007 on the same model: small
+              batches, working practitioners as trainers, client projects as
+              coursework — and {title} runs on exactly that model.
+            </>
+          )}
         </FadeUp>
 
         <Stagger
@@ -107,7 +123,7 @@ export default function TrainingWhy({ title }: { title: string }) {
           className="mt-14 grid gap-x-10 gap-y-10 sm:grid-cols-2 lg:mt-16 lg:grid-cols-3 lg:gap-x-14"
           gap={0.07}
         >
-          {REASONS.map((reason) => (
+          {cards.map((reason) => (
             <FadeUp
               as="li"
               key={reason.title}

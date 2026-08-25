@@ -11,7 +11,12 @@
  * too, so the grid and the detail pages can never drift apart.
  */
 
-import { buildCourse, type Course, type CourseSummary } from "./courses";
+import {
+  buildCourse,
+  type Course,
+  type CourseReviews,
+  type CourseSummary,
+} from "./courses";
 import {
   trainingSeeds,
   trainingTrackMeta,
@@ -152,9 +157,55 @@ function faqsFor(seed: TrainingSeed): Course["faqs"] {
   ];
 }
 
+function initialsOf(name: string) {
+  return name
+    .split(" ")
+    .map((part) => part[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
+}
+
+/**
+ * Rebuilds the review rail from a programme's own written reviews.
+ *
+ * The shared builder derives its ratings from a hash of the slug, which is
+ * right for generated quotes and wrong for real ones — so the average, the
+ * total and the star distribution are all counted off the actual items here.
+ * The bars underneath can then never disagree with the quotes above them.
+ */
+function reviewsFrom(
+  items: NonNullable<TrainingSeed["copy"]>["reviews"],
+): CourseReviews | undefined {
+  if (!items || items.length === 0) return undefined;
+
+  const distribution = [5, 4, 3, 2, 1].map((stars) => ({
+    stars,
+    percent: Math.round(
+      (items.filter((item) => item.rating === stars).length / items.length) *
+        100,
+    ),
+  }));
+
+  const average = (
+    items.reduce((sum, item) => sum + item.rating, 0) / items.length
+  ).toFixed(1);
+
+  return {
+    average,
+    total: items.length,
+    distribution,
+    items: items.map((item) => ({ ...item, initials: initialsOf(item.name) })),
+  };
+}
+
 function buildTrainingCourse(seed: TrainingSeed): Course {
   const base = buildCourse(seed);
   const trackLabel = TRACK_LABELS[seed.track];
+  /* Written copy wins wherever a programme has any; everything it leaves out
+     falls through to the generators above. */
+  const copy = seed.copy ?? {};
+  const reviews = reviewsFrom(copy.reviews);
 
   return {
     ...base,
@@ -199,10 +250,12 @@ function buildTrainingCourse(seed: TrainingSeed): Course {
       heading: `What ${seed.title} actually involves`,
       paragraphs: [
         seed.focus,
-        `${seed.title} runs across ${seed.duration.toLowerCase()} at ${site.name} ${site.city} as a fixed format rather than a fixed subject: you choose the discipline at counselling, and the structure — fundamentals, then a live brief, then documentation and placement prep — stays the same whichever you pick.`,
-        `Batches are small enough that a trainer looks at your work individually every day, and the trainers are the people delivering client projects rather than career trainers repeating last year's case study. You finish with ${seed.projects.length} reviewed projects, plus a ${credentialProse(seed)}.`,
+        ...(copy.overview ?? [
+          `${seed.title} runs across ${seed.duration.toLowerCase()} at ${site.name} ${site.city} as a fixed format rather than a fixed subject: you choose the discipline at counselling, and the structure — fundamentals, then a live brief, then documentation and placement prep — stays the same whichever you pick.`,
+          `Batches are small enough that a trainer looks at your work individually every day, and the trainers are the people delivering client projects rather than career trainers repeating last year's case study. You finish with ${seed.projects.length} reviewed projects, plus a ${credentialProse(seed)}.`,
+        ]),
       ],
-      checks: [
+      checks: copy.checks ?? [
         `${seed.eligibility} — no entrance test`,
         "Live briefs from a real delivery pipeline",
         "Daily trainer review, not weekly check-ins",
@@ -210,8 +263,9 @@ function buildTrainingCourse(seed: TrainingSeed): Course {
       ],
     },
 
-    audience: audienceFor(seed),
-    faqs: faqsFor(seed),
+    audience: copy.audience ?? audienceFor(seed),
+    faqs: copy.faqs ?? faqsFor(seed),
+    reviews: reviews ?? base.reviews,
 
     closing: `Finish ${seed.title} and you leave ${site.city} with the two things a first employer actually looks for: ${seed.projects.length} projects someone reviewed and signed off, plus a ${credentialProse(seed)} that names the work rather than just the dates.`,
   };
