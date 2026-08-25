@@ -214,11 +214,11 @@ export default function CoursePhases({
                 <div
                   className={
                     stacked
-                      ? "grid gap-6 rounded-3xl border border-line bg-white p-6 shadow-[0_28px_60px_-40px_rgb(15_23_42/0.45)] lg:min-h-[max(19rem,calc(var(--rows)*4.625rem+4rem))] lg:grid-cols-12 lg:gap-10 lg:p-8"
+                      ? "grid gap-6 overflow-hidden rounded-3xl border border-line bg-white p-6 shadow-[0_28px_60px_-40px_rgb(15_23_42/0.45)] lg:min-h-[max(19rem,calc(var(--rows)*4.625rem+4rem))] lg:grid-cols-12 lg:gap-10 lg:p-8"
                       : "grid gap-6 lg:grid-cols-12 lg:gap-10"
                   }
                 >
-                  <div className="lg:col-span-5">
+                  <div className="min-w-0 lg:col-span-5">
                     <span className="text-[0.65rem] font-semibold tracking-[0.24em] text-gold-500 uppercase">
                       {phase.label}
                     </span>
@@ -240,14 +240,14 @@ export default function CoursePhases({
                        stretching to fill it. */
                     className={
                       stacked
-                        ? "grid gap-2.5 lg:col-span-7 lg:content-start"
-                        : "grid gap-2.5 lg:col-span-7"
+                        ? "grid min-w-0 gap-2.5 lg:col-span-7 lg:content-start"
+                        : "grid min-w-0 gap-2.5 lg:col-span-7"
                     }
                   >
                     {phase.modules.map((module) => (
                       <li
                         key={module.code}
-                        className="group flex items-center gap-4 rounded-xl border border-line bg-white px-4 py-3.5 transition-all duration-300 hover:-translate-y-0.5 hover:border-brand-200 hover:shadow-[0_16px_36px_-24px_rgb(37_99_235/0.45)]"
+                        className="group flex min-w-0 items-center gap-4 rounded-xl border border-line bg-white px-4 py-3.5 transition-all duration-300 hover:-translate-y-0.5 hover:border-brand-200 hover:shadow-[0_16px_36px_-24px_rgb(37_99_235/0.45)]"
                       >
                         <span className="font-display text-xs font-semibold text-brand-600">
                           {module.code}

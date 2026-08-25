@@ -421,10 +421,10 @@ export const trainingSeeds: TrainingSeed[] = [
     ],
     topics: [
       { t: "Orientation & Toolchain", s: ["Editor and environment", "Git and branching basics", "How the review loop works"] },
-      { t: "Fundamentals at Speed", s: ["Core concepts, compressed", "Worked examples daily", "Your first reviewed artefact"] },
-      { t: "Standards & Real Files", s: ["Industry conventions", "Working from a supplied spec", "Version discipline"] },
+      { t: "Fundamentals at Speed", s: ["Core concepts, compressed", "Debugging your own assignments", "Your first reviewed artefact"] },
+      { t: "Standards & Real Files", s: ["Industry conventions", "How teams plan, build and deliver", "Version discipline"] },
       { t: "Project Build", s: ["Scope and plan", "Build in daily increments", "Trainer review at each step"] },
-      { t: "Submission & Documentation", s: ["Testing before handover", "Report writing for college", "Portfolio write-up"], d: "A submission pack in the format a university department expects, plus a portfolio entry." },
+      { t: "Submission & Documentation", s: ["Testing before handover", "Report writing and presentation", "Portfolio write-up"], d: "A submission pack in the format a university department expects, plus a portfolio entry." },
     ],
     /* One tool from each track this format opens onto, rather than the generic
        `CORE_TOOLCHAIN` — the rail is the quickest answer to "what will I
@@ -697,12 +697,12 @@ export const trainingSeeds: TrainingSeed[] = [
     topics: [
       { t: "Foundations & Environment", s: ["Toolchain from scratch", "Version control properly", "Reading and writing docs"] },
       { t: "Core Discipline Skills", s: ["The fundamentals in depth", "Common failure modes", "Reviewing your own work"] },
-      { t: "Working to Industry Standards", s: ["Conventions and structure", "Handling real, imperfect inputs", "Estimating small tasks"] },
+      { t: "Working to Industry Standards", s: ["Conventions and structure", "Databases and API basics", "Handling real, imperfect inputs"] },
       { t: "First Live Brief", s: ["Guided scoping", "Build with daily review", "Handover and debrief"] },
       { t: "Second Live Brief", s: ["You scope it", "You run the schedule", "Trainer reviews, does not steer"] },
       { t: "Collaboration & Handover", s: ["Working against someone else's code", "Written handover", "Code and file review"] },
       { t: "Capstone Build", s: ["Your own specification", "Deployment or delivery", "Documented decisions"], d: "A deployed capstone with a written record of the decisions behind it." },
-      { t: "Placement Readiness", s: ["CV and portfolio pass", "Mock interviews", "Salary and role expectations"] },
+      { t: "Placement Readiness", s: ["CV and portfolio pass", "Mock interviews", "Presenting your project work"] },
     ],
     /* Its own stack rather than `CORE_TOOLCHAIN`: this is the one long-term
        format written around a development track, so the database and API tools
@@ -1240,9 +1240,9 @@ export const trainingSeeds: TrainingSeed[] = [
       { t: "Scope & Department Requirements", s: ["Reading your syllabus brief", "Mapping it to real work", "Agreeing the deliverable"] },
       { t: "Toolchain & Working Standards", s: ["Environment setup", "Version control", "Conventions and structure"] },
       { t: "Supervised Build Phase", s: ["Real requirement, real deadline", "Weekly supervisor review", "Recorded progress log"] },
-      { t: "Testing & Verification", s: ["Testing before submission", "Evidence of what works", "Fixing what does not"] },
+      { t: "Testing & Verification", s: ["Testing before submission", "Debugging what you built", "Evidence of what works"] },
       { t: "Report & Documentation", s: ["University report format", "Diagrams and evidence", "Viva preparation"], d: "A training report in your department's format, with evidence you can defend in a viva." },
-      { t: "Letter & Certification", s: ["Attendance record", "Signed training letter", "Industry certificate"] },
+      { t: "Letter & Certification", s: ["Signed training letter and certificate", "Portfolio write-up", "Resume and interview preparation"] },
     ],
     /* One anchor per track this format opens onto — including the CAD side,
        which no other training format here covers and which is the reason a
@@ -1518,10 +1518,10 @@ export const trainingSeeds: TrainingSeed[] = [
       { span: "Final weeks", title: "Handover & letter", body: "Test your own work, write the handover that lets someone else pick it up, then a reviewer debrief — which is what the letter is drafted from." },
     ],
     topics: [
-      { t: "Onboarding & Standards", s: ["How the team works", "Version control and review", "What good enough means here"] },
-      { t: "First Assigned Task", s: ["A small scoped change", "Review and rework", "Shipping it"] },
+      { t: "Onboarding & Standards", s: ["How the team tracks progress", "Version control and review", "What good enough means here"] },
+      { t: "First Assigned Task", s: ["A small scoped change", "Working with the database", "Review, rework and ship it"] },
       { t: "Owning a Feature", s: ["Scope it yourself", "Build against a deadline", "Handle the review notes"] },
-      { t: "Working With Stakeholders", s: ["Reading a real requirement", "Asking the right questions", "Reporting progress honestly"] },
+      { t: "Working With Stakeholders", s: ["Reading a real requirement", "Communicating technical work clearly", "Reporting progress honestly"] },
       { t: "Delivery & Handover", s: ["Testing your own work", "Written handover", "Debrief with the reviewer"], d: "Shipped work with a written handover and a recorded reviewer debrief." },
       { t: "Letter, Portfolio & Next Role", s: ["Internship letter drafted from real tasks", "Portfolio write-up", "Interview preparation"] },
     ],
