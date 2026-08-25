@@ -108,6 +108,7 @@ export default function CourseCta({
    */
   showMessage = true,
   variant = "aside",
+  alignTop = false,
 }: {
   course: Course;
   showMessage?: boolean;
@@ -118,11 +119,27 @@ export default function CourseCta({
    * into a single row — used on the training pages.
    */
   variant?: "aside" | "split";
+  /**
+   * Hangs the copy from the top of the row instead of centring it against the
+   * form. On the catalogue course pages the form is much the taller column, so
+   * centred copy floats away from the heading rule the rest of the page keeps.
+   */
+  alignTop?: boolean;
 }) {
   const split = variant === "split";
   const id = useId();
+
+  /*
+   * Written copy for this section, when the course has any. It replaces the
+   * generic counsellor pitch and can turn on three fields the catalogue form
+   * does not otherwise carry — email, current status and preferred batch.
+   */
+  const copy = course.cta;
+  const assurances = copy?.assurances ?? ASSURANCES;
+
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [answer, setAnswer] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -165,10 +182,29 @@ export default function CourseCta({
       return;
     }
 
-    submitEnquiry("course_cta", Object.fromEntries(new FormData(event.currentTarget)));
+    const fields = Object.fromEntries(new FormData(event.currentTarget));
+
+    /*
+     * The enquiry table has no column for the two profile pickers, and this
+     * variant hides the message box, so the answers ride in on `message`
+     * rather than being dropped between the form and the counsellor.
+     */
+    const profile = [
+      fields.status && `${copy?.statusLabel ?? "Current Status"}: ${fields.status}`,
+      fields.batch && `${copy?.batchLabel ?? "Preferred Batch"}: ${fields.batch}`,
+    ].filter(Boolean);
+
+    if (profile.length > 0) {
+      fields.message = [fields.message, profile.join(" · ")]
+        .filter(Boolean)
+        .join(" — ");
+    }
+
+    submitEnquiry("course_cta", fields);
     setSent(true);
     setName("");
     setPhone("");
+    setEmail("");
     setMessage("");
     setAnswer("");
     setSum(randomSum());
@@ -191,7 +227,8 @@ export default function CourseCta({
       <div className="container-page">
         <div
           className={cn(
-            "grid gap-12 lg:grid-cols-12 lg:items-center",
+            "grid gap-12 lg:grid-cols-12",
+            alignTop ? "lg:items-start" : "lg:items-center",
             split ? "lg:gap-14" : "lg:gap-16",
           )}
         >
@@ -207,18 +244,19 @@ export default function CourseCta({
                     className="h-px w-6 bg-brand-300/60"
                     aria-hidden="true"
                   />
-                  Next batch, Amritsar campus
+                  {copy?.eyebrow ?? "Next batch, Amritsar campus"}
                 </span>
               )}
             </FadeUp>
             <WordsUp
               as="h2"
               text={
-                split
+                copy?.heading ??
+                (split
                   ? `Ask about ${course.title}`
-                  : `Start the ${course.title} programme`
+                  : `Start the ${course.title} programme`)
               }
-              accent={split ? undefined : "this intake."}
+              accent={copy ? copy.accent : split ? undefined : "this intake."}
               accentClassName="text-gold-300"
               className={cn(
                 "mt-4 text-3xl leading-[1.12] font-semibold sm:text-4xl lg:text-5xl",
@@ -236,10 +274,29 @@ export default function CourseCta({
                 !split && "max-w-xl",
               )}
             >
-              Send your question and a counsellor will call you back about
-              batch timings, fees, EMI options, placement record, or whether
-              this course fits your background.
+              {copy?.body ??
+                "Send your question and a counsellor will call you back about batch timings, fees, EMI options, placement record, or whether this course fits your background."}
             </FadeUp>
+
+            {/* Course · duration · mode · centre — the citable facts the copy
+                states outright rather than burying in the paragraph above. */}
+            {copy?.facts && copy.facts.length > 0 && (
+              <Stagger
+                as="ul"
+                className="mt-7 grid gap-2.5 sm:grid-cols-2"
+                gap={0.06}
+              >
+                {copy.facts.map((fact) => (
+                  <FadeUp
+                    as="li"
+                    key={fact}
+                    className="rounded-2xl border border-white/12 bg-white/[0.05] px-4 py-3 text-sm leading-snug text-white/75"
+                  >
+                    {fact}
+                  </FadeUp>
+                ))}
+              </Stagger>
+            )}
 
             <Stagger
               as="ul"
@@ -249,7 +306,7 @@ export default function CourseCta({
               )}
               gap={0.07}
             >
-              {ASSURANCES.map((item) => (
+              {assurances.map((item) => (
                 <FadeUp
                   as="li"
                   key={item}
@@ -288,7 +345,7 @@ export default function CourseCta({
               {!split && (
                 <div>
                   <h3 className="font-display text-lg font-semibold">
-                    Request a call back
+                    {copy?.formTitle ?? "Request a call back"}
                   </h3>
                   <p className="mt-1.5 text-sm text-white/55">
                     About the {course.title} course · {course.spec[0].value}
@@ -314,7 +371,9 @@ export default function CourseCta({
                       autoComplete="name"
                       value={name}
                       onChange={(event) => setName(event.target.value)}
-                      placeholder="Enter your full name"
+                      placeholder={
+                        copy?.placeholders?.name ?? "Enter your full name"
+                      }
                       aria-invalid={errors.name ? true : undefined}
                       aria-describedby={
                         errors.name ? `${id}-name-error` : undefined
@@ -341,7 +400,9 @@ export default function CourseCta({
                       maxLength={18}
                       value={phone}
                       onChange={(event) => setPhone(event.target.value)}
-                      placeholder="10-digit mobile number"
+                      placeholder={
+                        copy?.placeholders?.phone ?? "10-digit mobile number"
+                      }
                       aria-invalid={errors.phone ? true : undefined}
                       aria-describedby={
                         errors.phone ? `${id}-phone-error` : undefined
@@ -355,6 +416,101 @@ export default function CourseCta({
                     )}
                   </div>
                 </div>
+
+                {/* ------------------------------------------------ email */}
+                {/* Optional, and only for courses that ask for it — the rest
+                    of the catalogue takes a name and a number. */}
+                {copy?.showEmail && (
+                  <div
+                    className={cn(
+                      "flex flex-col gap-1.5",
+                      split && "sm:col-span-2",
+                    )}
+                  >
+                    <label htmlFor={`${id}-email`} className={LABEL}>
+                      Email{" "}
+                      <span className="font-normal text-white/45">
+                        (optional)
+                      </span>
+                    </label>
+                    <input
+                      id={`${id}-email`}
+                      name="email"
+                      type="email"
+                      autoComplete="email"
+                      value={email}
+                      onChange={(event) => setEmail(event.target.value)}
+                      placeholder={
+                        copy.placeholders?.email ?? "Enter your email"
+                      }
+                      className={FIELD}
+                    />
+                  </div>
+                )}
+
+                {/* -------------------------------------- status + batch */}
+                {(copy?.statusOptions || copy?.batchOptions) && (
+                  <div
+                    className={cn(
+                      "grid gap-4 sm:grid-cols-2",
+                      split && "sm:col-span-2",
+                    )}
+                  >
+                    {copy.statusOptions && (
+                      <div className="flex flex-col gap-1.5">
+                        <label htmlFor={`${id}-status`} className={LABEL}>
+                          {copy.statusLabel ?? "Current Status"}
+                        </label>
+                        <select
+                          id={`${id}-status`}
+                          name="status"
+                          defaultValue=""
+                          className={cn(FIELD, "appearance-none")}
+                        >
+                          <option value="" disabled>
+                            Select one
+                          </option>
+                          {copy.statusOptions.map((option) => (
+                            <option
+                              key={option}
+                              value={option}
+                              className="bg-ink"
+                            >
+                              {option}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    )}
+
+                    {copy.batchOptions && (
+                      <div className="flex flex-col gap-1.5">
+                        <label htmlFor={`${id}-batch`} className={LABEL}>
+                          {copy.batchLabel ?? "Preferred Batch"}
+                        </label>
+                        <select
+                          id={`${id}-batch`}
+                          name="batch"
+                          defaultValue=""
+                          className={cn(FIELD, "appearance-none")}
+                        >
+                          <option value="" disabled>
+                            Select one
+                          </option>
+                          {copy.batchOptions.map((option) => (
+                            <option
+                              key={option}
+                              value={option}
+                              className="bg-ink"
+                            >
+                              {option}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    )}
+                  </div>
+                )}
 
                 {/* ----------------------------------------------- course */}
                 <div
@@ -388,8 +544,8 @@ export default function CourseCta({
                   <input type="hidden" name="course" value={course.title} />
                   {!split && (
                     <p className="text-xs leading-relaxed text-white/45">
-                      Taken from the page you are on — this enquiry reaches the{" "}
-                      {course.title} counsellor directly.
+                      {copy?.formNote ??
+                        `Taken from the page you are on — this enquiry reaches the ${course.title} counsellor directly.`}
                     </p>
                   )}
                 </div>
@@ -528,7 +684,8 @@ export default function CourseCta({
                     split && "sm:col-span-2",
                   )}
                 >
-                  {showMessage ? "Send message" : "Request a call back"}
+                  {copy?.submitLabel ??
+                    (showMessage ? "Send message" : "Request a call back")}
                 </button>
 
                 {split && (

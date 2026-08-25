@@ -91,8 +91,8 @@ export default function ModuleExplorer({
             </span>
           </div>
           <FadeUp standalone className="text-sm text-muted lg:max-w-xs lg:text-right">
-            {modules.length} modules, each ending in something reviewable that
-            goes into your portfolio.
+            {course.curriculumNote ??
+              `${modules.length} modules, each ending in something reviewable that goes into your portfolio.`}
           </FadeUp>
         </div>
 

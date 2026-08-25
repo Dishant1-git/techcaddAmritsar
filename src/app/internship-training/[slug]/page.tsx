@@ -13,13 +13,20 @@ import CourseIntro from "@/components/course/CourseIntro";
 import CourseOverview from "@/components/course/CourseOverview";
 import ModuleExplorer from "@/components/course/ModuleExplorer";
 import CourseFit from "@/components/course/CourseFit";
+import CourseFutureScope from "@/components/course/CourseFutureScope";
+import CourseProjects from "@/components/course/CourseProjects";
+import CourseWorkingLoop from "@/components/course/CourseWorkingLoop";
 import CourseReviews from "@/components/course/CourseReviews";
 import CourseFaq from "@/components/course/CourseFaq";
+import CourseDemoBand from "@/components/course/CourseDemoBand";
 import RelatedCourses from "@/components/course/RelatedCourses";
 import CourseCta from "@/components/course/CourseCta";
 import StickyCourseBar from "@/components/course/StickyCourseBar";
 import ScrollToHero from "@/components/course/ScrollToHero";
+import AiWorth from "@/components/course/ai/AiWorth";
+import { buildAiView } from "@/lib/ai-course";
 import TrainingPlan from "@/components/training/TrainingPlan";
+import TrainingWhyNow from "@/components/training/TrainingWhyNow";
 import TrainingDisciplines from "@/components/training/TrainingDisciplines";
 import TrainingPaperwork from "@/components/training/TrainingPaperwork";
 import TrainingWhy from "@/components/training/TrainingWhy";
@@ -52,8 +59,8 @@ export async function generateMetadata({
 }
 
 /**
- * Three sections a course page renders are absent here, two of them replaced by
- * format-specific equivalents rather than dropped:
+ * Two sections a course page renders are replaced here by format-specific
+ * equivalents rather than dropped:
  *
  * - `CoursePhases` inferred three stages from the module count. A format is
  *   sold on its calendar, so `TrainingPlan` states the real spans instead.
@@ -61,12 +68,12 @@ export async function generateMetadata({
  *   discipline is picked at counselling, so `TrainingDisciplines` shows the
  *   catalogue rather than the same eight generic tools on all six pages.
  *
- * The third, `CourseProjects` ("what you build"), is simply gone: the plan and
- * the overview already describe the live brief, and `course.projects` still
- * feeds the stat rail and the FAQ, so nothing is lost by not listing it twice.
- *
  * `TrainingPaperwork` sits where `CourseReviews` does on a course page rather
  * than replacing it — both now run, reviews immediately before the FAQ.
+ *
+ * `CourseTracks` is the one catalogue section deliberately absent: these pages
+ * *are* the durations, so offering a shorter exit point inside one of them
+ * would be selling the page next door.
  */
 export default async function TrainingPage({ params }: TrainingPageProps) {
   const { slug } = await params;
@@ -89,6 +96,8 @@ export default async function TrainingPage({ params }: TrainingPageProps) {
         audience="students, graduates and working professionals"
       />
       <CourseOverview course={course} variant="panel" />
+      <TrainingWhyNow course={course} />
+      <AiWorth view={buildAiView(course)} />
       <TrainingPlan
         title={course.title}
         duration={seed.duration}
@@ -98,6 +107,9 @@ export default async function TrainingPage({ params }: TrainingPageProps) {
       <TrainingDisciplines title={course.title} />
       <CourseFit course={course} />
       <TrainingPaperwork title={course.title} credential={seed.credential} />
+      <CourseFutureScope course={course} />
+      <CourseProjects course={course} />
+      <CourseWorkingLoop course={course} />
       <TrainingWhy
         title={course.title}
         intro={seed.copy?.why?.intro}
@@ -105,6 +117,7 @@ export default async function TrainingPage({ params }: TrainingPageProps) {
       />
       <CourseReviews course={course} hoverBehavior="slow" />
       <CourseFaq course={course} variant="split" />
+      <CourseDemoBand course={course} />
       <RelatedCourses
         courses={related}
         basePath={trainingBasePath}

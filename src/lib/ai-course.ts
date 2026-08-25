@@ -12,6 +12,7 @@
  */
 
 import { aiMenu, megaMenus, navItems, site } from "./content";
+import { courseOverrides } from "./course-overrides";
 import type { Course } from "./courses";
 
 /* ------------------------------------------------------------- membership */
@@ -211,6 +212,14 @@ export function buildAiView(course: Course): AiCourseView {
   const entryLevel = course.spec[1].value.split(" to ")[0].toLowerCase();
   const topics = course.modules.map((module) => module.title);
 
+  /*
+   * The two paragraphs this view writes for itself are generic scaffolding for
+   * courses whose seed carries a single line of focus copy. A course that has
+   * its own written overview keeps it whole — heading and every paragraph —
+   * rather than having all but the first replaced by the generated pair.
+   */
+  const writtenOverview = courseOverrides[course.slug]?.course?.overview;
+
   return {
     hero: {
       eyebrow: `${course.category} · ${site.name} ${city}`,
@@ -243,7 +252,7 @@ export function buildAiView(course: Course): AiCourseView {
     },
 
     overview: {
-      heading: "Course overview",
+      heading: writtenOverview?.heading ?? "Course overview",
       highlights: [
         course.title,
         city,
@@ -251,7 +260,7 @@ export function buildAiView(course: Course): AiCourseView {
         primaryRole,
         ...course.tools.slice(0, 3),
       ],
-      paragraphs: [
+      paragraphs: writtenOverview?.paragraphs ?? [
         course.overview.paragraphs[0],
         `The ${lower} programme at ${site.name} ${city} is built the way the work is actually done: you handle the data, train and break the models, then ship something that runs. Tools such as ${course.tools
           .slice(0, 3)
