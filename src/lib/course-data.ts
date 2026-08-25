@@ -33,6 +33,8 @@ export type Topic = {
   s: string[];
   /** Optional bespoke deliverable; generated from `s` when omitted. */
   d?: string;
+  /** Optional bespoke module blurb; rotated boilerplate is used when omitted. */
+  b?: string;
 };
 
 export type CourseSeed = {
@@ -61,24 +63,92 @@ export const courseSeeds: CourseSeed[] = [
     title: "Python Programming",
     category: "Programming",
     tagline:
-      "The language that opens automation, analytics, backend engineering and AI — learned by writing code from week one.",
+      "A job-oriented Python course in Amritsar for students, graduates and job seekers — from core fundamentals to automation, Django and the basics of data analysis.",
     focus:
-      "Python is the shortest route from beginner to building things that actually run, which is why every AI, data and automation track at TechCadd starts here.",
+      "Looking for the best Python Programming Training Course in Amritsar? Techcadd offers a job-oriented Python course designed for students, graduates, and job seekers across Amritsar — including those studying at GNDU, Khalsa College, DAV College, and other nearby institutes.",
     duration: "3 – 6 months",
     level: "Beginner to advanced",
     featured: true,
+    /* The twelve blocks of "What You'll Learn in Techcadd's Python Programming
+       Training", in the order the course teaches them. `b` carries the copy
+       written for each block, so the module panel reads as the course's own
+       prose rather than the rotated boilerplate every other seed falls back to. */
     topics: [
-      { t: "Python Foundations & Syntax", s: ["Variables, types and operators", "Control flow and loops", "Reading the error trace"] },
-      { t: "Data Structures in Practice", s: ["Lists, tuples, sets, dicts", "Comprehensions", "Choosing the right structure"] },
-      { t: "Functions & Modular Design", s: ["Arguments and scope", "Pure functions", "Building your own modules"] },
-      { t: "Object-Oriented Python", s: ["Classes and instances", "Inheritance and composition", "Dunder methods"] },
-      { t: "Files, APIs & Automation", s: ["File and CSV handling", "requests and REST APIs", "Scheduled scripts"] },
-      { t: "Databases with Python", s: ["SQL fundamentals", "SQLite and MySQL drivers", "ORM basics"] },
-      { t: "Testing, Debugging & Git", s: ["pytest basics", "Breakpoint debugging", "Branching workflow"] },
-      { t: "Capstone Application", s: ["Requirement breakdown", "Feature build", "Deployment and demo"] },
+      {
+        t: "Python Fundamentals",
+        s: ["Variables and data types", "Operators", "Python's core syntax"],
+        b: "You'll start with the building blocks: variables, data types, operators, and Python's core syntax. This stage focuses on writing clean, correct code and understanding exactly what your code is doing — not just copying examples.",
+        d: "Clean, correct code you can read back and explain, rather than examples copied from a screen.",
+      },
+      {
+        t: "Control Flow & Logic Building",
+        s: ["Conditional statements (if-else)", "Loops (for, while)", "Structuring logic to solve real problems"],
+        b: "Next, you'll learn conditional statements (if-else), loops (for, while), and how to structure logic to solve real problems. This is where \"knowing Python\" starts turning into \"thinking like a programmer\" — breaking a problem down into steps a computer can execute.",
+        d: "A working program that breaks a real problem down into steps a computer can execute.",
+      },
+      {
+        t: "Functions & Reusable Code",
+        s: ["Writing functions", "Arguments and return values", "Organising code so it is reusable"],
+        b: "You'll learn how to write functions, pass arguments, return values, and organize your code so it's reusable and easier to debug — a habit that separates beginner code from professional code.",
+        d: "Code organised into reusable, debuggable functions — the habit that separates beginner code from professional code.",
+      },
+      {
+        t: "Data Structures",
+        s: ["Lists, tuples, dictionaries and sets", "When and why to use each one", "Choosing the right structure"],
+        b: "A major part of the course covers Python's core data structures — lists, tuples, dictionaries, and sets. You'll learn when and why to use each one, since choosing the right data structure is often what makes real-world code efficient rather than clunky.",
+        d: "Real-world code that stays efficient rather than clunky, because the right data structure was chosen.",
+      },
+      {
+        t: "String Manipulation & Text Processing",
+        s: ["String operations", "Formatting", "Text processing techniques"],
+        b: "Since so much real-world programming involves working with text data, you'll get hands-on practice with string operations, formatting, and text processing techniques.",
+        d: "Hands-on practice handling the text data almost every real program has to work with.",
+      },
+      {
+        t: "File Handling",
+        s: ["Reading from files", "Writing to files", "From automation scripts to data-processing tools"],
+        b: "You'll learn to read from and write to files — a practical skill needed for almost any real application, from simple automation scripts to data-processing tools.",
+        d: "A script that reads and writes files — the skill almost every real application needs.",
+      },
+      {
+        t: "Error & Exception Handling",
+        s: ["Anticipating errors", "Catching exceptions", "Handling failures gracefully"],
+        b: "Bugs and errors are a normal part of programming, not a sign you're doing something wrong. You'll learn how to anticipate, catch, and handle errors gracefully, so your programs don't just crash when something unexpected happens.",
+        d: "A program that handles the unexpected gracefully instead of crashing.",
+      },
+      {
+        t: "Object-Oriented Programming (OOP)",
+        s: ["Classes and objects", "Inheritance", "Structuring larger applications"],
+        b: "You'll be introduced to classes, objects, inheritance, and other OOP concepts — the foundation for writing larger, well-structured Python applications and a concept that comes up in almost every technical interview.",
+        d: "The foundation for larger, well-structured Python applications — and for the OOP questions almost every technical interview asks.",
+      },
+      {
+        t: "Working with Modules & Libraries",
+        s: ["Python's built-in modules", "Popular third-party libraries", "Extending what your code can do"],
+        b: "You'll learn how to use Python's built-in modules and popular third-party libraries to extend what your code can do, rather than building everything from scratch.",
+        d: "Working code built on Python's modules and libraries instead of written from scratch.",
+      },
+      {
+        t: "Introduction to Automation",
+        s: ["Automating repetitive tasks", "Writing scripts that save time", "A skill valued in every industry"],
+        b: "One of Python's biggest real-world strengths is automating repetitive tasks. You'll get a practical introduction to writing scripts that save time — a skill valued in almost every industry, tech or otherwise.",
+        d: "A script that automates a repetitive task and gives you the time back.",
+      },
+      {
+        t: "Basics of Data Handling",
+        s: ["Working with structured data", "A foundation for data analysis", "Groundwork for backend and automation roles"],
+        b: "You'll get an introduction to working with structured data, giving you a foundation that's useful whether you eventually move toward data analysis, backend development, or automation-focused roles.",
+        d: "A foundation in structured data that carries into data analysis, backend development or automation roles.",
+      },
+      {
+        t: "Real-World Mini Projects",
+        s: ["Applying every concept in practice", "Small, practical projects", "Work you can talk about in interviews"],
+        b: "Throughout the course, you'll apply what you've learned to small, practical projects rather than isolated exercises — giving you a portfolio of actual work you can talk about in interviews.",
+        d: "A portfolio of actual work you can talk about in interviews, not a folder of isolated exercises.",
+      },
     ],
-    tools: ["Python 3", "VS Code", "Jupyter", "pip & venv", "Git", "SQLite", "MySQL", "requests", "pytest", "Flask"],
-    roles: ["Python Developer", "Automation Engineer", "Backend Developer", "Data Analyst", "QA Automation Engineer"],
+    tools: ["Python 3", "VS Code", "Jupyter", "pip & venv", "Git", "SQLite", "MySQL", "requests", "pytest", "Django", "Flask"],
+    roles: ["Python Developer", "Automation Engineer", "Data Analyst", "Backend Developer", "QA Automation Engineer"],
     projects: [
       { title: "Inventory Automation Tool", body: "A command-line tool that reads supplier spreadsheets, reconciles stock and emails a daily exception report." },
       { title: "REST API for a Booking App", body: "A Flask service with authentication, validation and a relational schema behind it." },

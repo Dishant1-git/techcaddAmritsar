@@ -9,6 +9,7 @@
  */
 
 import { courseSeeds, type CourseCategory, type CourseSeed, type Topic } from "./course-data";
+import { courseOverrides } from "./course-overrides";
 import { site } from "./content";
 
 export type { CourseCategory, CourseSeed };
@@ -26,6 +27,43 @@ export type CourseModule = {
 };
 
 export type CourseFaq = { q: string; a: string };
+
+/**
+ * Optional copy for the closing enquiry section. A course that supplies this
+ * replaces the generic counsellor pitch with its own — and can turn on the
+ * email field and the two profile pickers, which stay off everywhere else.
+ */
+export type CourseCtaCopy = {
+  eyebrow?: string;
+  heading?: string;
+  accent?: string;
+  body?: string;
+  /** Course · duration · mode · centre, rendered as a small fact list. */
+  facts?: string[];
+  assurances?: string[];
+  formTitle?: string;
+  formNote?: string;
+  submitLabel?: string;
+  placeholders?: { name?: string; phone?: string; email?: string };
+  showEmail?: boolean;
+  /** Adds a "Current Status" picker with these options. */
+  statusLabel?: string;
+  statusOptions?: string[];
+  /** Adds a "Preferred Batch" picker with these options. */
+  batchLabel?: string;
+  batchOptions?: string[];
+};
+
+/** Optional copy for the call-back band under the duration table. */
+export type CourseDemoCopy = {
+  eyebrow?: string;
+  heading?: string;
+  body?: string;
+  /** Label on the secondary button beside the phone number. */
+  action?: string;
+  /** One reassurance line under the buttons. */
+  note?: string;
+};
 
 /** One student review rendered on a course page. */
 export type CourseReview = {
@@ -81,6 +119,13 @@ export type Course = {
   tools: string[];
   toolGroups: Array<{ label: string; items: string[] }>;
 
+  /**
+   * The line the module explorer prints beside its heading. Defaults to a
+   * count of the modules; a course with its own written introduction to the
+   * curriculum puts it here instead.
+   */
+  curriculumNote?: string;
+
   audience: Array<{ title: string; body: string; tag: string }>;
 
   eligibility: {
@@ -106,6 +151,23 @@ export type Course = {
     accent: string;
     body: string;
     reasons: Array<{ title: string; body: string }>;
+  };
+
+  /**
+   * A second "why" panel, for courses whose copy argues the programme and the
+   * institute separately. Rendered under `whyChoose` when present; every other
+   * course leaves it undefined and the page draws one panel as before.
+   */
+  whyChooseAlt?: Course["whyChoose"];
+
+  cta?: CourseCtaCopy;
+  demo?: CourseDemoCopy;
+
+  /** Per-course metadata and schema copy; falls back to the generic build. */
+  seo?: {
+    title: string;
+    description: string;
+    keywords: string[];
   };
 
   closing: string;
@@ -145,7 +207,8 @@ const MODULE_FRAMES = [
 ];
 
 function moduleBlurb(topic: Topic, index: number, course: string) {
-  return MODULE_FRAMES[index % MODULE_FRAMES.length](topic.t, course);
+  /* A seed that writes its own blurb keeps it; the frames are the fallback. */
+  return topic.b ?? MODULE_FRAMES[index % MODULE_FRAMES.length](topic.t, course);
 }
 
 function deliverableFor(topic: Topic) {
@@ -591,6 +654,7 @@ function buildReviews(seed: CourseSeed): CourseReviews {
  */
 export function buildCourse(seed: CourseSeed): Course {
   const { title, city } = { title: seed.title, city: site.city };
+  const slug = courseUrlSlug(seed.slug);
 
   const modules: CourseModule[] = seed.topics.map((topic, i) => ({
     code: String(i + 1).padStart(2, "0"),
@@ -611,8 +675,8 @@ export function buildCourse(seed: CourseSeed): Course {
 
   const reviews = buildReviews(seed);
 
-  return {
-    slug: courseUrlSlug(seed.slug),
+  const built: Course = {
+    slug,
     title,
     category: seed.category,
     categorySlug: CATEGORY_SLUGS[seed.category],
@@ -739,6 +803,12 @@ export function buildCourse(seed: CourseSeed): Course {
 
     closing: `By the end of this ${title.toLowerCase()} programme in ${city}, you will not just understand ${title.toLowerCase()} theoretically — you will have built and reviewed real work, giving you a practical skill set and a portfolio ready for hiring conversations.`,
   };
+
+  /* A course with its own written copy replaces whole fields of the generated
+     model; everything it does not name comes through the builder untouched. */
+  const override = courseOverrides[slug]?.course;
+
+  return override ? { ...built, ...override } : built;
 }
 
 /* --------------------------------------------------------------- accessors */

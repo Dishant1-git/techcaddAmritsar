@@ -14,21 +14,31 @@ import { FadeUp, Stagger, WordsUp } from "@/components/ui/Motion";
  * for its eligibility block — same ink base, gradient, circuit and grid
  * textures and bloom pair — so the two read as one family rather than two
  * near-misses.
+ *
+ * `panel` picks which argument to draw. Courses whose copy makes the case for
+ * the programme and the case for the institute separately carry both, and the
+ * page renders this component twice — `alt` reads the second panel and takes
+ * its own ids so the two sections stay individually addressable.
  */
 export default function CourseWhyChoose({
   course,
   tone = "light",
+  panel = "primary",
 }: {
   course: Course;
   tone?: "light" | "dark";
+  panel?: "primary" | "alt";
 }) {
-  const { whyChoose } = course;
+  const alt = panel === "alt";
+  const whyChoose = (alt ? course.whyChooseAlt : course.whyChoose) ?? course.whyChoose;
   const dark = tone === "dark";
+  const sectionId = alt ? "why-techcadd" : "why-choose";
+  const headingId = `${sectionId}-heading`;
 
   return (
     <section
-      id="why-choose"
-      aria-labelledby="why-choose-heading"
+      id={sectionId}
+      aria-labelledby={headingId}
       data-cursor={dark ? "light" : undefined}
       className={cn(
         "py-20 lg:py-28",
@@ -63,7 +73,7 @@ export default function CourseWhyChoose({
                 )}
                 aria-hidden="true"
               />
-              Why choose {course.title}
+              {alt ? "Why techcadd" : `Why choose ${course.title}`}
             </span>
           </FadeUp>
           <WordsUp
@@ -76,7 +86,7 @@ export default function CourseWhyChoose({
               !dark && "text-ink",
             )}
           />
-          <span id="why-choose-heading" className="sr-only">
+          <span id={headingId} className="sr-only">
             {whyChoose.heading} {whyChoose.accent}
           </span>
           <FadeUp
