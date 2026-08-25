@@ -14,12 +14,27 @@ const TINTS = [
 ] as const;
 
 /**
+ * Splits the closing caveat into its opening sentence and the rest.
+ *
+ * The two halves do different jobs — one concedes what cannot be promised, the
+ * other states what can — so they are set at different weights rather than run
+ * together as one grey paragraph. If the copy is ever rewritten as a single
+ * sentence, `rest` comes back empty and only the lead renders.
+ */
+function splitLead(text: string): [string, string] {
+  /* `[\s\S]` rather than the `s` flag, which this tsconfig target predates. */
+  const match = /^(.*?[.!?])\s+([\s\S]*)$/.exec(text);
+  return match ? [match[1], match[2]] : [text, ""];
+}
+
+/**
  * Future scope. Sits after the careers/outcomes panel on every course page —
  * the "where does this actually go" answer, framed as durability rather than a
  * number, with the hedge ("markets move") left in on purpose.
  */
 export default function CourseFutureScope({ course }: { course: Course }) {
   const { futureScope } = course;
+  const [lead, rest] = splitLead(futureScope.horizon);
 
   return (
     <section
@@ -87,13 +102,38 @@ export default function CourseFutureScope({ course }: { course: Course }) {
           })}
         </Stagger>
 
-        <FadeUp
-          standalone
-          className="mt-10 rounded-2xl border border-brand-100 bg-brand-50/60 p-6 sm:p-7"
-        >
-          <p className="text-sm leading-relaxed text-ink-mute">
-            {futureScope.horizon}
-          </p>
+        <FadeUp standalone className="mt-12 lg:mt-16">
+          <figure
+            data-cursor="light"
+            className="relative isolate mx-auto max-w-4xl overflow-hidden rounded-3xl bg-ink px-7 py-10 text-white sm:px-12 sm:py-14"
+          >
+            {/* Deep ground, the same recipe as the page's hero at a quieter
+                intensity — so the caveat lands as the section's full stop
+                rather than one more white card in the stack. */}
+            <div aria-hidden="true" className="absolute inset-0 -z-10">
+              <div className="absolute inset-0 bg-gradient-to-br from-brand-900/90 via-ink/85 to-brand-700/55" />
+              <div className="dot-matrix absolute inset-0 opacity-[0.06]" />
+              <div className="absolute -top-24 -right-16 size-72 rounded-full bg-brand-600/25 blur-[110px]" />
+              <div className="absolute -bottom-28 -left-20 size-72 rounded-full bg-accent/45 blur-[110px]" />
+              <div className="tech-noise absolute inset-0 opacity-[0.04] mix-blend-overlay" />
+            </div>
+
+            <figcaption className="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.18em] text-gold-300 uppercase">
+              <span className="h-px w-6 bg-gold-300/50" aria-hidden="true" />
+              The honest part
+            </figcaption>
+
+            <blockquote className="mt-6">
+              <p className="font-display text-xl leading-[1.4] font-medium text-balance text-white sm:text-2xl">
+                {lead}
+              </p>
+              {rest ? (
+                <p className="mt-5 max-w-3xl text-base leading-relaxed text-white/60">
+                  {rest}
+                </p>
+              ) : null}
+            </blockquote>
+          </figure>
         </FadeUp>
       </div>
     </section>

@@ -33,7 +33,7 @@ const REASONS = [
         documented internship on real work, accepted for university{" "}
         <Link
           href={`${trainingBasePath}/industrial-training`}
-          className="font-medium text-brand-600 underline decoration-brand-300 underline-offset-4 transition-colors hover:text-brand-700 hover:decoration-brand-600"
+          className="font-medium text-white underline decoration-white/40 underline-offset-4 transition-colors hover:decoration-white"
         >
           industrial training
         </Link>{" "}
@@ -55,15 +55,26 @@ export default function TrainingWhy({ title }: { title: string }) {
   return (
     <section
       id="why"
+      data-cursor="light"
       aria-labelledby="why-heading"
-      /* Flat white, the same ground the after-12th eligibility section sits
-         on — no gradient or bloom, so it reads as one continuous page rather
-         than a dark band cut into it. */
-      className="scroll-mt-28 bg-white py-20 lg:py-28"
+      /* The same dark ground as the course hero at the top of this page, so
+         the "why us" argument lands as a deliberate band rather than more
+         white page. Background recipe is the hero's, at a calmer intensity. */
+      className="relative isolate scroll-mt-28 overflow-hidden bg-ink py-20 text-white lg:py-28"
     >
+      <div aria-hidden="true" className="absolute inset-0 -z-10">
+        <div className="absolute inset-0 bg-gradient-to-br from-brand-900/90 via-ink/85 to-brand-700/55" />
+        <div className="animate-trace circuit-texture absolute inset-0 opacity-[0.28]" />
+        <div className="dot-matrix absolute inset-0 opacity-[0.05]" />
+        <div className="grid-overlay absolute inset-0 opacity-30" />
+        <div className="absolute -top-40 left-1/4 size-[34rem] rounded-full bg-brand-600/20 blur-[130px]" />
+        <div className="absolute -right-32 -bottom-40 size-[32rem] rounded-full bg-accent/40 blur-[130px]" />
+        <div className="tech-noise absolute inset-0 opacity-[0.03] mix-blend-overlay" />
+      </div>
+
       <div className="container-page">
         <FadeUp standalone>
-          <span className="inline-flex items-center rounded-full bg-white px-4 py-2 text-sm font-medium text-ink-mute ring-1 ring-line ring-inset">
+          <span className="inline-flex items-center rounded-full bg-white/8 px-4 py-2 text-sm font-medium text-white/70 ring-1 ring-white/15 ring-inset backdrop-blur-md">
             Why {site.name.toLowerCase()}
           </span>
         </FadeUp>
@@ -71,7 +82,7 @@ export default function TrainingWhy({ title }: { title: string }) {
         <FadeUp standalone>
           <h2
             id="why-heading"
-            className="font-display mt-6 max-w-2xl text-4xl leading-[1.08] font-semibold tracking-tight text-balance text-ink sm:text-5xl"
+            className="font-display mt-6 max-w-2xl text-4xl leading-[1.08] font-semibold tracking-tight text-balance text-white sm:text-5xl"
           >
             Why students choose {site.name.toLowerCase()}
           </h2>
@@ -80,7 +91,7 @@ export default function TrainingWhy({ title }: { title: string }) {
         <FadeUp
           standalone
           as="p"
-          className="mt-7 max-w-3xl text-base leading-relaxed text-muted lg:text-lg"
+          className="mt-7 max-w-3xl text-base leading-relaxed text-white/55 lg:text-lg"
         >
           There are many places to learn this in {site.city}, and the brochure
           syllabus looks similar at all of them. What differs is who teaches,
@@ -100,12 +111,12 @@ export default function TrainingWhy({ title }: { title: string }) {
             <FadeUp
               as="li"
               key={reason.title}
-              className="border-t border-line pt-6"
+              className="border-t border-white/15 pt-6"
             >
-              <h3 className="font-display text-lg font-semibold text-ink">
+              <h3 className="font-display text-lg font-semibold text-white">
                 {reason.title}
               </h3>
-              <p className="mt-3 text-sm leading-relaxed text-muted">
+              <p className="mt-3 text-sm leading-relaxed text-white/55">
                 {reason.body}
               </p>
             </FadeUp>
