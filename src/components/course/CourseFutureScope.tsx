@@ -14,12 +14,12 @@ const TINTS = [
 ] as const;
 
 /**
- * Splits the closing caveat into its opening sentence and the rest.
+ * Splits the closing note into its opening sentence and the rest.
  *
- * The two halves do different jobs — one concedes what cannot be promised, the
- * other states what can — so they are set at different weights rather than run
- * together as one grey paragraph. If the copy is ever rewritten as a single
- * sentence, `rest` comes back empty and only the lead renders.
+ * The two halves do different jobs — one states the promise, the other itemises
+ * what backs it — so they are set at different weights rather than run together
+ * as one grey paragraph. If the copy is ever rewritten as a single sentence,
+ * `rest` comes back empty and only the lead renders.
  */
 function splitLead(text: string): [string, string] {
   /* `[\s\S]` rather than the `s` flag, which this tsconfig target predates. */
@@ -30,7 +30,9 @@ function splitLead(text: string): [string, string] {
 /**
  * Future scope. Sits after the careers/outcomes panel on every course page —
  * the "where does this actually go" answer, framed as durability rather than a
- * number, with the hedge ("markets move") left in on purpose.
+ * number. It closes on what the student walks away holding; "markets move" is
+ * still said out loud, but as the reason the foundation matters rather than as
+ * a disclaimer.
  */
 export default function CourseFutureScope({ course }: { course: Course }) {
   const { futureScope } = course;
@@ -108,8 +110,8 @@ export default function CourseFutureScope({ course }: { course: Course }) {
             className="relative isolate mx-auto max-w-4xl overflow-hidden rounded-3xl bg-ink px-7 py-10 text-white sm:px-12 sm:py-14"
           >
             {/* Deep ground, the same recipe as the page's hero at a quieter
-                intensity — so the caveat lands as the section's full stop
-                rather than one more white card in the stack. */}
+                intensity — so the closing promise lands as the section's full
+                stop rather than one more white card in the stack. */}
             <div aria-hidden="true" className="absolute inset-0 -z-10">
               <div className="absolute inset-0 bg-gradient-to-br from-brand-900/90 via-ink/85 to-brand-700/55" />
               <div className="dot-matrix absolute inset-0 opacity-[0.06]" />
@@ -120,7 +122,7 @@ export default function CourseFutureScope({ course }: { course: Course }) {
 
             <figcaption className="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.18em] text-gold-300 uppercase">
               <span className="h-px w-6 bg-gold-300/50" aria-hidden="true" />
-              The honest part
+              What you walk away with
             </figcaption>
 
             <blockquote className="mt-6">

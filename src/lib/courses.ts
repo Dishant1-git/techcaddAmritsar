@@ -275,7 +275,7 @@ function futureScopeFor(seed: CourseSeed, title: string, city: string): Course["
         body: `A ${title.toLowerCase()} portfolio built in ${city} competes for the same remote and hybrid roles as anywhere else. Companies hiring for this work are increasingly indifferent to which city the offer letter is posted to.`,
       },
     ],
-    horizon: `None of this is a guarantee — markets move, and no course can promise otherwise. What the ${seed.duration.toLowerCase()} programme controls for is the part actually in your hands: a reviewed portfolio, an industry certificate and a fundamentals-first foundation that keeps you relevant as ${future.field} around you keeps shifting.`,
+    horizon: `The ${seed.duration.toLowerCase()} programme is built around the part that is genuinely in your hands — and you leave holding all of it. A reviewed portfolio, an industry-recognised certificate and a fundamentals-first foundation you can keep building on. Markets move, as they always have; that foundation is exactly what lets you move with them as ${future.field} around you keeps shifting.`,
   };
 }
 
