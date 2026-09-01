@@ -160,6 +160,17 @@ export type Course = {
    */
   whyChooseAlt?: Course["whyChoose"];
 
+  /**
+   * The durations the centre actually runs, when the derived ones are wrong.
+   *
+   * The tracks table is otherwise cut from the course's span at even
+   * fractions of it, which is right for most of the catalogue but not all of
+   * it. `false` turns the section off, for a course run at a single flexible
+   * duration. An explicit list — `[3, 6]` — keeps the section but uses those
+   * figures as the tiers, in the unit the span is written in.
+   */
+  tracks?: false | number[];
+
   cta?: CourseCtaCopy;
   demo?: CourseDemoCopy;
 

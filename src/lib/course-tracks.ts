@@ -149,8 +149,17 @@ function condense(rows: Row[], size: number): Row[] {
 }
 
 export function courseTracks(course: Course): CourseTrackPlan | null {
+  /* A course that opts out runs one flexible duration, not a ladder of them. */
+  if (course.tracks === false) return null;
+
   const parsed = parseSpan(course.spec[0].value);
-  const tiers = parsed ? tiersFor(parsed.span) : null;
+  /* A course that names its own durations uses them as the tiers; everything
+     else has them cut from its span at even fractions. */
+  const tiers = parsed
+    ? Array.isArray(course.tracks)
+      ? course.tracks
+      : tiersFor(parsed.span)
+    : null;
   const modules = course.modules;
 
   if (!parsed || !tiers || modules.length < tiers.length) return null;

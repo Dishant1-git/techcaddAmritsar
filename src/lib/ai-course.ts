@@ -213,12 +213,15 @@ export function buildAiView(course: Course): AiCourseView {
   const topics = course.modules.map((module) => module.title);
 
   /*
-   * The two paragraphs this view writes for itself are generic scaffolding for
-   * courses whose seed carries a single line of focus copy. A course that has
-   * its own written overview keeps it whole — heading and every paragraph —
-   * rather than having all but the first replaced by the generated pair.
+   * Everything this view writes for itself is generic scaffolding for courses
+   * whose seed carries a single line of focus copy. A course with hand-written
+   * copy keeps it: the overview whole — heading and every paragraph — rather
+   * than having all but the first replaced by the generated pair, its own
+   * eligibility personas in place of the four generated audience cards, and its
+   * own "why" arguments in place of the generated advantages list.
    */
-  const writtenOverview = courseOverrides[course.slug]?.course?.overview;
+  const written = courseOverrides[course.slug]?.course;
+  const writtenOverview = written?.overview;
 
   return {
     hero: {
@@ -291,7 +294,13 @@ export function buildAiView(course: Course): AiCourseView {
       ],
     },
 
-    audience: [
+    audience: written?.eligibility
+      ? written.eligibility.criteria.map((criterion) => ({
+          tag: "Who can join",
+          title: criterion.label,
+          body: criterion.detail,
+        }))
+      : [
       {
         tag: "Start early",
         title: "Students & final-year candidates",
@@ -399,7 +408,20 @@ export function buildAiView(course: Course): AiCourseView {
 
     projects: buildProjects(course),
 
-    advantages: {
+    advantages: written?.whyChoose
+      ? {
+          heading: written.whyChoose.heading,
+          accent: written.whyChoose.accent,
+          body: written.whyChoose.body,
+          /* A course whose copy argues the programme and the institute
+             separately has both panels folded into this one list, because the
+             AI layout draws a single advantages section. */
+          items: [
+            ...written.whyChoose.reasons,
+            ...(written.whyChooseAlt?.reasons ?? []),
+          ],
+        }
+      : {
       heading: "Why students choose",
       accent: site.name.toLowerCase(),
       body: `Two decades of training in ${city}, in a format that has not changed since: small batches, real projects, mentors who still practise.`,
